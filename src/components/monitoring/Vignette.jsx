@@ -5,264 +5,62 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 
+import { useState, useEffect } from "react";
+import { FetchData } from "../../utils/FetchData";
+
 const Vignette = () => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const type = "001";
+        const date = "26-07-2023";
+
+        const fetchedData = await FetchData(type, date);
+        setData(fetchedData);
+      } catch (error) {
+        console.error("Une erreur s'est produite :", error);
+      }
+    };
+
+    getData();
+  }, []);
   return (
     <Grid container spacing={2}>
-      <Grid item xs={1.5}>
-        <Card sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <CardContent sx={{ flex: "1 0 auto" }}>
-              <Typography
-                component="div"
-                variant="h6"
-                sx={{ fontWeight: "bold" }}
-              >
-                Total
-              </Typography>
-              <Typography variant="subtitle1" color="#707070" component="div">
-                fichier
-              </Typography>
-              <Typography sx={{ fontWeight: "bold", color: "blue" }}>
-                20.15 k
-              </Typography>
-            </CardContent>
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              mr: 3,
-              color: "green",
-            }}
-          >
-            <Typography sx={{ fontWeight: "bold" }}>100 %</Typography>
-          </Box>
-        </Card>
-      </Grid>
-
-      <Grid item xs={1.5}>
-        <Card sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <CardContent sx={{ flex: "1 0 auto" }}>
-              <Typography
-                component="div"
-                variant="h6"
-                sx={{ fontWeight: "bold" }}
-              >
-                CCN
-              </Typography>
-              <Typography variant="subtitle1" color="#707070" component="div">
-                fichier
-              </Typography>
-              <Typography sx={{ fontWeight: "bold", color: "blue" }}>
-                130.0
-              </Typography>
-            </CardContent>
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              mr: 3,
-              color: "green",
-            }}
-          >
-            <Typography sx={{ fontWeight: "bold" }}>100 %</Typography>
-          </Box>
-        </Card>
-      </Grid>
-
-      <Grid item xs={1.5}>
-        <Card sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <CardContent sx={{ flex: "1 0 auto" }}>
-              <Typography
-                component="div"
-                variant="h6"
-                sx={{ fontWeight: "bold" }}
-              >
-                OCC
-              </Typography>
-              <Typography variant="subtitle1" color="#707070" component="div">
-                fichier
-              </Typography>
-              <Typography sx={{ fontWeight: "bold", color: "blue" }}>
-                7000.0
-              </Typography>
-            </CardContent>
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              mr: 3,
-              color: "green",
-            }}
-          >
-            <Typography sx={{ fontWeight: "bold" }}>100 %</Typography>
-          </Box>
-        </Card>
-      </Grid>
-
-      <Grid item xs={1.5}>
-        <Card sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <CardContent sx={{ flex: "1 0 auto" }}>
-              <Typography
-                component="div"
-                variant="h6"
-                sx={{ fontWeight: "bold" }}
-              >
-                MSC
-              </Typography>
-              <Typography variant="subtitle1" color="#707070" component="div">
-                fichier
-              </Typography>
-              <Typography sx={{ fontWeight: "bold", color: "blue" }}>
-                870.0
-              </Typography>
-            </CardContent>
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              mr: 3,
-              color: "green",
-            }}
-          >
-            <Typography sx={{ fontWeight: "bold" }}>100 %</Typography>
-          </Box>
-        </Card>
-      </Grid>
-
-      <Grid item xs={1.5}>
-        <Card sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <CardContent sx={{ flex: "1 0 auto" }}>
-              <Typography
-                component="div"
-                variant="h6"
-                sx={{ fontWeight: "bold" }}
-              >
-                AIR
-              </Typography>
-              <Typography variant="subtitle1" color="#707070" component="div">
-                fichier
-              </Typography>
-              <Typography sx={{ fontWeight: "bold", color: "blue" }}>
-                579
-              </Typography>
-            </CardContent>
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              mr: 3,
-              color: "green",
-            }}
-          >
-            <Typography sx={{ fontWeight: "bold" }}>100 %</Typography>
-          </Box>
-        </Card>
-      </Grid>
-
-      <Grid item xs={1.5}>
-        <Card sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <CardContent sx={{ flex: "1 0 auto" }}>
-              <Typography
-                component="div"
-                variant="h6"
-                sx={{ fontWeight: "bold" }}
-              >
-                SDP
-              </Typography>
-              <Typography variant="subtitle1" color="#707070" component="div">
-                fichier
-              </Typography>
-              <Typography sx={{ fontWeight: "bold", color: "blue" }}>
-                804.0
-              </Typography>
-            </CardContent>
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              mr: 3,
-              color: "green",
-            }}
-          >
-            <Typography sx={{ fontWeight: "bold" }}>100 %</Typography>
-          </Box>
-        </Card>
-      </Grid>
-
-      <Grid item xs={1.5}>
-        <Card sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <CardContent sx={{ flex: "1 0 auto" }}>
-              <Typography
-                component="div"
-                variant="h6"
-                sx={{ fontWeight: "bold" }}
-              >
-                ZEBRA
-              </Typography>
-              <Typography variant="subtitle1" color="#707070" component="div">
-                fichier
-              </Typography>
-              <Typography sx={{ fontWeight: "bold", color: "blue" }}>
-                90.0
-              </Typography>
-            </CardContent>
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              mr: 3,
-              color: "green",
-            }}
-          >
-            <Typography sx={{ fontWeight: "bold" }}>100 %</Typography>
-          </Box>
-        </Card>
-      </Grid>
-
-      <Grid item xs={1.5}>
-        <Card sx={{ display: "flex", justifyContent: "space-between" }}>
-          <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <CardContent sx={{ flex: "1 0 auto" }}>
-              <Typography
-                component="div"
-                variant="h6"
-                sx={{ fontWeight: "bold" }}
-              >
-                TANGO
-              </Typography>
-              <Typography variant="subtitle1" color="#707070" component="div">
-                fichier
-              </Typography>
-              <Typography sx={{ fontWeight: "bold", color: "blue" }}>
-                5.0
-              </Typography>
-            </CardContent>
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              mr: 3,
-              color: "green",
-            }}
-          >
-            <Typography sx={{ fontWeight: "bold" }}>100 %</Typography>
-          </Box>
-        </Card>
-      </Grid>
+      {data.map((val) => (
+        <Grid item xs={1.5} key={val.name}>
+          <Card sx={{ display: "flex", justifyContent: "space-between" }}>
+            <Box sx={{ display: "flex", flexDirection: "column" }}>
+              <CardContent sx={{ flex: "1 0 auto" }}>
+                <Typography
+                  component="div"
+                  variant="h6"
+                  sx={{ fontWeight: "bold" }}
+                >
+                  {val.name}
+                </Typography>
+                <Typography variant="subtitle1" color="#707070" component="div">
+                  fichier
+                </Typography>
+                <Typography sx={{ fontWeight: "bold", color: "blue" }}>
+                  {val.value}
+                </Typography>
+              </CardContent>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                mr: 3,
+                color: "green",
+              }}
+            >
+              <Typography sx={{ fontWeight: "bold" }}>{val.var}</Typography>
+            </Box>
+          </Card>
+        </Grid>
+      ))}
     </Grid>
   );
 };

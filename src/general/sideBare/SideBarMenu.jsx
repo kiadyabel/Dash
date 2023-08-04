@@ -1,37 +1,29 @@
 import React, { useState } from "react";
-import {
-  styled,
-  useTheme,
-  CSSBaseline,
-  Typography,
-  Box,
-  Toolbar,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Menu,
-  MenuItem,
-  IconButton,
-  AppBar as MuiAppBar,
-  Drawer as MuiDrawer,
-  Divider,
-} from "@mui/material"; // Assurez-vous du chemin correct
-import {
-  MenuIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  MonitorIcon,
-  FilterAltIcon,
-  AccountCircle,
-  MoreIcon,
-} from "@mui/icons-material"; // Assurez-vous du chemin correct
-import dayjs from "dayjs";
-import { DemoContainer } from "@mui/x-date-pickers/internals/demo";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { styled, useTheme} from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import Box from "@mui/material/Box";
+import MuiDrawer from "@mui/material/Drawer";
+import MuiAppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import List from "@mui/material/List";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
+import MonitorIcon from "@mui/icons-material/Monitor";
+import MenuItem from "@mui/material/MenuItem";
+import Menu from "@mui/material/Menu";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import MoreIcon from "@mui/icons-material/MoreVert";
+
+ 
 import Monitoring from "../../components/monitoring/Monitoring";
 
 const drawerWidth = 150;
@@ -43,7 +35,7 @@ const openedMixin = (theme) => ({
     duration: theme.transitions.duration.enteringScreen,
   }),
   overflowX: "hidden",
-});
+}); 
 
 const closedMixin = (theme) => ({
   transition: theme.transitions.create("width", {
@@ -105,7 +97,6 @@ const SideBarMenu = () => {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-  const [dateValue, setDateValue] = useState(dayjs());
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -198,7 +189,7 @@ const SideBarMenu = () => {
 
   return (
     <Box sx={{ display: "flex" }}>
-      <CSSBaseline />
+      <CssBaseline />
       <AppBar position="fixed" open={open} sx={{ backgroundColor: "black" }}>
         <Toolbar>
           <IconButton

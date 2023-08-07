@@ -10,21 +10,21 @@ import { FetchData } from "../../utils/FetchData";
 
 const Vignette = () => {
   const [data, setData] = useState([]);
-
   useEffect(() => {
-    const getData = async () => {
+    const fetchDataFromApi = async () => {
       try {
         const type = "001";
         const date = "26-07-2023";
 
         const fetchedData = await FetchData(type, date);
-        setData(fetchedData);
+        setData(fetchedData.data);
+
       } catch (error) {
-        console.error("Une erreur s'est produite :", error);
+        console.error("Erreur lors de la récupération des données :", error);
       }
     };
 
-    getData();
+    fetchDataFromApi();
   }, []);
   return (
     <Grid container spacing={2}>
@@ -56,7 +56,14 @@ const Vignette = () => {
                 color: "green",
               }}
             >
-              <Typography sx={{ fontWeight: "bold" }}>{val.var}</Typography>
+              <Typography
+                sx={{
+                  fontWeight: "bold",
+                  color: val.var < 0 ? "red" : "green",
+                }}
+              >
+                {val.var} %
+              </Typography>
             </Box>
           </Card>
         </Grid>

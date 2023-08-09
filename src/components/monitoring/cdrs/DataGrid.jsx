@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -7,6 +7,10 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import { FetchData } from "../../../utils/FetchData";
+import CircularIndeterminate from "../../../utils/CircularProgress";
+import { Box } from "@mui/material";
+import { useSelectedType } from "./onClickValueCdrs.js";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -16,6 +20,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
   },
+  position: "sticky",
 }));
 
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
@@ -28,53 +33,102 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const createData = (name, calories, fat, carbs, protein) => {
-  return { name, calories, fat, carbs, protein };
-};
-
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
-
 const DataGrid = () => {
+  const [data, setData] = useState([]); // donner qui vien de l'api
+  const [isLoading, setIsLoading] = useState(true); // pour le circularebar
+  const { setSelectedType } = useSelectedType(); // Utilisez le hook useSelectedType pour accéder aux méthodes du contexte.
+
+  useEffect(() => {
+    const fetchDataFromApi = async () => {
+      try {
+        const type = "002";
+        const date = "26-07-2023";
+
+        const fetchedData = await FetchData(type, date,null);
+        setData(fetchedData.data);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Erreur lors de la récupération des données :", error);
+      }
+    };
+
+    fetchDataFromApi();
+  }, []);
+
+  const handleRowClick = (type) => {
+    setSelectedType(type); // Mettre à jour l'état avec le type sélectionné ave le contexte dans ./onClickalueCdrs
+  };
+
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell>Dessert (100g serving)</StyledTableCell>
-            <StyledTableCell align="right">Calories</StyledTableCell>
-            <StyledTableCell align="right">Fat&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">Carbs&nbsp;(g)</StyledTableCell>
-            <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <StyledTableRow key={row.name}>
-              <StyledTableCell component="th" scope="row">
-                {row.name}
-              </StyledTableCell>
-              <StyledTableCell align="right">{row.calories}</StyledTableCell>
-              <StyledTableCell align="right">{row.fat}</StyledTableCell>
-              <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-              <StyledTableCell align="right">{row.protein}</StyledTableCell>
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <>
+      <TableContainer
+        component={Paper}
+        sx={{ minWidth: 700, maxHeight: "700px", cursor: "pointer" }}
+      >
+        <Table stickyHeader aria-label="sticky table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell align="left">type</StyledTableCell>
+              <StyledTableCell align="center">source</StyledTableCell>
+              <StyledTableCell align="center">big5</StyledTableCell>
+              <StyledTableCell align="center">mediation</StyledTableCell>
+              <StyledTableCell align="center">delta</StyledTableCell>
+              <StyledTableCell align="right">fichiers</StyledTableCell>
+              <StyledTableCell align="center">var_fichiers</StyledTableCell>
+              <StyledTableCell align="right">cdrs</StyledTableCell>
+              <StyledTableCell align="center">var_cdrs</StyledTableCell>
+              <StyledTableCell align="center">last_date</StyledTableCell>
+            </TableRow>
+          </TableHead>
+
+          <TableBody>
+            {data.map((row) => (
+              <StyledTableRow
+                key={row.name}
+                onClick={() => handleRowClick(row.type)}
+                style={
+                  row.var_cdrs <= 5
+                    ? { backgroundColor: "white" }
+                    : row.var_cdrs <= 15
+                    ? { backgroundColor: "orange" }
+                    : row.var_cdrs <= 25
+                    ? { backgroundColor: "#BF8013" }
+                    : { backgroundColor: "red" }
+                }
+              >
+                <StyledTableCell align="left">{row.type}</StyledTableCell>
+                <StyledTableCell align="center">{row.source}</StyledTableCell>
+                <StyledTableCell align="center">{row.big5}</StyledTableCell>
+                <StyledTableCell align="center">
+                  {row.mediation}
+                </StyledTableCell>
+                <StyledTableCell align="center">{row.delta}</StyledTableCell>
+                <StyledTableCell align="right">{row.fichiers}</StyledTableCell>
+                <StyledTableCell align="center">
+                  {row.var_fichiers}
+                </StyledTableCell>
+                <StyledTableCell align="right">{row.cdrs}</StyledTableCell>
+                <StyledTableCell align="center">{row.var_cdrs}</StyledTableCell>
+                <StyledTableCell align="center">
+                  {row.last_date}
+                </StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          textAlign: "center",
+          minHeight: "300px", // Ajustez la hauteur
+        }}
+      >
+        <CircularIndeterminate isLoading={isLoading} />
+      </Box>
+    </>
   );
 };
 

@@ -1,10 +1,11 @@
 import BodyKpis from "./BodyKpis";
+import { SelectedNameProvider } from "./OnClickValueKpis";
 
 const IndexKpis = () => {
   return (
-    <div>
+    <SelectedNameProvider>
       <BodyKpis />
-    </div>
+    </SelectedNameProvider>
   );
 };
 

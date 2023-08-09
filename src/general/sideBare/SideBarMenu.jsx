@@ -22,6 +22,8 @@ import Menu from "@mui/material/Menu";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
+//import TextField from "@mui/material/TextField";
+import DatePickersFilters from "./DatePicker";
 
  
 import Monitoring from "../../components/monitoring/Monitoring";
@@ -92,11 +94,23 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
+ 
+
 const SideBarMenu = () => {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
+   const handleCloseDatePicker = () => {
+     setShowDatePicker(false);
+   };
+
+   const handleClickDatePicker = () => {
+     setShowDatePicker(!showDatePicker);
+   };
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -142,8 +156,8 @@ const SideBarMenu = () => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Deconnexion</MenuItem>
+      
     </Menu>
   );
 
@@ -227,6 +241,7 @@ const SideBarMenu = () => {
               aria-label="show 4 new mails"
               color="inherit"
               sx={{ marginRight: "100px" }}
+              onClick={handleClickDatePicker} //open/close date pickers
             >
               <FilterAltIcon />
             </IconButton>
@@ -241,6 +256,11 @@ const SideBarMenu = () => {
             >
               <AccountCircle />
             </IconButton>
+            {showDatePicker && (
+              <div onClick={handleCloseDatePicker}>
+                <DatePickersFilters />
+              </div>
+            )}
           </Box>
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton

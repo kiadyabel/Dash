@@ -1,10 +1,11 @@
 import React from "react";
 import BodyCdrs from "./BodyCdrs";
+import { SelectedTypeProvider } from "./onClickValueCdrs";
 const IndexCdrs = () => {
   return (
-    <div>
+    <SelectedTypeProvider>
       <BodyCdrs />
-    </div>
+    </SelectedTypeProvider>
   );
 };
 

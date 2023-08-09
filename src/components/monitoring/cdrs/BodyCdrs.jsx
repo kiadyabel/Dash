@@ -3,8 +3,12 @@ import { Box, Grid, Typography } from "@mui/material";
 import DataGrid from "./DataGrid";
 import ChartFichier from "./ChartFichier";
 import ChartCdrs from "./ChartCdrs";
+import { useSelectedType } from "./onClickValueCdrs";
+
 
 const BodyCdrs = () => {
+  const { selectedType } = useSelectedType(); // valeur dans le parametre venant de la click du table
+
   return (
     <Grid
       container
@@ -25,11 +29,12 @@ const BodyCdrs = () => {
             borderRadius: "5px",
           }}
         >
-          Evolution du nombre de CDRs par type
+          Evolution du nombre de CDRs par type:  {selectedType}
         </Typography>
-        <ChartCdrs />
-        <Box sx={{ mb: 3 }}></Box>
         <ChartFichier />
+        <Box sx={{ mb: 3 }}>
+          <ChartCdrs />
+        </Box>
       </Grid>
     </Grid>
   );

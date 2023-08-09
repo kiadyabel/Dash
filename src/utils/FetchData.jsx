@@ -1,7 +1,7 @@
-export const FetchData = async (type, date) => {
+export const FetchData = async (type, date,params) => {
 
   try {
-    const url = `http://test.krillsolutions.com/${type}/${date}`;
+    const url = `http://test.krillsolutions.com/${type}/${date}/${params}`;
     const response = await fetch(url);
 
     if (!response.ok) {

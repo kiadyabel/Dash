@@ -9,6 +9,10 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { FetchData } from "../../../utils/FetchData";
 
+import CircularIndeterminate from "../../../utils/CircularProgress";
+import { Box } from "@mui/material";
+import { useSelectedName } from "./OnClickValueKpis"; // context 
+
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -31,7 +35,9 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const DataGrid = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([]); // donner vien de l'api
+  const [isLoading, setIsLoading] = useState(true); // Circleprogress
+  const { setSelectedName } = useSelectedName(); // // Utilisez le hook useSelectedName pour accéder aux méthodes du contexte.
 
   useEffect(() => {
     const fetchDataFromApi = async () => {
@@ -39,8 +45,9 @@ const DataGrid = () => {
         const type = "003";
         const date = "26-07-2023";
 
-        const fetchedData = await FetchData(type, date);
+        const fetchedData = await FetchData(type, date, null);
         setData(fetchedData.data);
+        setIsLoading(false);
       } catch (error) {
         console.error("Erreur lors de la récupération des données :", error);
       }
@@ -48,13 +55,16 @@ const DataGrid = () => {
 
     fetchDataFromApi();
   }, []);
-  //const columns = Object.keys(data[0]);
+
+  const handleRowClick = (name) => {
+    setSelectedName(name); // Mettre à jour l'état avec le type sélectionné avec context 
+  };
 
   return (
-    <div style={{ maxHeight: "700px" }}>
+    <>
       <TableContainer
         component={Paper}
-        sx={{ minWidth: 700, maxHeight: "700px" }}
+        sx={{ minWidth: 700, maxHeight: "700px",cursor:"pointer" }}
       >
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -73,13 +83,14 @@ const DataGrid = () => {
             {data.map((row) => (
               <StyledTableRow
                 key={row.name}
+                onClick={() => handleRowClick(row.name)}
                 style={
                   row.var <= 5
                     ? { backgroundColor: "white" }
                     : row.var <= 15
                     ? { backgroundColor: "orange" }
                     : row.var <= 25
-                    ? { backgroundColor: "darkorange" }
+                    ? { backgroundColor: "#BF8013" }
                     : { backgroundColor: "red" }
                 }
               >
@@ -97,7 +108,18 @@ const DataGrid = () => {
           </TableBody>
         </Table>
       </TableContainer>
-    </div>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          textAlign: "center",
+          minHeight: "300px", // ajuster la hauteur
+        }}
+      >
+        <CircularIndeterminate isLoading={isLoading} />
+      </Box>
+    </>
   );
 };
 

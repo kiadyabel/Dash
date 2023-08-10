@@ -9,18 +9,23 @@ import CircularIndeterminate from "../../utils/CircularProgress";
 
 import { useState, useEffect } from "react";
 import { FetchData } from "../../utils/FetchData";
+import { useDateContext } from "../../utils/DateContext";
+
 
 const Vignette = () => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const { selectedDate } = useDateContext(); // dateContext
 
   useEffect(() => {
     const fetchDataFromApi = async () => {
       try {
         const type = "001";
-        const date = "26-07-2023";
+        const date = selectedDate.format("DD-MM-YYYY"); //date
 
-        const fetchedData = await FetchData(type, date);
+        setIsLoading(true); // Mettre isLoading à true avant de démarrer la récupération des données
+
+        const fetchedData = await FetchData(type, date, null);
         setData(fetchedData.data);
         setIsLoading(false);
       } catch (error) {
@@ -29,14 +34,12 @@ const Vignette = () => {
     };
 
     fetchDataFromApi();
-  }, []);
+  }, [selectedDate]);
   return (
     <>
-      <CircularIndeterminate isLoading={isLoading} />
-
       <Grid container spacing={2}>
         {data.map((val) => (
-          <Grid item xs={1.5} key={val.name}>
+          <Grid item xs={12} sm={6} md={3} lg={1.5} key={val.name}>
             <Card sx={{ display: "flex", justifyContent: "space-between" }}>
               <Box sx={{ display: "flex", flexDirection: "column" }}>
                 <CardContent sx={{ flex: "1 0 auto" }}>
@@ -79,6 +82,16 @@ const Vignette = () => {
             </Card>
           </Grid>
         ))}
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        >
+          <CircularIndeterminate isLoading={isLoading} />
+        </Box>
       </Grid>
     </>
   );

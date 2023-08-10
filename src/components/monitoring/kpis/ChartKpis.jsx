@@ -4,19 +4,24 @@ import { FetchData } from "../../../utils/FetchData";
 import CircularIndeterminate from "../../../utils/CircularProgress";
 import { Box } from "@mui/material";
 import { useSelectedName } from "./OnClickValueKpis";
+import { useDateContext } from "../../../utils/DateContext";
+import { NumberAbbreviation } from "../../../utils/FormatNumber";
+
 
 const ChartKpis = () => {
   const [dataValue, setDataValue] = useState([]); //valeur qty_files
   const [dateValue, setDateValue] = useState([]); //valeur date
   const [isLoading, setIsLoading] = useState(true);
   const { selectedName } = useSelectedName(); // valeur dans le parametre venant de la click du table
+  const { selectedDate } = useDateContext(); // dateContext
+
   const chartRef = useRef(null);
 
   useEffect(() => {
     const fetchDataFromApi = async () => {
       try {
         const type = "0031";
-        const date = "26-07-2023";
+        const date = selectedDate.format("DD-MM-YYYY"); //date
         const params = selectedName;
 
         setIsLoading(true); // Mettre isLoading à true avant de démarrer la récupération des données
@@ -34,7 +39,7 @@ const ChartKpis = () => {
     };
 
     fetchDataFromApi();
-  }, [selectedName]);
+  }, [selectedName, selectedDate]);
 
   // Utilisez un état pour contrôler quand le graphique doit être rendu
   const [shouldRenderChart, setShouldRenderChart] = useState(false);
@@ -58,7 +63,7 @@ const ChartKpis = () => {
         },
         title: {
           left: "center",
-          text: "CDRs",
+          text: "KPIs",
         },
         toolbox: {
           feature: {
@@ -91,9 +96,9 @@ const ChartKpis = () => {
         ],
         series: [
           {
-            name: "CDRs",
+            name: selectedName,
             type: "line",
-            data: dataValue,
+            data:dataValue
           },
         ],
       };
@@ -104,7 +109,7 @@ const ChartKpis = () => {
         chartInstance.dispose();
       };
     }
-  }, [shouldRenderChart, dateValue, dataValue]);
+  }, [shouldRenderChart, dateValue, dataValue, selectedName]);
 
   return (
     <div style={{ position: "relative" }}>

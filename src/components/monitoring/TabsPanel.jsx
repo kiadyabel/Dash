@@ -9,7 +9,7 @@ import IndexKpis from "./kpis/IndexKpis";
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
-
+     
   return (
     <div
       role="tabpanel"
@@ -56,11 +56,29 @@ const TabsPanel = () => {
           onChange={handleChange}
           indicatorColor="primary"
           textColor="primary"
+          backgroundColor="red"
           variant="fullWidth"
           aria-label="full width tabs"
+          sx={{
+            "& .MuiTabs-indicator": {
+              height: "5px", // hauteur de l'indicator color
+            },
+          }}
         >
-          <Tab label="CDRs Monitoring" {...a11yProps(0)} />
-          <Tab label="KPIs Monitoring" {...a11yProps(1)} />
+          <Tab
+            label="CDRs Monitoring"
+            sx={{
+              backgroundColor: value === 0 ? "black" : undefined,
+            }}
+            {...a11yProps(0)}
+          />
+          <Tab
+            label="KPIs Monitoring"
+            {...a11yProps(1)}
+            sx={{
+              backgroundColor: value === 1 ? "black" : undefined,
+            }}
+          />
         </Tabs>
       </AppBar>
 

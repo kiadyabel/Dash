@@ -1,7 +1,8 @@
-export const FetchData = async (type, date,params) => {
 
+export const FetchData = async (type, date, params) => {
+ const apiUrl = process.env.REACT_APP_API_URL;
   try {
-    const url = `http://test.krillsolutions.com/${type}/${date}/${params}`;
+    const url = `${apiUrl}/${type}/${date}/${params}`;
     const response = await fetch(url);
 
     if (!response.ok) {

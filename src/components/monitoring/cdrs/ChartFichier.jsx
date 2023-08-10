@@ -4,19 +4,23 @@ import { FetchData } from "../../../utils/FetchData";
 import CircularIndeterminate from "../../../utils/CircularProgress";
 import { Box } from "@mui/material";
 import { useSelectedType } from "./onClickValueCdrs";
+import { useDateContext } from "../../../utils/DateContext";
+
 
 const ChartCdrs = () => {
   const [dataValue, setDataValue] = useState([]); //valeur qty_files
   const [dateValue, setDateValue] = useState([]); //valeur date
   const [isLoading, setIsLoading] = useState(true);
   const { selectedType } = useSelectedType(); // valeur dans le parametre venant de la click du table
+  const { selectedDate } = useDateContext(); // dateContext
+
   const chartRef = useRef(null);
 
   useEffect(() => {
     const fetchDataFromApi = async () => {
       try {
         const type = "0021";
-        const date = "26-07-2023";
+        const date = selectedDate.format("DD-MM-YYYY"); //date
         const params = selectedType;
 
         setIsLoading(true); // Mettre isLoading à true avant de démarrer la récupération des données
@@ -34,7 +38,7 @@ const ChartCdrs = () => {
     };
 
     fetchDataFromApi();
-  }, [selectedType]);
+  }, [selectedType, selectedDate]);
 
   // Utilisez un état pour contrôler quand le graphique doit être rendu
   const [shouldRenderChart, setShouldRenderChart] = useState(false);
@@ -91,7 +95,7 @@ const ChartCdrs = () => {
         ],
         series: [
           {
-            name: "CDRs",
+            name: selectedType,
             type: "line",
             data: dataValue,
           },
@@ -104,11 +108,11 @@ const ChartCdrs = () => {
         chartInstance.dispose();
       };
     }
-  }, [shouldRenderChart, dateValue, dataValue]);
+  }, [shouldRenderChart, dateValue, dataValue, selectedType]);
 
   return (
     <div style={{ position: "relative" }}>
-      <div ref={chartRef} style={{ height: "300px", }} />
+      <div ref={chartRef} style={{ height: "300px" }} />
       {isLoading && (
         <Box
           sx={{

@@ -10,7 +10,7 @@ export  function useSelectedType() {
 
 // Créez un fournisseur de contexte pour envelopper les composants.
 export function SelectedTypeProvider({ children }) {
-  const [selectedType, setSelectedType] = useState(null);
+  const [selectedType, setSelectedType] = useState("OCC_DATA");
 
   const value = {
     selectedType,

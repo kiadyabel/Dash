@@ -4,19 +4,23 @@ import { FetchData } from "../../../utils/FetchData";
 import CircularIndeterminate from "../../../utils/CircularProgress";
 import { Box } from "@mui/material";
 import { useSelectedName } from "./OnClickValueKpis";
+import { useDateContext } from "../../../utils/DateContext";
+
 
 const ChartChargeQy = () => {
   const [dataValue, setDataValue] = useState([]); //valeur qty_files
   const [slotValue, setSlotValue] = useState([]); //valeur date slot
   const [isLoading, setIsLoading] = useState(true);
   const { selectedName } = useSelectedName(); // valeur dans le parametre venant de la click du table
+  const { selectedDate } = useDateContext(); // dateContext
+
   const chartRef = useRef(null);
 
   useEffect(() => {
     const fetchDataFromApi = async () => {
       try {
         const type = "0032";
-        const date = "26-07-2023";
+        const date = selectedDate.format("DD-MM-YYYY"); //date
         const params = selectedName;
 
         setIsLoading(true); // Mettre isLoading à true avant de démarrer la récupération des données
@@ -34,7 +38,7 @@ const ChartChargeQy = () => {
     };
 
     fetchDataFromApi();
-  }, [selectedName]);
+  }, [selectedName, selectedDate]);
 
   // Utilisez un état pour contrôler quand le graphique doit être rendu
   const [shouldRenderChart, setShouldRenderChart] = useState(false);
@@ -91,7 +95,7 @@ const ChartChargeQy = () => {
         ],
         series: [
           {
-            name: "Recharge Qty",
+            name: selectedName,
             type: "bar",
             symbol: "none",
             sampling: "lttb",
@@ -121,7 +125,7 @@ const ChartChargeQy = () => {
         chartInstance.dispose();
       };
     }
-  }, [shouldRenderChart, slotValue, dataValue]);
+  }, [shouldRenderChart, slotValue, dataValue, selectedName]);
 
   return (
     <div style={{ position: "relative" }}>

@@ -1,10 +1,13 @@
 import SideBarMenu from "./general/sideBare/SideBarMenu";
+import { DateProvider } from "./utils/DateContext";
 
 function App() {
   return (
-    <div >
-      <SideBarMenu/>
-    </div>
+    <DateProvider>
+      <div>
+        <SideBarMenu />
+      </div>
+    </DateProvider>
   );
 }
 

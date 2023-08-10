@@ -11,7 +11,9 @@ import { FetchData } from "../../../utils/FetchData";
 
 import CircularIndeterminate from "../../../utils/CircularProgress";
 import { Box } from "@mui/material";
-import { useSelectedName } from "./OnClickValueKpis"; // context 
+import { useSelectedName } from "./OnClickValueKpis"; 
+import { useDateContext } from "../../../utils/DateContext";
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -38,12 +40,15 @@ const DataGrid = () => {
   const [data, setData] = useState([]); // donner vien de l'api
   const [isLoading, setIsLoading] = useState(true); // Circleprogress
   const { setSelectedName } = useSelectedName(); // // Utilisez le hook useSelectedName pour accéder aux méthodes du contexte.
+  const { selectedDate } = useDateContext(); // dateContext
 
   useEffect(() => {
     const fetchDataFromApi = async () => {
       try {
         const type = "003";
-        const date = "26-07-2023";
+        const date = selectedDate.format("DD-MM-YYYY"); //date
+
+        setIsLoading(true); // Mettre isLoading à true avant de démarrer la récupération des données
 
         const fetchedData = await FetchData(type, date, null);
         setData(fetchedData.data);
@@ -54,17 +59,17 @@ const DataGrid = () => {
     };
 
     fetchDataFromApi();
-  }, []);
+  }, [selectedDate]);
 
   const handleRowClick = (name) => {
-    setSelectedName(name); // Mettre à jour l'état avec le type sélectionné avec context 
+    setSelectedName(name); // Mettre à jour l'état avec le type sélectionné avec context
   };
 
   return (
     <>
       <TableContainer
         component={Paper}
-        sx={{ minWidth: 700, maxHeight: "700px",cursor:"pointer" }}
+        sx={{ minWidth: 700, maxHeight: "700px", cursor: "pointer" }}
       >
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -110,11 +115,10 @@ const DataGrid = () => {
       </TableContainer>
       <Box
         sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          textAlign: "center",
-          minHeight: "300px", // ajuster la hauteur
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
         }}
       >
         <CircularIndeterminate isLoading={isLoading} />

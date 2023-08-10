@@ -11,6 +11,7 @@ import { FetchData } from "../../../utils/FetchData";
 import CircularIndeterminate from "../../../utils/CircularProgress";
 import { Box } from "@mui/material";
 import { useSelectedType } from "./onClickValueCdrs.js";
+import {useDateContext} from "../../../utils/DateContext"
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -37,14 +38,17 @@ const DataGrid = () => {
   const [data, setData] = useState([]); // donner qui vien de l'api
   const [isLoading, setIsLoading] = useState(true); // pour le circularebar
   const { setSelectedType } = useSelectedType(); // Utilisez le hook useSelectedType pour accéder aux méthodes du contexte.
+  const { selectedDate } = useDateContext(); // dateContext
 
   useEffect(() => {
     const fetchDataFromApi = async () => {
       try {
         const type = "002";
-        const date = "26-07-2023";
+        const date = selectedDate.format("DD-MM-YYYY"); //date
 
-        const fetchedData = await FetchData(type, date,null);
+        setIsLoading(true); // Mettre isLoading à true avant de démarrer la récupération des données
+
+        const fetchedData = await FetchData(type, date, null);
         setData(fetchedData.data);
         setIsLoading(false);
       } catch (error) {
@@ -53,7 +57,7 @@ const DataGrid = () => {
     };
 
     fetchDataFromApi();
-  }, []);
+  }, [selectedDate]);
 
   const handleRowClick = (type) => {
     setSelectedType(type); // Mettre à jour l'état avec le type sélectionné ave le contexte dans ./onClickalueCdrs
@@ -119,11 +123,10 @@ const DataGrid = () => {
       </TableContainer>
       <Box
         sx={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          textAlign: "center",
-          minHeight: "300px", // Ajustez la hauteur
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
         }}
       >
         <CircularIndeterminate isLoading={isLoading} />

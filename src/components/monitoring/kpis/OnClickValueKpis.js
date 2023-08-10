@@ -10,7 +10,7 @@ export function useSelectedName() {
 
 // Créez un fournisseur de contexte pour envelopper les composants.
 export function SelectedNameProvider({ children }) {
-  const [selectedName, setSelectedName] = useState(null);
+  const [selectedName, setSelectedName] = useState("RECHARGE FEES");
 
   const value = {
     selectedName,

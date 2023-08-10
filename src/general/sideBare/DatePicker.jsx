@@ -1,13 +1,17 @@
 import { Button } from "@mui/material";
 import * as React from "react";
-// import dayjs from "dayjs";
-// import { DemoContainer, DemoItem } from "@mui/x-date-pickers/internals/demo";
-// import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-// import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-// import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { DatePicker, LocalizationProvider } from "@mui/lab";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import { TextField } from "@mui/material";
+import { format } from "date-fns";
 
 export default function DatePickersFilters() {
   //const todayFormatted = Date.now().format("DD-MM-YYYY");
+   const [selectedDate, setSelectedDate] = React.useState(new Date());
+
+   const handleDateChange = (date) => {
+     setSelectedDate(date);
+   };
 
   return (
     <div
@@ -20,16 +24,24 @@ export default function DatePickersFilters() {
         top: "63px",
         boxShadow: "2px 6px 14px black",
         borderRadius: "8px",
-        display:"flex",
-        alignItems:"center",
-        justifyContent:"center",
-        flexDirection:"column",
-        gap:"15px"
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "column",
+        gap: "15px",
       }}
     >
-
-        <p style={{color:"#707070"}}>DatePickers</p>
-        <Button variant="contained">Filtrer</Button>
+      <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <DatePicker
+          label="Sélectionnez une date"
+          value={selectedDate}
+          onChange={handleDateChange}
+          renderInput={(params) => <TextField {...params} />}
+          format="dd-MM-yyyy"
+          
+        />
+      </LocalizationProvider>
+      <Button variant="contained">Filtrer</Button>
     </div>
   );
 }

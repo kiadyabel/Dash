@@ -129,7 +129,7 @@ const ChartChargeQy = () => {
 
   return (
     <div style={{ position: "relative" }}>
-      <div ref={chartRef} style={{ height: "300px", marginTop: "14px" }} />
+      <div ref={chartRef} style={{ height: "290px", marginTop: "14px" }} />
       {isLoading && (
         <Box
           sx={{

@@ -1,64 +1,26 @@
 import React, { useState } from "react";
-import { styled, useTheme } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Box from "@mui/material/Box";
-import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import MonitorIcon from "@mui/icons-material/Monitor";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import MoreIcon from "@mui/icons-material/MoreVert";
-//import TextField from "@mui/material/TextField";
 import DatePickersFilters from "./DatePicker";
 import { useDateContext } from "../../utils/DateContext";
+import logoOrange from "../../utils/image/logoOrange.png";
+import logoKrill from "../../utils/image/logoKrill.png";
+import dayjs from "dayjs";
 
-import Monitoring from "../../components/monitoring/Monitoring";
-
+// Largeur du sidebar
 const drawerWidth = 150;
 
-const openedMixin = (theme) => ({
-  width: drawerWidth,
-  transition: theme.transitions.create("width", {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.enteringScreen,
-  }),
-  overflowX: "hidden",
-});
-
-const closedMixin = (theme) => ({
-  transition: theme.transitions.create("width", {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  overflowX: "hidden",
-  width: `calc(${theme.spacing(7)} + 1px)`,
-  [theme.breakpoints.up("sm")]: {
-    width: `calc(${theme.spacing(8)} + 1px)`,
-  },
-});
-
-const DrawerHeader = styled("div")(({ theme }) => ({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "flex-end",
-  padding: theme.spacing(0, 1),
-  ...theme.mixins.toolbar,
-}));
-
+// Style personnalisé pour la barre d'applications
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
@@ -77,40 +39,14 @@ const AppBar = styled(MuiAppBar, {
   }),
 }));
 
-const Drawer = styled(MuiDrawer, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
-  width: drawerWidth,
-  flexShrink: 0,
-  whiteSpace: "nowrap",
-  boxSizing: "border-box",
-  ...(open && {
-    ...openedMixin(theme),
-    "& .MuiDrawer-paper": openedMixin(theme),
-  }),
-  ...(!open && {
-    ...closedMixin(theme),
-    "& .MuiDrawer-paper": closedMixin(theme),
-  }),
-}));
-
-const SideBarMenu = () => {
-  const theme = useTheme();
-  const [open, setOpen] = useState(false);
+// Composant AppBarDash
+const AppBarDash = () => {
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
 
-  const [showDatePickers, setShowDatePickers] = useState(false); //show datepicker filtre
+  const [showDatePickers, setShowDatePickers] = useState(false);
 
-  const { selectedDate } = useDateContext(); // Utilisez le hook du contexte pour accéder à la date
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
+  const { selectedDate } = useDateContext();
 
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
@@ -132,6 +68,7 @@ const SideBarMenu = () => {
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
+  // Menu déroulant pour le profil
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
@@ -152,6 +89,7 @@ const SideBarMenu = () => {
     </Menu>
   );
 
+  // Menu déroulant pour les options mobiles
   const renderMobileMenu = (
     <Menu
       anchorEl={mobileMoreAnchorEl}
@@ -169,18 +107,13 @@ const SideBarMenu = () => {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <Typography>{}</Typography>
+        <Typography>{/* Contenu ici */}</Typography>
       </MenuItem>
       <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 4 new mails"
-          color="inherit"
-        >
+        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
           <FilterAltIcon />
         </IconButton>
         <p>Filtre</p>
-        
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
@@ -192,30 +125,36 @@ const SideBarMenu = () => {
         >
           <AccountCircle />
         </IconButton>
-        <p>Profile</p>
+        <p>user</p>
       </MenuItem>
     </Menu>
   );
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <div>
       <CssBaseline />
-      <AppBar position="fixed" open={open} sx={{ backgroundColor: "black" }}>
+      {/* Barre d'applications */}
+      <AppBar position="fixed" sx={{ backgroundColor: "black" }}>
         <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            sx={{
-              marginRight: 5,
-              ...(open && { display: "none" }),
+          {/* Images des logos */}
+          <img
+            src={logoOrange}
+            alt="logo Orange"
+            style={{
+              width: "45px",
+              height: "45px",
+              marginRight: "5px",
+              marginLeft: "-10px",
             }}
-          >
-            <MenuIcon />
-          </IconButton>
+          />
+          <img
+            src={logoKrill}
+            alt="logo krill"
+            style={{ width: "45px", height: "45px", marginRight: "15px" }}
+          />
+          {/* Titre */}
           <Typography variant="h6" noWrap component="div">
-            DASBOARD
+            DASHBOARD
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <Box
@@ -229,9 +168,11 @@ const SideBarMenu = () => {
               },
             }}
           >
+            {/* Date */}
             <Typography sx={{ textAlign: "center", marginRight: "20px" }}>
-              Date:  {selectedDate.format("DD-MM-YYYY")}
+              Date: {selectedDate.format("DD-MM-YYYY")}
             </Typography>
+            {/* Bouton de filtre */}
             <IconButton
               size="large"
               aria-label="filtre"
@@ -241,6 +182,7 @@ const SideBarMenu = () => {
             >
               <FilterAltIcon />
             </IconButton>
+            {/* Bouton de session user */}
             <IconButton
               size="large"
               edge="end"
@@ -252,12 +194,14 @@ const SideBarMenu = () => {
             >
               <AccountCircle />
             </IconButton>
+            {/* DatePickersFilters */}
             {showDatePickers && (
               <div style={{ position: "absolute", right: "50px", top: "63px" }}>
                 <DatePickersFilters />
               </div>
             )}
           </Box>
+          {/* Bouton de menu mobile */}
           <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
@@ -272,51 +216,12 @@ const SideBarMenu = () => {
           </Box>
         </Toolbar>
       </AppBar>
+      {/* Menu mobile */}
       {renderMobileMenu}
+      {/* Menu principal */}
       {renderMenu}
-      <Drawer variant="permanent" open={open}>
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "rtl" ? (
-              <ChevronRightIcon />
-            ) : (
-              <ChevronLeftIcon />
-            )}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-        <List>
-          {["Monitoring"].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
-                  }}
-                >
-                  <MonitorIcon />
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-      </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <DrawerHeader />
-        <Monitoring />
-      </Box>
-    </Box>
+    </div>
   );
 };
 
-export default SideBarMenu;
+export default AppBarDash;

@@ -1,45 +1,36 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
 import dayjs from "dayjs";
-import { FetchData } from "./FetchData";
+import React, { createContext, useContext, useState ,useEffect} from "react";
+import moment from "moment";
 
-// Créez le contexte
 const DateContext = createContext();
 
-// Fournisseur du contexte
 export const DateProvider = ({ children }) => {
-  const [selectedDate, setSelectedDate] = useState(dayjs().subtract(1, "day")); // État pour stocker la date
-  let [lastDateValue, setLastDateValue] = useState([]); ///dernier date obtenue dans a base de donnée
+ 
 
-    useEffect(() => { // recuperation de la dernier date
-      const fetchDataFromApi = async () => {
-         const urlDate = "lastDate";
-        try {
-        const fetchedDate = await FetchData(urlDate);
-        setLastDateValue(fetchedDate.lastDate);
-        console.log(fetchedDate);
-      } catch (error) {
-        console.error("Erreur lors de la récupération des données :", error);
-      }
+ const [selectedDate, setSelectedDate] = useState(dayjs());
 
-        /*try {
-          const url = "http://test.krillsolutions.com/lastdate";
-          const response = await fetch(url);
+ useEffect(() => {
+   const fetchDataFromApi = async () => {
+     const urlDate = "lastdate";
+     const apiUrl = process.env.REACT_APP_API_URL;
+     try {
+       const url = `${apiUrl}/${urlDate}`;
+       const response = await fetch(url);
+       if (!response.ok) {
+         throw new Error("Erreur lors de la requête");
+       }
+       const dateGeted = await response.json();
+       const dateLast = dateGeted.lastDate;
+       const date = dayjs(dateLast, "DD-MM-YYYY").toDate();
+       console.log(date)
+     } catch (error) {
+       console.error("Erreur le daty :", error);
+     }
+   };
 
-          if (!response.ok) {
-            throw new Error("Erreur lors de la requête");
-          }
+   fetchDataFromApi();
+ }, []);
 
-          const dataGeted = await response.json();
-          console.log(dataGeted);
-        } catch (error) {
-          console.error("Erreur lors de la récupération des données :", error);
-        }*/
-      }
-
-      fetchDataFromApi();
-    }, [lastDateValue]);
-
-  // Mettez à jour la date dans le contexte lorsque le bouton "Filtrer" est cliqué
   const updateSelectedDate = (date) => {
     setSelectedDate(date);
   };
@@ -51,7 +42,6 @@ export const DateProvider = ({ children }) => {
   );
 };
 
-// Utilitaire pour utiliser le contexte
 export const useDateContext = () => {
   return useContext(DateContext);
 };

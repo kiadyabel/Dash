@@ -5,7 +5,6 @@ import CircularIndeterminate from "../../../utils/CircularProgress";
 import { Box } from "@mui/material";
 import { useSelectedName } from "./OnClickValueKpis";
 import { useDateContext } from "../../../utils/DateContext";
-import { NumberAbbreviation } from "../../../utils/FormatNumber";
 
 
 const ChartKpis = () => {
@@ -113,7 +112,7 @@ const ChartKpis = () => {
 
   return (
     <div style={{ position: "relative" }}>
-      <div ref={chartRef} style={{ height: "300px" }} />
+      <div ref={chartRef} style={{ height: "290px" }} />
       {isLoading && (
         <Box
           sx={{

@@ -29,10 +29,12 @@ const BodyCdrs = () => {
             borderRadius: "5px",
           }}
         >
-          Evolution du nombre de CDRs par type:  {selectedType}
+          Evolution du nombre de CDRs par type: {selectedType}
         </Typography>
-        <ChartFichier />
         <Box sx={{ mb: 3 }}>
+          <ChartFichier />
+        </Box>
+        <Box>
           <ChartCdrs />
         </Box>
       </Grid>

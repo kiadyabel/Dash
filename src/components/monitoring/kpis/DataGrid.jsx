@@ -14,7 +14,6 @@ import { Box } from "@mui/material";
 import { useSelectedName } from "./OnClickValueKpis"; 
 import { useDateContext } from "../../../utils/DateContext";
 
-
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -69,7 +68,7 @@ const DataGrid = () => {
     <>
       <TableContainer
         component={Paper}
-        sx={{ minWidth: 700, maxHeight: "700px", cursor: "pointer" }}
+        sx={{ minWidth: 700, maxHeight: "670px", cursor: "pointer" }}
       >
         <Table stickyHeader aria-label="sticky table">
           <TableHead>

@@ -37,7 +37,7 @@ const Vignette = () => {
   }, [selectedDate]);
   return (
     <>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} position="relative">
         {data.map((val) => (
           <Grid item xs={12} sm={6} md={3} lg={1.5} key={val.name}>
             <Card sx={{ display: "flex", justifyContent: "space-between" }}>

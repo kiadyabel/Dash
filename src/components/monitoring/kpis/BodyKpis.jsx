@@ -25,9 +25,10 @@ const BodyKpis = () => {
         >
           TREND de KPIs: {selectedName}
         </Typography>
-        <ChartKpis />
-
         <Box sx={{ mb: 3 }}>
+          <ChartKpis />
+        </Box>
+        <Box>
           <ChartChargeQy />
         </Box>
       </Grid>

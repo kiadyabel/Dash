@@ -19,7 +19,7 @@ const TabPanel = (props) => {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ p: 0 }}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -46,17 +46,19 @@ const TabsPanel = () => {
       sx={{
         bgcolor: "background.paper",
         width: "auto",
-        marginTop: "15px",
+        marginTop: "12px",
         borderRadius: "8px",
       }}
     >
-      <AppBar position="static" sx={{ bgcolor: "#F5F5F5", fontSize: "20px" }}>
+      <AppBar
+        position="static"
+        sx={{ bgcolor: "#F5F5F5", fontSize: "20px", marginBottom: "10px" }}
+      >
         <Tabs
           value={value}
           onChange={handleChange}
           indicatorColor="primary"
           textColor="primary"
-          backgroundColor="red"
           variant="fullWidth"
           aria-label="full width tabs"
           sx={{

@@ -115,9 +115,12 @@ const ChartCdrs = () => {
     }
   }, [renderChart, dateValue, dataValue, selectedType]);
 
+  // const daty = selectedDate.format("DD-MM-YYYY"); //date
+  // console.log(daty);
+
   return (
     <div style={{ position: "relative" }}>
-      <div ref={chartRef} style={{ height: "300px" }} />
+      <div ref={chartRef} style={{ height: "290px" }} />
       {isLoading && (
         <Box
           sx={{

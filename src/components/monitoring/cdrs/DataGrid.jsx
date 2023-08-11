@@ -67,7 +67,7 @@ const DataGrid = () => {
     <>
       <TableContainer
         component={Paper}
-        sx={{ minWidth: 700, maxHeight: "700px", cursor: "pointer" }}
+        sx={{ minWidth: 700, maxHeight: "670px", cursor: "pointer" }}
       >
         <Table stickyHeader aria-label="sticky table">
           <TableHead>

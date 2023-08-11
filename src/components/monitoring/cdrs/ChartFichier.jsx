@@ -112,7 +112,7 @@ const ChartCdrs = () => {
 
   return (
     <div style={{ position: "relative" }}>
-      <div ref={chartRef} style={{ height: "300px" }} />
+      <div ref={chartRef} style={{ height: "290px" }} />
       {isLoading && (
         <Box
           sx={{

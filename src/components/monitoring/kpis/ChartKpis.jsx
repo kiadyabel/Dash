@@ -5,6 +5,7 @@ import CircularIndeterminate from "../../../utils/CircularProgress";
 import { Box } from "@mui/material";
 import { useSelectedName } from "./OnClickValueKpis";
 import { useDateContext } from "../../../utils/DateContext";
+import numeral from "numeral";
 
 
 const ChartKpis = () => {
@@ -20,7 +21,7 @@ const ChartKpis = () => {
     const fetchDataFromApi = async () => {
       try {
         const type = "0031";
-        const date = selectedDate.format("DD-MM-YYYY"); //date
+        const date = selectedDate; //date
         const params = selectedName;
 
         setIsLoading(true); // Mettre isLoading à true avant de démarrer la récupération des données
@@ -66,10 +67,6 @@ const ChartKpis = () => {
         },
         toolbox: {
           feature: {
-            dataZoom: {
-              yAxisIndex: "none",
-            },
-            restore: {},
             saveAsImage: {},
           },
         },
@@ -81,6 +78,12 @@ const ChartKpis = () => {
         yAxis: {
           type: "value",
           boundaryGap: [0, "100%"],
+          axisLabel: {
+            formatter: function (value) {
+              // Utilisez la fonction format de numeral pour formater le nombre
+              return numeral(value).format("0a"); // Utilisez le format abrégé (1K, 1M)
+            },
+          },
         },
         dataZoom: [
           {
@@ -97,7 +100,7 @@ const ChartKpis = () => {
           {
             name: selectedName,
             type: "line",
-            data:dataValue
+            data: dataValue,
           },
         ],
       };

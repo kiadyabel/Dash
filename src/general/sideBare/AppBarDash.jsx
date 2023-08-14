@@ -15,7 +15,6 @@ import DatePickersFilters from "./DatePicker";
 import { useDateContext } from "../../utils/DateContext";
 import logoOrange from "../../utils/image/logoOrange.png";
 import logoKrill from "../../utils/image/logoKrill.png";
-import dayjs from "dayjs";
 
 // Largeur du sidebar
 const drawerWidth = 150;
@@ -170,7 +169,7 @@ const AppBarDash = () => {
           >
             {/* Date */}
             <Typography sx={{ textAlign: "center", marginRight: "20px" }}>
-              Date: {selectedDate.format("DD-MM-YYYY")}
+              Date: {selectedDate}
             </Typography>
             {/* Bouton de filtre */}
             <IconButton

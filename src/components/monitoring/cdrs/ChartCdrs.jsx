@@ -5,6 +5,8 @@ import CircularIndeterminate from "../../../utils/CircularProgress";
 import { Box } from "@mui/material";
 import { useSelectedType } from "./onClickValueCdrs";
 import { useDateContext } from "../../../utils/DateContext";
+import numeral from "numeral";
+
 
 
 const ChartCdrs = () => {
@@ -22,7 +24,7 @@ const ChartCdrs = () => {
     const fetchDataFromApi = async () => {
       try {
         const type = "0022";
-        const date = selectedDate.format("DD-MM-YYYY"); //date
+        const date = selectedDate; //date
         const params = selectedType;
 
         setIsLoading(true); // Mettre isLoading à true avant de démarrer la récupération des données
@@ -71,10 +73,6 @@ const ChartCdrs = () => {
         },
         toolbox: {
           feature: {
-            dataZoom: {
-              yAxisIndex: "none",
-            },
-            restore: {},
             saveAsImage: {},
           },
         },
@@ -86,6 +84,12 @@ const ChartCdrs = () => {
         yAxis: {
           type: "value",
           boundaryGap: [0, "100%"],
+          axisLabel: {
+            formatter: function (value) {
+              // Utilisez la fonction format de numeral pour formater le nombre
+              return numeral(value).format("0a"); // Utilisez le format abrégé (1K, 1M)
+            },
+          },
         },
         dataZoom: [
           {
@@ -115,8 +119,6 @@ const ChartCdrs = () => {
     }
   }, [renderChart, dateValue, dataValue, selectedType]);
 
-  // const daty = selectedDate.format("DD-MM-YYYY"); //date
-  // console.log(daty);
 
   return (
     <div style={{ position: "relative" }}>

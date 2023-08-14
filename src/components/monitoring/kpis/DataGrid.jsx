@@ -45,7 +45,7 @@ const DataGrid = () => {
     const fetchDataFromApi = async () => {
       try {
         const type = "003";
-        const date = selectedDate.format("DD-MM-YYYY"); //date
+        const date = selectedDate; //date
 
         setIsLoading(true); // Mettre isLoading à true avant de démarrer la récupération des données
 

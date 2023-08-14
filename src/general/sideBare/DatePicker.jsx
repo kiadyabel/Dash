@@ -13,21 +13,20 @@ import { useDateContext } from "../../utils/DateContext";
 dayjs.extend(customParseFormat);
 
 export default function DatePickersFilters() {
-  const {selectedDate, updateSelectedDate } = useDateContext(); //date deja filtrer
+  const {selectedDate, updateSelectedDate } = useDateContext(); //date deja filtrer peut changer dans la date picker
   const [newDateValue,setNewDateValue] = useState() // nouveau date pret a filtrer 
 
   const [isContentVisible, setIsContentVisible] = useState(true);
 
   const handleDateChange = (newValue) => {
-    // Mettre à jour la date localement, mais pas dans le contexte
-    setNewDateValue(newValue);
+    setNewDateValue(newValue); // Mettre à jour la date localement, mais pas dans le contexte
   };
 
   const handleFilterClick = () => {
     setIsContentVisible(false); // Masquer le contenu après avoir cliqué sur "Filtrer"
+    const dateConvertString =newDateValue.format("DD-MM-YYYY").toString() // convertir la forme de date en string
 
-    // Mettre à jour la date dans le contexte
-    updateSelectedDate(newDateValue);
+    updateSelectedDate(dateConvertString); // Mettre à jour la date dans le contexte après avoir cliqué sur "Filtrer"
   };
 
   return (
@@ -54,8 +53,9 @@ export default function DatePickersFilters() {
               {/* DatePicker avec le TextField associé */}
               <DatePicker
                 label="Sélectionner une date"
-                value={selectedDate}
+                value={dayjs(selectedDate, "DD-MM-YYYY")}
                 onChange={handleDateChange}
+                dateFormat="DD-MM-YYYY"
                 renderInput={(props) => (
                   <TextField {...props} variant="outlined" />
                 )}

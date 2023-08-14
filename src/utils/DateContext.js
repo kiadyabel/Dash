@@ -1,13 +1,11 @@
-import dayjs from "dayjs";
 import React, { createContext, useContext, useState ,useEffect} from "react";
-import moment from "moment";
 
 const DateContext = createContext();
 
 export const DateProvider = ({ children }) => {
  
 
- const [selectedDate, setSelectedDate] = useState(dayjs());
+ const [selectedDate, setSelectedDate] = useState();
 
  useEffect(() => {
    const fetchDataFromApi = async () => {
@@ -21,10 +19,10 @@ export const DateProvider = ({ children }) => {
        }
        const dateGeted = await response.json();
        const dateLast = dateGeted.lastDate;
-       const date = dayjs(dateLast, "DD-MM-YYYY").toDate();
-       console.log(date)
+       const dateString = dateLast.toString()
+       setSelectedDate(dateString) // valeur par defaut de l'etat , date last
      } catch (error) {
-       console.error("Erreur le daty :", error);
+       console.error(error);
      }
    };
 

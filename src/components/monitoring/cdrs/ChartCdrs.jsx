@@ -2,9 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import * as echarts from "echarts";
 import { FetchData } from "../../../utils/FetchData";
 import CircularIndeterminate from "../../../utils/CircularProgress";
-import { Box } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import { useSelectedType } from "./onClickValueCdrs";
 import { useDateContext } from "../../../utils/DateContext";
+import CenterFocusWeakIcon from "@mui/icons-material/CenterFocusWeak";
+
 import numeral from "numeral";
 
 
@@ -121,20 +123,30 @@ const ChartCdrs = () => {
 
 
   return (
-    <div style={{ position: "relative" }}>
-      <div ref={chartRef} style={{ height: "290px" }} />
-      {isLoading && (
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-          }}
-        >
-          <CircularIndeterminate isLoading={isLoading} />
-        </Box>
-      )}
+    <div>
+      <IconButton
+        title="zoom"
+        sx={{ cursor: "pointer", float: "left", zIndex: 12 }}
+        
+      >
+        <CenterFocusWeakIcon />
+      </IconButton>
+
+      <div style={{ position: "relative" }}>
+        <div ref={chartRef} style={{ height: "290px" }} />
+        {isLoading && (
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            <CircularIndeterminate isLoading={isLoading} />
+          </Box>
+        )}
+      </div>
     </div>
   );
 };

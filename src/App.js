@@ -4,7 +4,7 @@ import Monitoring from "./components/monitoring/Monitoring";
 
 function App() {
   return (
-    <DateProvider>
+    <DateProvider component="div">
       <AppBarDash />
       <Monitoring />
     </DateProvider>

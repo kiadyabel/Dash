@@ -2,10 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import * as echarts from "echarts";
 import { FetchData } from "../../../utils/FetchData";
 import CircularIndeterminate from "../../../utils/CircularProgress";
-import { Box } from "@mui/material";
+import { Box, IconButton} from "@mui/material";
 import { useSelectedName } from "./OnClickValueKpis";
 import { useDateContext } from "../../../utils/DateContext";
 import numeral from "numeral";
+import ModalChart from "./ModalChart";
+import CenterFocusWeakIcon from "@mui/icons-material/CenterFocusWeak";
+
 
 
 const ChartKpis = () => {
@@ -14,6 +17,7 @@ const ChartKpis = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { selectedName } = useSelectedName(); // valeur dans le parametre venant de la click du table
   const { selectedDate } = useDateContext(); // dateContext
+  const [showModal , setShowModale]=useState(false)
 
   const chartRef = useRef(null);
 
@@ -114,20 +118,30 @@ const ChartKpis = () => {
   }, [shouldRenderChart, dateValue, dataValue, selectedName]);
 
   return (
-    <div style={{ position: "relative" }}>
-      <div ref={chartRef} style={{ height: "290px" }} />
-      {isLoading && (
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-          }}
-        >
-          <CircularIndeterminate isLoading={isLoading} />
-        </Box>
-      )}
+    <div>
+      <IconButton
+      title="zoom"
+        sx={{ cursor: "pointer",float:"left",zIndex:12}}
+        onClick={()=>setShowModale(true)}
+      >
+        <CenterFocusWeakIcon />
+      </IconButton>
+      <div style={{ position: "relative" }}>
+        <div ref={chartRef} style={{ height: "290px" }} />
+        {isLoading && (
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            <CircularIndeterminate isLoading={isLoading} />
+          </Box>
+        )}
+      </div>
+      {showModal && <ModalChart />}
     </div>
   );
 };

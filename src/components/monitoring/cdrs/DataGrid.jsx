@@ -86,9 +86,9 @@ const DataGrid = () => {
           </TableHead>
 
           <TableBody>
-            {data.map((row) => (
+            {data.map((row,index) => (
               <StyledTableRow
-                key={row.name}
+                key={index}
                 onClick={() => handleRowClick(row.type)}
                 style={
                   row.var_cdrs <= 5
@@ -122,6 +122,7 @@ const DataGrid = () => {
         </Table>
       </TableContainer>
       <Box
+        component="div"
         sx={{
           position: "absolute",
           top: "50%",

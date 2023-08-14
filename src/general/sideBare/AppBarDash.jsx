@@ -106,13 +106,10 @@ const AppBarDash = () => {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <Typography>{/* Contenu ici */}</Typography>
-      </MenuItem>
-      <MenuItem>
         <IconButton size="large" aria-label="show 4 new mails" color="inherit">
           <FilterAltIcon />
         </IconButton>
-        <p>Filtre</p>
+        <Typography component="span">user</Typography>
       </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
@@ -124,7 +121,7 @@ const AppBarDash = () => {
         >
           <AccountCircle />
         </IconButton>
-        <p>user</p>
+        <Typography component="span">user</Typography>
       </MenuItem>
     </Menu>
   );
@@ -168,7 +165,10 @@ const AppBarDash = () => {
             }}
           >
             {/* Date */}
-            <Typography sx={{ textAlign: "center", marginRight: "20px" }}>
+            <Typography
+              component="div"
+              sx={{ textAlign: "center", marginRight: "20px" }}
+            >
               Date: {selectedDate}
             </Typography>
             {/* Bouton de filtre */}

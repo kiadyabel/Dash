@@ -1,10 +1,13 @@
 import React from "react";
 import BodyCdrs from "./BodyCdrs";
 import { SelectedTypeProvider } from "./onClickValueCdrs";
+import { Box } from "@mui/material";
 const IndexCdrs = () => {
   return (
     <SelectedTypeProvider>
-      <BodyCdrs />
+      <Box>
+        <BodyCdrs />
+      </Box>
     </SelectedTypeProvider>
   );
 };

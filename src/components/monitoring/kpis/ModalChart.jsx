@@ -2,37 +2,35 @@ import React, { useEffect, useRef, useState } from "react";
 import * as echarts from "echarts";
 import { FetchData } from "../../../utils/FetchData";
 import CircularIndeterminate from "../../../utils/CircularProgress";
-import { Box, IconButton } from "@mui/material";
-import { useSelectedType } from "./onClickValueCdrs";
+import { Box, IconButton, Typography } from "@mui/material";
+import { useSelectedName } from "./OnClickValueKpis";
 import { useDateContext } from "../../../utils/DateContext";
-import CenterFocusWeakIcon from "@mui/icons-material/CenterFocusWeak";
-
+import FullscreenExitIcon from "@mui/icons-material/FullscreenExit";
 import numeral from "numeral";
 
-
-
-const ChartCdrs = () => {
+const ModalChart = () => {
   const [dataValue, setDataValue] = useState([]); //valeur qty_files
   const [dateValue, setDateValue] = useState([]); //valeur date
   const [isLoading, setIsLoading] = useState(true);
-  const { selectedType } = useSelectedType(); // valeur dans le parametre venant de la click du table
+  const { selectedName } = useSelectedName(); // valeur dans le parametre venant de la click du table
   const { selectedDate } = useDateContext(); // dateContext
+  const [isOpen, setIsOpen] = useState(false)
 
-  const chartRef = useRef(null);
+  const modalChartRef = useRef(null); //pour le modal
 
   useEffect(() => {
     const fetchDataFromApi = async () => {
       try {
-        const type = "0021";
+        const type = "0031";
         const date = selectedDate; //date
-        const params = selectedType;
+        const params = selectedName;
 
         setIsLoading(true); // Mettre isLoading à true avant de démarrer la récupération des données
 
         const fetchedData = await FetchData(type, date, params);
         const mappedData = fetchedData.data;
 
-        setDataValue(mappedData.map((item) => item.qty_files));
+        setDataValue(mappedData.map((item) => item.kpi_value));
         setDateValue(mappedData.map((item) => item.date));
         setIsLoading(false);
       } catch (error) {
@@ -42,7 +40,7 @@ const ChartCdrs = () => {
     };
 
     fetchDataFromApi();
-  }, [selectedType, selectedDate]);
+  }, [selectedName, selectedDate]);
 
   // Utilisez un état pour contrôler quand le graphique doit être rendu
   const [shouldRenderChart, setShouldRenderChart] = useState(false);
@@ -53,9 +51,10 @@ const ChartCdrs = () => {
     }
   }, [isLoading]);
 
+  //pour le modal
   useEffect(() => {
     if (shouldRenderChart) {
-      const chartInstance = echarts.init(chartRef.current);
+      const chartInstanceModal = echarts.init(modalChartRef.current);
 
       const option = {
         tooltip: {
@@ -66,7 +65,7 @@ const ChartCdrs = () => {
         },
         title: {
           left: "center",
-          text: "Fichiers",
+          text: "KPIs",
         },
         toolbox: {
           feature: {
@@ -101,46 +100,86 @@ const ChartCdrs = () => {
         ],
         series: [
           {
-            name: selectedType,
+            name: selectedName,
             type: "line",
             data: dataValue,
           },
         ],
       };
 
-      chartInstance.setOption(option);
+      chartInstanceModal.setOption(option);
 
       return () => {
-        chartInstance.dispose();
+        chartInstanceModal.dispose();
       };
     }
-  }, [shouldRenderChart, dateValue, dataValue, selectedType]);
+  }, [shouldRenderChart, dateValue, dataValue, selectedName]);
+  //fin de chart dans le modal
+
+
+
 
   return (
-    <div>
-      <IconButton
-        title="zoom"
-        sx={{ cursor: "pointer", float: "left", zIndex: 12 }}
-      >
-        <CenterFocusWeakIcon />
-      </IconButton>
-      <div style={{ position: "relative" }}>
-        <div ref={chartRef} style={{ height: "290px" }} />
-        {isLoading && (
-          <Box
-            sx={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-            }}
-          >
-            <CircularIndeterminate isLoading={isLoading} />
-          </Box>
-        )}
-      </div>
-    </div>
+    <>
+      {!isOpen && (
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 1000,
+            height: 800,
+            backgroundColor: "white",
+            boxShadow: "2px 6px 14px black",
+            borderRadius: "10px",
+            pt: 2,
+            px: 4,
+            pb: 3,
+            zIndex: "12",
+            alignItems: "center",
+          }}
+        >
+          <div style={{ position: "relative" }}>
+            <Typography
+              sx={{
+                textAlign: "center",
+                fontSize: "20px",
+                marginBottom: "30px",
+                color: "blue",
+                fontWeight: "bold",
+                textTransform: "uppercase",
+              }}
+            >
+              {selectedName}
+            </Typography>
+            <IconButton sx={{position:"absolute",top:0 , right:0}} onClick={() =>setIsOpen(true)}>
+              <FullscreenExitIcon />
+            </IconButton>
+            <Box>
+              <div
+                ref={modalChartRef}
+                style={{ height: "600px", width: "900px" }}
+              />
+            </Box>
+
+            {isLoading && (
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                }}
+              >
+                <CircularIndeterminate isLoading={isLoading} />
+              </Box>
+            )}
+          </div>
+        </Box>
+      )}
+    </>
   );
 };
 
-export default ChartCdrs;
+export default ModalChart;

@@ -39,7 +39,7 @@ const Vignette = () => {
     <>
       <Grid container spacing={2} position="relative">
         {data.map((val) => (
-          <Grid item xs={12} sm={6} md={3} lg={1.5} key={val.name}>
+          <Grid item xs={6} sm={6} md={3} lg={1.5} key={val.name} >
             <Card sx={{ display: "flex", justifyContent: "space-between" }}>
               <Box sx={{ display: "flex", flexDirection: "column" }}>
                 <CardContent sx={{ flex: "1 0 auto" }}>

@@ -16,10 +16,12 @@ const BodyCdrs = () => {
       columnSpacing={{ xs: 1, sm: 2, md: 1 }}
       sx={{ mt: 1 }}
     >
-      <Grid item xs={8}>
-        <DataGrid />
+      <Grid item xs={12} md={8}>
+        <Box>
+          <DataGrid />
+        </Box>
       </Grid>
-      <Grid item xs={4}>
+      <Grid item xs={12} md={4}>
         <Typography
           sx={{
             color: "#0A6EBD",
@@ -28,14 +30,17 @@ const BodyCdrs = () => {
             padding: 2,
             borderRadius: "5px",
           }}
+          component="div"
         >
           Evolution du nombre de CDRs par type: {selectedType}
         </Typography>
-        <Box sx={{ mb: 3 }}>
-          <ChartFichier />
-        </Box>
         <Box>
-          <ChartCdrs />
+          <Box sx={{ mb: 3 }}>
+            <ChartFichier />
+          </Box>
+          <Box>
+            <ChartCdrs />
+          </Box>
         </Box>
       </Grid>
     </Grid>

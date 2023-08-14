@@ -2,9 +2,11 @@ import React, { useEffect, useRef, useState } from "react";
 import * as echarts from "echarts";
 import { FetchData } from "../../../utils/FetchData";
 import CircularIndeterminate from "../../../utils/CircularProgress";
-import { Box } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import { useSelectedName } from "./OnClickValueKpis";
 import { useDateContext } from "../../../utils/DateContext";
+import CenterFocusWeakIcon from "@mui/icons-material/CenterFocusWeak";
+
 import numeral from "numeral";
 
 
@@ -15,6 +17,8 @@ const ChartChargeQy = () => {
   const [isLoading, setIsLoading] = useState(true);
   const { selectedName } = useSelectedName(); // valeur dans le parametre venant de la click du table
   const { selectedDate } = useDateContext(); // dateContext
+  //const [showModal, setShowModale] = useState(false);
+  
 
   const chartRef = useRef(null);
 
@@ -132,20 +136,30 @@ const ChartChargeQy = () => {
   }, [shouldRenderChart, slotValue, dataValue, selectedName]);
 
   return (
-    <div style={{ position: "relative" }}>
-      <div ref={chartRef} style={{ height: "290px", marginTop: "14px" }} />
-      {isLoading && (
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-          }}
-        >
-          <CircularIndeterminate isLoading={isLoading} />
-        </Box>
-      )}
+    <div>
+      <IconButton
+      title="zomm"
+        sx={{ cursor: "pointer", float: "left", zIndex: 12 ,textOverflow:"zoom"}}
+        
+      >
+        <CenterFocusWeakIcon />
+      </IconButton>
+
+      <div style={{ position: "relative" }}>
+        <div ref={chartRef} style={{ height: "290px", marginTop: "14px" }} />
+        {isLoading && (
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            <CircularIndeterminate isLoading={isLoading} />
+          </Box>
+        )}
+      </div>
     </div>
   );
 };

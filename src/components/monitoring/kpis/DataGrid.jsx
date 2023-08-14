@@ -84,9 +84,9 @@ const DataGrid = () => {
           </TableHead>
 
           <TableBody>
-            {data.map((row) => (
+            {data.map((row, index) => (
               <StyledTableRow
-                key={row.name}
+                key={index}
                 onClick={() => handleRowClick(row.name)}
                 style={
                   row.var <= 5

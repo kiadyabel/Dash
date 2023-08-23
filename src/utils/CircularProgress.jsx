@@ -12,7 +12,7 @@ export default function CircularIndeterminate({ isLoading }) {
         height: "100%",
       }}
     >
-      {isLoading && <CircularProgress size={80} color="success" />}
+      {isLoading && <CircularProgress size={80} color="primary" />}
     </Box>
   );
 }

@@ -1,14 +1,17 @@
+// Import de React et des composants nécessaires depuis MUI
 import React from "react";
 import { Box, Grid, Typography } from "@mui/material";
-import DataGrid from "./DataGrid";
-import ChartFichier from "./ChartFichier";
-import ChartCdrs from "./ChartCdrs";
-import { useSelectedType } from "./onClickValueCdrs";
+import DataGrid from "./DataGrid"; // Import d'un composant DataGrid depuis un chemin relatif
+import ChartFichier from "./ChartFichier"; // Import d'un composant ChartFichier depuis un chemin relatif
+import ChartCdrs from "./ChartCdrs"; // Import d'un composant ChartCdrs depuis un chemin relatif
+import { useSelectedType } from "./onClickValueCdrs"; // Import d'un hook custom depuis un chemin relatif
 
-
+// Définition du composant BodyCdrs
 const BodyCdrs = () => {
-  const { selectedType } = useSelectedType(); // valeur dans le parametre venant de la click du table
+  // Utilisation du hook custom useSelectedType pour obtenir la valeur sélectionnée
+  const { selectedType } = useSelectedType();
 
+  // Rendu du composant
   return (
     <Grid
       container
@@ -16,12 +19,15 @@ const BodyCdrs = () => {
       columnSpacing={{ xs: 1, sm: 2, md: 1 }}
       sx={{ mt: 1 }}
     >
+      {/* Section gauche */}
       <Grid item xs={12} md={8}>
         <Box>
-          <DataGrid />
+          <DataGrid /> {/* Rendu du composant DataGrid */}
         </Box>
       </Grid>
+      {/* Section droite */}
       <Grid item xs={12} md={4}>
+        {/* Titre */}
         <Typography
           sx={{
             color: "#0A6EBD",
@@ -29,17 +35,20 @@ const BodyCdrs = () => {
             mb: 2,
             padding: 2,
             borderRadius: "5px",
+            display: { xs: "none", sm: "none", md: "block" },
           }}
           component="div"
         >
-          Evolution du nombre de CDRs par type: {selectedType}
+          Evolution du nombre de CDRs par type:{"  "} {selectedType}
+          {/* Utilisation de la valeur sélectionnée */}
         </Typography>
-        <Box>
+        {/* Rendu des composants ChartFichier et ChartCdrs */}
+        <Box sx={{ display: { xs: "none", sm: "none", md: "block" } }}>
           <Box sx={{ mb: 3 }}>
-            <ChartFichier />
+            <ChartFichier /> {/* Rendu du composant ChartFichier */}
           </Box>
           <Box>
-            <ChartCdrs />
+            <ChartCdrs /> {/* Rendu du composant ChartCdrs */}
           </Box>
         </Box>
       </Grid>
@@ -47,4 +56,4 @@ const BodyCdrs = () => {
   );
 };
 
-export default BodyCdrs;
+export default BodyCdrs; // Export du composant

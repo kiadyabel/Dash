@@ -1,160 +1,184 @@
-import React, { useEffect, useState } from "react";
-import * as echarts from "echarts";
-import { FetchData } from "../../../utils/FetchData";
-import CircularIndeterminate from "../../../utils/CircularProgress";
-import { Box, IconButton } from "@mui/material";
-import { useSelectedName } from "./OnClickValueKpis";
-import { useDateContext } from "../../../utils/DateContext";
-import CenterFocusWeakIcon from "@mui/icons-material/CenterFocusWeak";
-import  ReactECharts  from "echarts-for-react"; // Importez ReactECharts
+// Import des dépendances
+import React, { useEffect, useState } from "react"; // Import de React et des hooks useState et useEffect
+import * as echarts from "echarts"; // Import de la bibliothèque echarts
+import { FetchData } from "../../../utils/FetchData"; // Import de la fonction FetchData depuis un chemin relatif
+import CircularIndeterminate from "../../../utils/CircularProgress"; // Import d'un composant CircularProgress depuis un chemin relatif
+import { Box, IconButton } from "@mui/material"; // Import de composants Box et IconButton depuis la bibliothèque MUI
+import { useSelectedName } from "./OnClickValueKpis"; // Import d'un hook custom depuis un chemin relatif
+import { useDateContext } from "../../../utils/DateContext"; // Import d'un hook custom depuis un chemin relatif
+import CenterFocusWeakIcon from "@mui/icons-material/CenterFocusWeak"; // Import de l'icône CenterFocusWeak depuis la bibliothèque MUI
+import ReactECharts from "echarts-for-react"; // Import de ReactECharts depuis la bibliothèque echarts-for-react
 
+import numeral from "numeral"; // Import de la bibliothèque numeral pour le formatage des nombres
+import ModalChart from "../../../utils/ModalChart"; // Import d'un composant ModalChart depuis un chemin relatif
 
-
-import numeral from "numeral";
-import ModalChart from "../../../utils/ModalChart";
-
-
-
+// Définition du composant ChartChargeQy
 const ChartChargeQy = () => {
-  const [dataValue, setDataValue] = useState([]); //valeur qty_files
-  const [slotValue, setSlotValue] = useState([]); //valeur date slot
-  const [isLoading, setIsLoading] = useState(true);
-  const { selectedName } = useSelectedName(); // valeur dans le parametre venant de la click du table
-  const { selectedDate } = useDateContext(); // dateContext
-  const [showModal, setShowModal] = useState(false); // etat pour le modal
-  
+  // Hooks d'état
+  const [val, setVal] = useState([]); // données
+  const [dataValue, setDataValue] = useState([]); // État pour stocker les valeurs qty_files
+  const [slotValue, setSlotValue] = useState([]); // État pour stocker les valeurs de date slot
+  const [isLoading, setIsLoading] = useState(true); // État pour gérer le chargement
+  const { selectedName } = useSelectedName(); // Utilisation du hook custom useSelectedName pour obtenir la valeur sélectionnée
+  const { selectedDate } = useDateContext(); // Utilisation du hook custom useDateContext pour obtenir la date sélectionnée
+  const [showModal, setShowModal] = useState(false); // État pour gérer l'affichage du modal
 
-
+  // Effet secondaire pour charger les données
   useEffect(() => {
     const fetchDataFromApi = async () => {
       try {
-        const type = "0032";
-        const date = selectedDate; //date
-        const params = selectedName;
+        const type = "0032"; // Type de données à récupérer
+        const date = selectedDate; // Date sélectionnée
+        const params = selectedName; // Nom sélectionné
 
-        setIsLoading(true); // Mettre isLoading à true avant de démarrer la récupération des données
+        setIsLoading(true); // Début du chargement
 
-        const fetchedData = await FetchData(type, date, params);
-        const mappedData = fetchedData.data;
+        const fetchedData = await FetchData(type, date, params); // Appel à la fonction FetchData pour récupérer les données
+        const mappedData = fetchedData.data; // Données mappées
 
+        // Mise à jour des états avec les données récupérées
+        setVal(mappedData);
         setDataValue(mappedData.map((item) => item.kpi_value));
         setSlotValue(mappedData.map((item) => item.slot));
-        setIsLoading(false);
+        setIsLoading(false); // Fin du chargement
       } catch (error) {
         console.error("Erreur lors de la récupération des données :", error);
-        setIsLoading(false);
+        setIsLoading(false); // Fin du chargement en cas d'erreur
       }
     };
 
-    fetchDataFromApi();
-  }, [selectedName, selectedDate]);
+    fetchDataFromApi(); // Appel de la fonction de récupération des données
+  }, [selectedName, selectedDate]); // Dépendances de l'effet, il sera déclenché lorsque selectedName ou selectedDate changent
 
-const shouldRenderChart = !isLoading;
+  const shouldRenderChart = !isLoading && val && val.length > 0; // Variable booléenne pour déterminer si le graphique doit être rendu
 
-const option = {
-  tooltip: {
-    trigger: "axis",
-    position: function (pt) {
-      return [pt[0], "10%"];
-    },
-  },
-  title: {
-    left: "center",
-    text: "Recharge Qty",
-  },
-  toolbox: {
-    feature: {
-      saveAsImage: {},
-    },
-  },
-  xAxis: {
-    type: "category",
-    boundaryGap: false,
-    data: slotValue,
-  },
-  yAxis: {
-    type: "value",
-    boundaryGap: [0, "100%"],
-    axisLabel: {
-      formatter: function (value) {
-        return numeral(value).format("0a");
+  // Options du graphique echarts
+  const option = {
+    // Configuration du tooltip et de la position
+    tooltip: {
+      trigger: "axis",
+      position: function (pt) {
+        return [pt[0], "10%"];
       },
     },
-  },
-  dataZoom: [
-    {
-      type: "inside",
-      start: 0,
-      end: 60,
+    // Configuration du titre
+    title: {
+      left: "center",
+      text: `Recharge QTY  ${selectedName}`,
     },
-    {
-      start: 0,
-      end: 60,
-    },
-  ],
-  series: [
-    {
-      name: selectedName,
-      type: "bar",
-      symbol: "none",
-      sampling: "lttb",
-      itemStyle: {
-        color: "rgb(255, 70, 131)",
+    // Configuration de la boîte à outils
+    toolbox: {
+      feature: {
+        saveAsImage: {}, // Option pour sauvegarder l'image du graphique
       },
-      areaStyle: {
-        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-          {
-            offset: 0,
-            color: "rgb(255, 158, 68)",
-          },
-          {
-            offset: 1,
-            color: "rgb(255, 70, 131)",
-          },
-        ]),
-      },
-      data: dataValue,
     },
-  ],
-};
+    // Configuration de l'axe X
+    xAxis: {
+      type: "category",
+      boundaryGap: false,
+      data: slotValue, // Données de l'axe X
+    },
+    // Configuration de l'axe Y
+    yAxis: {
+      type: "value",
+      boundaryGap: [0, "100%"],
+      axisLabel: {
+        formatter: function (value) {
+          return numeral(value).format("0a"); // Formatage des nombres sur l'axe Y
+        },
+      },
+    },
+    // Configuration du dataZoom pour le zoom interactif
+    dataZoom: [
+      {
+        type: "inside",
+        start: 0,
+        end: 60,
+      },
+      {
+        start: 0,
+        end: 60,
+      },
+    ],
+    // Configuration de la série de données
+    series: [
+      {
+        name: selectedName,
+        type: "bar",
+        symbol: "none",
+        sampling: "lttb",
+        itemStyle: {
+          color: "rgb(255, 70, 131)",
+        },
+        areaStyle: {
+          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+            {
+              offset: 0,
+              color: "rgb(255, 158, 68)",
+            },
+            {
+              offset: 1,
+              color: "rgb(255, 70, 131)",
+            },
+          ]),
+        },
+        data: dataValue, // Données de la série
+      },
+    ],
+  };
 
-return (
-  <div>
-    <IconButton
-      title="zoom"
-      sx={{
-        cursor: "pointer",
-        float: "left",
-        zIndex: 12,
-        textOverflow: "zoom",
-      }}
-      onClick={() => setShowModal(!showModal)}
-    >
-      <CenterFocusWeakIcon />
-    </IconButton>
-
-    <div style={{ position: "relative" }}>
-      {shouldRenderChart ? (
-        <ReactECharts
-          option={option}
-          style={{ height: "290px", marginTop: "14px" }}
-        />
-      ) : (
-        <CircularIndeterminate isLoading={isLoading} />
+  // Rendu du composant
+  return (
+    <div>
+      {/* Bouton pour ouvrir le modal */}
+      {shouldRenderChart && (
+        <IconButton
+          title="zoom"
+          sx={{ cursor: "pointer", float: "left", zIndex: 12 }}
+          onClick={() => setShowModal(!showModal)} // Inversion de la valeur de showModal au clic
+        >
+          <CenterFocusWeakIcon /> {/* Icône */}
+        </IconButton>
       )}
-    </div>
-    {showModal && (
-      <ModalChart>
-        <Box>
+
+      <div style={{ position: "relative" }}>
+        {/* Affichage du graphique si le chargement est terminé */}
+        {shouldRenderChart && (
           <ReactECharts
             option={option}
-            style={{ height: "700px", minWidth: "900px" }}
+            style={{ height: "290px", marginTop: "14px" }}
           />
-        </Box>
-      </ModalChart>
-    )}
-  </div>
-);
+        )}
+        {/* Affichage de CircularIndeterminate au-dessus du graphique */}
+        {isLoading && (
+          <Box
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <CircularIndeterminate isLoading={isLoading} />
+          </Box>
+        )}
+      </div>
+
+      {/* Modal pour afficher le graphique en grand */}
+      {showModal && (
+        <ModalChart>
+          <Box>
+            <ReactECharts
+              option={option}
+              style={{ height: "700px", minWidth: "900px" }}
+            />
+          </Box>
+        </ModalChart>
+      )}
+    </div>
+  );
 };
 
-export default ChartChargeQy;
+export default ChartChargeQy; // Export du composant

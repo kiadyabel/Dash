@@ -39,6 +39,7 @@ const DataGrid = () => {
   const [isLoading, setIsLoading] = useState(true); // pour le circularebar
   const { setSelectedType } = useSelectedType(); // Utilisez le hook useSelectedType pour accéder aux méthodes du contexte.
   const { selectedDate } = useDateContext(); // dateContext
+  const [isModalOpen, setIsModalOpen] = useState(false); // État pour gérer l'ouverture/fermeture de la modal
 
   useEffect(() => {
     const fetchDataFromApi = async () => {
@@ -63,6 +64,83 @@ const DataGrid = () => {
     setSelectedType(type); // Mettre à jour l'état avec le type sélectionné ave le contexte dans ./onClickalueCdrs
   };
 
+  const handleModalOpen = (row) => {
+    setSelectedType(row); // Mettre à jour la ligne sélectionnée
+    setIsModalOpen(true); // Ouvrir la modal
+  };
+
+  //pour le table en taille mobile et tablette
+  const dataGridMobile = (
+    <div>
+      <TableContainer
+        component={Paper}
+        sx={{ minWidth: 700, maxHeight: "670px", cursor: "pointer" }}
+      >
+        <Table stickyHeader aria-label="sticky table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell align="left">type</StyledTableCell>
+              <StyledTableCell align="center">source</StyledTableCell>
+              <StyledTableCell align="center">big5</StyledTableCell>
+              <StyledTableCell align="center">mediation</StyledTableCell>
+              <StyledTableCell align="center">delta</StyledTableCell>
+              <StyledTableCell align="right">fichiers</StyledTableCell>
+              <StyledTableCell align="center">var_fichiers</StyledTableCell>
+              <StyledTableCell align="right">cdrs</StyledTableCell>
+              <StyledTableCell align="center">var_cdrs</StyledTableCell>
+              <StyledTableCell align="center">last_date</StyledTableCell>
+            </TableRow>
+          </TableHead>
+
+          <TableBody>
+            {data.map((row, index) => (
+              <StyledTableRow
+                key={index}
+                style={
+                  row.var_cdrs <= 5
+                    ? { backgroundColor: "white" }
+                    : row.var_cdrs <= 15
+                    ? { backgroundColor: "orange" }
+                    : row.var_cdrs <= 25
+                    ? { backgroundColor: "#BF8013" }
+                    : { backgroundColor: "red" }
+                }
+              >
+                <StyledTableCell align="left">{row.type}</StyledTableCell>
+                <StyledTableCell align="center">{row.source}</StyledTableCell>
+                <StyledTableCell align="center">{row.big5}</StyledTableCell>
+                <StyledTableCell align="center">
+                  {row.mediation}
+                </StyledTableCell>
+                <StyledTableCell align="center">{row.delta}</StyledTableCell>
+                <StyledTableCell align="right">{row.fichiers}</StyledTableCell>
+                <StyledTableCell align="center">
+                  {row.var_fichiers}
+                </StyledTableCell>
+                <StyledTableCell align="right">{row.cdrs}</StyledTableCell>
+                <StyledTableCell align="center">{row.var_cdrs}</StyledTableCell>
+                <StyledTableCell align="center">
+                  {row.last_date}
+                </StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <Box
+        component="div"
+        sx={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+        }}
+      >
+        <CircularIndeterminate isLoading={isLoading} />
+      </Box>
+    </div>
+  );
+
   return (
     <div>
       <TableContainer
@@ -86,7 +164,7 @@ const DataGrid = () => {
           </TableHead>
 
           <TableBody>
-            {data.map((row,index) => (
+            {data.map((row, index) => (
               <StyledTableRow
                 key={index}
                 onClick={() => handleRowClick(row.type)}

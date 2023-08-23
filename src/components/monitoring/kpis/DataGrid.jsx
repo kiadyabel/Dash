@@ -14,6 +14,8 @@ import { Box } from "@mui/material";
 import { useSelectedName } from "./OnClickValueKpis"; 
 import { useDateContext } from "../../../utils/DateContext";
 
+import MobileRender from "./MobileRender";
+
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -40,6 +42,7 @@ const DataGrid = () => {
   const [isLoading, setIsLoading] = useState(true); // Circleprogress
   const { setSelectedName } = useSelectedName(); // // Utilisez le hook useSelectedName pour accéder aux méthodes du contexte.
   const { selectedDate } = useDateContext(); // dateContext
+  const [isModalOpen, setIsModalOpen] = useState(false); // État pour gérer l'ouverture/fermeture de la modal
 
   useEffect(() => {
     const fetchDataFromApi = async () => {
@@ -63,6 +66,85 @@ const DataGrid = () => {
   const handleRowClick = (name) => {
     setSelectedName(name); // Mettre à jour l'état avec le type sélectionné avec context
   };
+
+  const handleModalOpen = (row) => {
+    setSelectedName(row); // Mettre à jour la ligne sélectionnée
+    setIsModalOpen(true); // Ouvrir la modal
+    return <MobileRender />
+  };
+
+  //pour le table en taille mobile et tablette
+  const dataGridMobile = (
+    <div>
+      <TableContainer
+        component={Paper}
+        sx={{ minWidth: 700, maxHeight: "670px", cursor: "pointer" }}
+      >
+        <Table stickyHeader aria-label="sticky table">
+          <TableHead>
+            <TableRow>
+              <StyledTableCell align="left">type</StyledTableCell>
+              <StyledTableCell align="center">source</StyledTableCell>
+              <StyledTableCell align="center">big5</StyledTableCell>
+              <StyledTableCell align="center">mediation</StyledTableCell>
+              <StyledTableCell align="center">delta</StyledTableCell>
+              <StyledTableCell align="right">fichiers</StyledTableCell>
+              <StyledTableCell align="center">var_fichiers</StyledTableCell>
+              <StyledTableCell align="right">cdrs</StyledTableCell>
+              <StyledTableCell align="center">var_cdrs</StyledTableCell>
+              <StyledTableCell align="center">last_date</StyledTableCell>
+            </TableRow>
+          </TableHead>
+
+          <TableBody>
+            {data.map((tr, index) => (
+              <StyledTableRow
+                key={index}
+                onClick={() => handleModalOpen(tr.name)}
+                style={
+                  tr.var_cdrs <= 5
+                    ? { backgroundColor: "white" }
+                    : tr.var_cdrs <= 15
+                    ? { backgroundColor: "orange" }
+                    : tr.var_cdrs <= 25
+                    ? { backgroundColor: "#BF8013" }
+                    : { backgroundColor: "red" }
+                }
+              >
+                <StyledTableCell align="left">{tr.type}</StyledTableCell>
+                <StyledTableCell align="center">{tr.source}</StyledTableCell>
+                <StyledTableCell align="center">{tr.big5}</StyledTableCell>
+                <StyledTableCell align="center">
+                  {tr.mediation}
+                </StyledTableCell>
+                <StyledTableCell align="center">{tr.delta}</StyledTableCell>
+                <StyledTableCell align="right">{tr.fichiers}</StyledTableCell>
+                <StyledTableCell align="center">
+                  {tr.var_fichiers}
+                </StyledTableCell>
+                <StyledTableCell align="right">{tr.cdrs}</StyledTableCell>
+                <StyledTableCell align="center">{tr.var_cdrs}</StyledTableCell>
+                <StyledTableCell align="center">
+                  {tr.last_date}
+                </StyledTableCell>
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <Box
+        component="div"
+        sx={{
+          position: "absolute",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+        }}
+      >
+        <CircularIndeterminate isLoading={isLoading} />
+      </Box>
+    </div>
+  );
 
   return (
     <>

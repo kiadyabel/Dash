@@ -69,7 +69,7 @@ const ChartChargeQy = () => {
     // Configuration du titre
     title: {
       left: "center",
-      text: `Recharge QTY  ${selectedName}`,
+      text: `Journée : ${selectedName}`,
     },
     // Configuration de la boîte à outils
     toolbox: {
@@ -113,7 +113,7 @@ const ChartChargeQy = () => {
         symbol: "none",
         sampling: "lttb",
         itemStyle: {
-          color: "rgb(255, 70, 131)",
+          
         },
         areaStyle: {
           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [

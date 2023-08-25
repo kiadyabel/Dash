@@ -38,11 +38,15 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const DataGrid = () => {
-  const [data, setData] = useState([]); // donner qui vien de l'api
+  const [data, setData] = useState([]); // donner qui vien de l'api , à rendre sur la table
   const [isLoading, setIsLoading] = useState(true); // pour le circularebar
   const { setSelectedType } = useSelectedType(); // Utilisez le hook useSelectedType pour accéder aux méthodes du contexte.
   const { selectedDate } = useDateContext(); // dateContext
   const [isModalOpen, setIsModalOpen] = useState(false); // État pour gérer l'ouverture/fermeture de la modal
+
+  // Gestion du tri
+  const [sortedColumn, setSortedColumn] = useState(null);
+  const [sortOrder, setSortOrder] = useState("asc");
 
   useEffect(() => {
     const fetchDataFromApi = async () => {
@@ -71,6 +75,27 @@ const DataGrid = () => {
     setSelectedType(row); // Mettre à jour la ligne sélectionnée
   };
 
+  //triage sus chaque colone de tableau
+  const handleColumnSort = (columnName) => {
+    if (columnName === sortedColumn) {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortedColumn(columnName);
+      setSortOrder("asc");
+    }
+  };
+
+  // Tri des données
+  const sortedData = data.slice().sort((a, b) => {
+    const aValue = a[sortedColumn];
+    const bValue = b[sortedColumn];
+    if (sortOrder === "asc") {
+      return aValue.localeCompare(bValue);
+    } else {
+      return bValue.localeCompare(aValue);
+    }
+  });
+
   //pour le table en taille mobile et tablette
   const dataGridMobile = (
     <div>
@@ -81,21 +106,39 @@ const DataGrid = () => {
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-              <StyledTableCell align="left">type</StyledTableCell>
-              <StyledTableCell align="center">source</StyledTableCell>
-              <StyledTableCell align="center">big5</StyledTableCell>
-              <StyledTableCell align="center">mediation</StyledTableCell>
-              <StyledTableCell align="center">delta</StyledTableCell>
-              <StyledTableCell align="right">fichiers</StyledTableCell>
-              <StyledTableCell align="center">var_fichiers</StyledTableCell>
-              <StyledTableCell align="right">cdrs</StyledTableCell>
-              <StyledTableCell align="center">var_cdrs</StyledTableCell>
-              <StyledTableCell align="center">last_date</StyledTableCell>
+              <StyledTableCell
+                align="left"
+              >
+                
+              </StyledTableCell>
+              <StyledTableCell align="left">Type</StyledTableCell>
+              <StyledTableCell align="center">Fichiers Big5</StyledTableCell>
+              <StyledTableCell align="center">
+                Fichiers Mediation
+              </StyledTableCell>
+              <StyledTableCell align="center">
+                Big5 vs Mediation
+              </StyledTableCell>
+              <StyledTableCell
+                align="right"
+                onClick={() => handleColumnSort("fichiers")}
+              >
+                {sortedColumn === "fichiers" && (
+                  <>{sortOrder === "asc" ? "↑" : "↓"}</>
+                )}
+                Fichiers
+              </StyledTableCell>
+              <StyledTableCell align="center">
+                Variation fichiers
+              </StyledTableCell>
+              <StyledTableCell align="right">Cdrs</StyledTableCell>
+              <StyledTableCell align="center">Variation Cdrs</StyledTableCell>
+              <StyledTableCell align="center">Last Date</StyledTableCell>
             </TableRow>
           </TableHead>
 
           <TableBody>
-            {data.map((row, index) => (
+            {sortedData.map((row, index) => (
               <StyledTableRow
                 key={index}
                 onClick={() => {
@@ -112,8 +155,8 @@ const DataGrid = () => {
                     : { backgroundColor: "red" }
                 }
               >
+                <StyledTableCell align="left">{row.source}</StyledTableCell>
                 <StyledTableCell align="left">{row.type}</StyledTableCell>
-                <StyledTableCell align="center">{row.source}</StyledTableCell>
                 <StyledTableCell align="center">{row.big5}</StyledTableCell>
                 <StyledTableCell align="center">
                   {row.mediation}
@@ -166,16 +209,26 @@ const DataGrid = () => {
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow>
-                  <StyledTableCell align="left">type</StyledTableCell>
-                  <StyledTableCell align="center">source</StyledTableCell>
-                  <StyledTableCell align="center">big5</StyledTableCell>
-                  <StyledTableCell align="center">mediation</StyledTableCell>
-                  <StyledTableCell align="center">delta</StyledTableCell>
-                  <StyledTableCell align="right">fichiers</StyledTableCell>
-                  <StyledTableCell align="center">var_fichiers</StyledTableCell>
-                  <StyledTableCell align="right">cdrs</StyledTableCell>
-                  <StyledTableCell align="center">var_cdrs</StyledTableCell>
-                  <StyledTableCell align="center">last_date</StyledTableCell>
+                  <StyledTableCell align="left">Source</StyledTableCell>
+                  <StyledTableCell align="left">Type</StyledTableCell>
+                  <StyledTableCell align="center">
+                    Fichiers Big5
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    Fichiers Mediation
+                  </StyledTableCell>
+                  <StyledTableCell align="center">
+                    Big5 vs Mediation
+                  </StyledTableCell>
+                  <StyledTableCell align="right">Fichiers</StyledTableCell>
+                  <StyledTableCell align="center">
+                    Variation fichiers
+                  </StyledTableCell>
+                  <StyledTableCell align="right">Cdrs</StyledTableCell>
+                  <StyledTableCell align="center">
+                    Variation Cdrs
+                  </StyledTableCell>
+                  <StyledTableCell align="center">Last Date</StyledTableCell>
                 </TableRow>
               </TableHead>
 
@@ -194,10 +247,8 @@ const DataGrid = () => {
                         : { backgroundColor: "red" }
                     }
                   >
+                    <StyledTableCell align="left">{row.source}</StyledTableCell>
                     <StyledTableCell align="left">{row.type}</StyledTableCell>
-                    <StyledTableCell align="center">
-                      {row.source}
-                    </StyledTableCell>
                     <StyledTableCell align="center">{row.big5}</StyledTableCell>
                     <StyledTableCell align="center">
                       {row.mediation}
@@ -209,14 +260,14 @@ const DataGrid = () => {
                       {row.fichiers}
                     </StyledTableCell>
                     <StyledTableCell align="center">
-                      {row.var_fichiers}
+                      {row.var_fichiers} %
                     </StyledTableCell>
                     <StyledTableCell align="right">{row.cdrs}</StyledTableCell>
                     <StyledTableCell align="center">
-                      {row.var_cdrs}
+                      {row.var_cdrs} %
                     </StyledTableCell>
                     <StyledTableCell align="center">
-                      {row.last_date}
+                      {row.last_date === "00-00-0000" ? " " : row.last_date}
                     </StyledTableCell>
                   </StyledTableRow>
                 ))}

@@ -71,8 +71,6 @@ const DataGrid = () => {
     setSelectedName(type); // Mettre à jour la ligne sélectionnée
   };
 
-
-
   //pour le table en taille mobile et tablette
   const dataGridMobile = (
     <div>
@@ -83,13 +81,13 @@ const DataGrid = () => {
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-              <StyledTableCell align="left">Name</StyledTableCell>
-              <StyledTableCell align="center">Source</StyledTableCell>
-              <StyledTableCell align="center">Frequency</StyledTableCell>
-              <StyledTableCell align="center">Date</StyledTableCell>
-              <StyledTableCell align="right">Value</StyledTableCell>
+              <StyledTableCell align="left">Source</StyledTableCell>
+              <StyledTableCell align="left">KPIs</StyledTableCell>
+              <StyledTableCell align="center">Fréquence</StyledTableCell>
+              <StyledTableCell align="right">Valeur</StyledTableCell>
               <StyledTableCell align="center">Variation</StyledTableCell>
-              <StyledTableCell align="center">Slot</StyledTableCell>
+              <StyledTableCell align="center">Date</StyledTableCell>
+              <StyledTableCell align="center">Slots</StyledTableCell>
             </TableRow>
           </TableHead>
 
@@ -111,12 +109,14 @@ const DataGrid = () => {
                     : { backgroundColor: "red" }
                 }
               >
+                <StyledTableCell align="left">{tr.source}</StyledTableCell>
                 <StyledTableCell align="left">{tr.name}</StyledTableCell>
-                <StyledTableCell align="center">{tr.source}</StyledTableCell>
-                <StyledTableCell align="center">{tr.frequence}</StyledTableCell>
-                <StyledTableCell align="center">{tr.date}</StyledTableCell>
+                <StyledTableCell align="center">
+                  {tr.frequence}
+                </StyledTableCell>
                 <StyledTableCell align="right">{tr.valeur}</StyledTableCell>
-                <StyledTableCell align="right">{tr.var}</StyledTableCell>
+                <StyledTableCell align="center">{tr.var} %</StyledTableCell>
+                <StyledTableCell align="center">{tr.date}</StyledTableCell>
                 <StyledTableCell align="center">{tr.slot}</StyledTableCell>
               </StyledTableRow>
             ))}
@@ -156,13 +156,13 @@ const DataGrid = () => {
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow>
-                  <StyledTableCell align="left">Name</StyledTableCell>
-                  <StyledTableCell align="center">Source</StyledTableCell>
-                  <StyledTableCell align="center">Frequency</StyledTableCell>
-                  <StyledTableCell align="center">Date</StyledTableCell>
-                  <StyledTableCell align="right">Value</StyledTableCell>
+                  <StyledTableCell align="left">Source</StyledTableCell>
+                  <StyledTableCell align="left">KPIs</StyledTableCell>
+                  <StyledTableCell align="center">Fréquence</StyledTableCell>
+                  <StyledTableCell align="right">Valeur</StyledTableCell>
                   <StyledTableCell align="center">Variation</StyledTableCell>
-                  <StyledTableCell align="center">Slot</StyledTableCell>
+                  <StyledTableCell align="center">Date</StyledTableCell>
+                  <StyledTableCell align="center">Slots</StyledTableCell>
                 </TableRow>
               </TableHead>
 
@@ -181,20 +181,20 @@ const DataGrid = () => {
                         : { backgroundColor: "red" }
                     }
                   >
-                    <StyledTableCell align="left">{row.name}</StyledTableCell>
-                    <StyledTableCell align="center">
+                    <StyledTableCell align="left">
                       {row.source}
                     </StyledTableCell>
+                    <StyledTableCell align="left">{row.name}</StyledTableCell>
                     <StyledTableCell align="center">
                       {row.frequence}
                     </StyledTableCell>
-                    <StyledTableCell align="center">{row.date}</StyledTableCell>
                     <StyledTableCell align="right">
                       {row.valeur}
                     </StyledTableCell>
                     <StyledTableCell align="center">
                       {row.var} %
                     </StyledTableCell>
+                    <StyledTableCell align="center">{row.date}</StyledTableCell>
                     <StyledTableCell align="center">{row.slot}</StyledTableCell>
                   </StyledTableRow>
                 ))}

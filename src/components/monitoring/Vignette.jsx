@@ -26,7 +26,8 @@ const Vignette = () => {
         setIsLoading(true); // Mettre isLoading à true avant de démarrer la récupération des données
 
         const fetchedData = await FetchData(type, date, null);
-        setData(fetchedData.data);
+        const sortedData = fetchedData.data.sort((a, b) => a.var - b.var); // Sort by val.var in ascending order
+        setData(sortedData);
         setIsLoading(false);
       } catch (error) {
         console.error("Erreur lors de la récupération des données :", error);

@@ -1,15 +1,15 @@
 import React from "react";
-import { Box, Typography, Modal, useMediaQuery } from "@mui/material";
-import ChartKpis from "./ChartKpis"; // Import d'un composant ChartKpis depuis un chemin relatif
-import ChartChargeQy from "./ChartChargeQy"; // Import d'un composant ChartChargeQy depuis un chemin relatif
-import { useSelectedName } from "./OnClickValueKpis"; // Import d'un hook custom depuis un chemin relatif
+import { Box, Modal, Typography, useMediaQuery } from "@mui/material";
+import ChartFichier from "./ChartFichier"; // Import d'un composant ChartFichier depuis un chemin relatif
+import ChartCdrs from "./ChartCdrs"; // Import d'un composant ChartCdrs depuis un chemin relatif
+import { useSelectedType } from "./onClickValueCdrs"; // Import d'un hook custom depuis un chemin relatif
 
 const MobileRender = ({ isModalOpen, closeModal }) => {
-  // Utilisation du hook custom useSelectedName pour obtenir la valeur sélectionnée
-  const { selectedName } = useSelectedName();
-  // Vérifie si l'écran est de tailleup tablette en utilisant le breakpoint "md"
+  // Utilisation du hook custom useSelectedType pour obtenir la valeur sélectionnée
+  const { selectedType } = useSelectedType();
+  // Vérifie si l'écran est de taille tablette en utilisant le breakpoint "md"
   const isTabletScreen = useMediaQuery((theme) => theme.breakpoints.down("md"));
-   const isPhoneScreen = useMediaQuery((theme) => theme.breakpoints.down("xs"));
+  const isPhoneScreen = useMediaQuery((theme) => theme.breakpoints.down("xs"));
 
   // Condition pour définir la largeur du div en fonction de la taille de l'écran
   const divWidth = isTabletScreen ? "400px" : isPhoneScreen ? "380px" : "auto";
@@ -32,8 +32,8 @@ const MobileRender = ({ isModalOpen, closeModal }) => {
           backgroundColor: "#f5f5f5",
           boxShadow: "2px 6px 14px black",
           paddingBottom: 20,
-          paddingLeft: 8,
-          paddingRight: 8,
+          paddingLeft:8,
+          paddingRight:8
         }}
       >
         <Typography
@@ -45,16 +45,16 @@ const MobileRender = ({ isModalOpen, closeModal }) => {
             padding: 2,
           }}
         >
-          TREND de KPIs:{"  "} {selectedName}
+          Evolution du nombre de CDRs: {"  "} {selectedType}
           {/* Utilisation de la valeur sélectionnée */}
         </Typography>
-        {/* Rendu des composants ChartKpis et ChartChargeQy */}
+        {/* Rendu des composants ChartFichier et ChartCdrs */}
         <Box sx={{ display: "flex", flexDirection: "column" }}>
           <Box sx={{ mb: 3 }}>
-            <ChartKpis /> {/* Rendu du composant ChartKpis */}
+            <ChartFichier /> {/* Rendu du composant ChartFichier */}
           </Box>
           <Box>
-            <ChartChargeQy /> {/* Rendu du composant ChartChargeQy */}
+            <ChartCdrs /> {/* Rendu du composant ChartCdrs */}
           </Box>
         </Box>
       </div>

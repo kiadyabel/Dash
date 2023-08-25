@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react"; // Import de React et des ho
 import * as echarts from "echarts"; // Import de la bibliothèque echarts
 import { FetchData } from "../../../utils/FetchData"; // Import de la fonction FetchData depuis un chemin relatif
 import CircularIndeterminate from "../../../utils/CircularProgress"; // Import d'un composant CircularProgress depuis un chemin relatif
-import { Box, IconButton } from "@mui/material"; // Import de composants Box et IconButton depuis la bibliothèque MUI
+import { Box, IconButton, useMediaQuery } from "@mui/material"; // Import de composants Box et IconButton depuis la bibliothèque MUI
 import { useSelectedName } from "./OnClickValueKpis"; // Import d'un hook custom depuis un chemin relatif
 import { useDateContext } from "../../../utils/DateContext"; // Import d'un hook custom depuis un chemin relatif
 import CenterFocusWeakIcon from "@mui/icons-material/CenterFocusWeak"; // Import de l'icône CenterFocusWeak depuis la bibliothèque MUI
@@ -22,6 +22,11 @@ const ChartChargeQy = () => {
   const { selectedName } = useSelectedName(); // Utilisation du hook custom useSelectedName pour obtenir la valeur sélectionnée
   const { selectedDate } = useDateContext(); // Utilisation du hook custom useDateContext pour obtenir la date sélectionnée
   const [showModal, setShowModal] = useState(false); // État pour gérer l'affichage du modal
+
+  // Vérifiez si l'écran est une tablette ou un mobile
+  const isTabletOrMobile = useMediaQuery((theme) =>
+    theme.breakpoints.down("md")
+  );
 
   // Effet secondaire pour charger les données
   useEffect(() => {
@@ -131,15 +136,16 @@ const ChartChargeQy = () => {
   return (
     <div>
       {/* Bouton pour ouvrir le modal */}
-      {shouldRenderChart && (
-        <IconButton
-          title="zoom"
-          sx={{ cursor: "pointer", float: "left", zIndex: 12 }}
-          onClick={() => setShowModal(!showModal)} // Inversion de la valeur de showModal au clic
-        >
-          <CenterFocusWeakIcon /> {/* Icône */}
-        </IconButton>
-      )}
+      {shouldRenderChart &&
+        !isTabletOrMobile &&(
+          <IconButton
+            title="zoom"
+            sx={{ cursor: "pointer", float: "left", zIndex: 12 }}
+            onClick={() => setShowModal(!showModal)} // Inversion de la valeur de showModal au clic
+          >
+            <CenterFocusWeakIcon /> {/* Icône */}
+          </IconButton>
+        )}
 
       <div style={{ position: "relative" }}>
         {/* Affichage du graphique si le chargement est terminé */}

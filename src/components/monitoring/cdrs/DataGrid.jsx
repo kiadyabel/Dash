@@ -12,6 +12,9 @@ import CircularIndeterminate from "../../../utils/CircularProgress";
 import { Box } from "@mui/material";
 import { useSelectedType } from "./onClickValueCdrs.js";
 import {useDateContext} from "../../../utils/DateContext"
+import MobileRender from "./MobileRender";
+
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -66,7 +69,6 @@ const DataGrid = () => {
 
   const handleModalOpen = (row) => {
     setSelectedType(row); // Mettre à jour la ligne sélectionnée
-    setIsModalOpen(true); // Ouvrir la modal
   };
 
   //pour le table en taille mobile et tablette
@@ -74,7 +76,7 @@ const DataGrid = () => {
     <div>
       <TableContainer
         component={Paper}
-        sx={{ minWidth: 700, maxHeight: "670px", cursor: "pointer" }}
+        sx={{ width: "auto", maxHeight: "670px", cursor: "pointer" }}
       >
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -96,6 +98,10 @@ const DataGrid = () => {
             {data.map((row, index) => (
               <StyledTableRow
                 key={index}
+                onClick={() => {
+                  handleModalOpen(row.type);
+                  setIsModalOpen(true);
+                }}
                 style={
                   row.var_cdrs <= 5
                     ? { backgroundColor: "white" }
@@ -138,79 +144,99 @@ const DataGrid = () => {
       >
         <CircularIndeterminate isLoading={isLoading} />
       </Box>
+      {isModalOpen && (
+        <MobileRender
+          isModalOpen={isModalOpen}
+          closeModal={() => setIsModalOpen(false)}
+        />
+      )}
     </div>
   );
 
   return (
-    <div>
-      <TableContainer
-        component={Paper}
-        sx={{ minWidth: 700, maxHeight: "670px", cursor: "pointer" }}
-      >
-        <Table stickyHeader aria-label="sticky table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell align="left">type</StyledTableCell>
-              <StyledTableCell align="center">source</StyledTableCell>
-              <StyledTableCell align="center">big5</StyledTableCell>
-              <StyledTableCell align="center">mediation</StyledTableCell>
-              <StyledTableCell align="center">delta</StyledTableCell>
-              <StyledTableCell align="right">fichiers</StyledTableCell>
-              <StyledTableCell align="center">var_fichiers</StyledTableCell>
-              <StyledTableCell align="right">cdrs</StyledTableCell>
-              <StyledTableCell align="center">var_cdrs</StyledTableCell>
-              <StyledTableCell align="center">last_date</StyledTableCell>
-            </TableRow>
-          </TableHead>
+    <>
+      {window.innerWidth <= 960 ? (
+        dataGridMobile
+      ) : (
+        <div>
+          <TableContainer
+            component={Paper}
+            sx={{ minWidth: 700, maxHeight: "670px", cursor: "pointer" }}
+          >
+            <Table stickyHeader aria-label="sticky table">
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell align="left">type</StyledTableCell>
+                  <StyledTableCell align="center">source</StyledTableCell>
+                  <StyledTableCell align="center">big5</StyledTableCell>
+                  <StyledTableCell align="center">mediation</StyledTableCell>
+                  <StyledTableCell align="center">delta</StyledTableCell>
+                  <StyledTableCell align="right">fichiers</StyledTableCell>
+                  <StyledTableCell align="center">var_fichiers</StyledTableCell>
+                  <StyledTableCell align="right">cdrs</StyledTableCell>
+                  <StyledTableCell align="center">var_cdrs</StyledTableCell>
+                  <StyledTableCell align="center">last_date</StyledTableCell>
+                </TableRow>
+              </TableHead>
 
-          <TableBody>
-            {data.map((row, index) => (
-              <StyledTableRow
-                key={index}
-                onClick={() => handleRowClick(row.type)}
-                style={
-                  row.var_cdrs <= 5
-                    ? { backgroundColor: "white" }
-                    : row.var_cdrs <= 15
-                    ? { backgroundColor: "orange" }
-                    : row.var_cdrs <= 25
-                    ? { backgroundColor: "#BF8013" }
-                    : { backgroundColor: "red" }
-                }
-              >
-                <StyledTableCell align="left">{row.type}</StyledTableCell>
-                <StyledTableCell align="center">{row.source}</StyledTableCell>
-                <StyledTableCell align="center">{row.big5}</StyledTableCell>
-                <StyledTableCell align="center">
-                  {row.mediation}
-                </StyledTableCell>
-                <StyledTableCell align="center">{row.delta}</StyledTableCell>
-                <StyledTableCell align="right">{row.fichiers}</StyledTableCell>
-                <StyledTableCell align="center">
-                  {row.var_fichiers}
-                </StyledTableCell>
-                <StyledTableCell align="right">{row.cdrs}</StyledTableCell>
-                <StyledTableCell align="center">{row.var_cdrs}</StyledTableCell>
-                <StyledTableCell align="center">
-                  {row.last_date}
-                </StyledTableCell>
-              </StyledTableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <Box
-        component="div"
-        sx={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translate(-50%, -50%)",
-        }}
-      >
-        <CircularIndeterminate isLoading={isLoading} />
-      </Box>
-    </div>
+              <TableBody>
+                {data.map((row, index) => (
+                  <StyledTableRow
+                    key={index}
+                    onClick={() => handleRowClick(row.type)}
+                    style={
+                      row.var_cdrs <= 5
+                        ? { backgroundColor: "white" }
+                        : row.var_cdrs <= 15
+                        ? { backgroundColor: "orange" }
+                        : row.var_cdrs <= 25
+                        ? { backgroundColor: "#BF8013" }
+                        : { backgroundColor: "red" }
+                    }
+                  >
+                    <StyledTableCell align="left">{row.type}</StyledTableCell>
+                    <StyledTableCell align="center">
+                      {row.source}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">{row.big5}</StyledTableCell>
+                    <StyledTableCell align="center">
+                      {row.mediation}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {row.delta}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">
+                      {row.fichiers}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {row.var_fichiers}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">{row.cdrs}</StyledTableCell>
+                    <StyledTableCell align="center">
+                      {row.var_cdrs}
+                    </StyledTableCell>
+                    <StyledTableCell align="center">
+                      {row.last_date}
+                    </StyledTableCell>
+                  </StyledTableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <Box
+            component="div"
+            sx={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+            }}
+          >
+            <CircularIndeterminate isLoading={isLoading} />
+          </Box>
+        </div>
+      )}
+    </>
   );
 };
 

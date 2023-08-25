@@ -10,7 +10,6 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import MoreIcon from "@mui/icons-material/MoreVert";
 import DatePickersFilters from "./DatePicker";
 import { useDateContext } from "../../utils/DateContext";
 import logoOrange from "../../utils/image/logoOrange.png";
@@ -60,12 +59,7 @@ const AppBarDash = () => {
     handleMobileMenuClose();
   };
 
-  const handleMobileMenuOpen = (event) => {
-    setMobileMoreAnchorEl(event.currentTarget);
-  };
-
   const isMenuOpen = Boolean(anchorEl);
-  const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   // Menu déroulant pour le profil
   const renderMenu = (
@@ -85,44 +79,6 @@ const AppBarDash = () => {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Deconnexion</MenuItem>
-    </Menu>
-  );
-
-  // Menu déroulant pour les options mobiles
-  const renderMobileMenu = (
-    <Menu
-      anchorEl={mobileMoreAnchorEl}
-      anchorOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      id="primary-search-account-menu-mobile"
-      keepMounted
-      transformOrigin={{
-        vertical: "top",
-        horizontal: "right",
-      }}
-      open={isMobileMenuOpen}
-      onClose={handleMobileMenuClose}
-    >
-      <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <FilterAltIcon />
-        </IconButton>
-        <Typography component="span">user</Typography>
-      </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <Typography component="span">user</Typography>
-      </MenuItem>
     </Menu>
   );
 
@@ -146,17 +102,25 @@ const AppBarDash = () => {
           <img
             src={logoKrill}
             alt="logo krill"
-            style={{ width: "45px", height: "45px", marginRight: "15px" }}
+            style={{
+              width: "45px",
+              height: "45px",
+              marginRight: "15px",
+            }}
           />
           {/* Titre */}
-          <Typography variant="h6" noWrap component="div">
+          <Typography
+            sx={{ fontSize: { md: "16px", xs: "10px", sm: "12px" } }}
+            noWrap
+            component="div"
+          >
             DASHBOARD
           </Typography>
-          <Box sx={{ flexGrow: 1 }} />
+          <Box sx={{ flexGrow: { md: 1, xs: 1 } }} />
           <Box
             sx={{
               display: {
-                xs: "none",
+                xs: "flex",
                 md: "flex",
                 flexDirection: "row",
                 justifyContent: "center",
@@ -167,7 +131,11 @@ const AppBarDash = () => {
             {/* Date */}
             <Typography
               component="div"
-              sx={{ textAlign: "center", marginRight: "20px" }}
+              sx={{
+                textAlign: "center",
+                marginRight: { md: "20px", xs: "5px" },
+                fontSize: { md: "16px", xs: "10px", sm: "12px" },
+              }}
             >
               Date: {selectedDate}
             </Typography>
@@ -176,7 +144,7 @@ const AppBarDash = () => {
               size="large"
               aria-label="filtre"
               color="inherit"
-              sx={{ marginRight: "100px" }}
+              sx={{ marginRight: { md: "100px", xs: "10px" } }}
               onClick={() => setShowDatePickers(!showDatePickers)}
             >
               <FilterAltIcon />
@@ -200,24 +168,8 @@ const AppBarDash = () => {
               </div>
             )}
           </Box>
-          {/* Bouton de menu mobile */}
-          <Box sx={{ display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              aria-label="show more"
-              aria-controls="primary-search-account-menu-mobile"
-              aria-haspopup="true"
-              onClick={handleMobileMenuOpen}
-              color="inherit"
-            >
-              <MoreIcon />
-            </IconButton>
-          </Box>
         </Toolbar>
       </AppBar>
-      {/* Menu mobile */}
-      {renderMobileMenu}
-      {/* Menu principal */}
       {renderMenu}
     </div>
   );

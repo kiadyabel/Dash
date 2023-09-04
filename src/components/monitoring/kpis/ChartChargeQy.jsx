@@ -69,7 +69,7 @@ const ChartChargeQy = () => {
     // Configuration du titre
     title: {
       left: "center",
-      text: `Journée : ${selectedName}`,
+      text: `${selectedName}  par tranche horaire`,
     },
     // Configuration de la boîte à outils
     toolbox: {
@@ -112,9 +112,7 @@ const ChartChargeQy = () => {
         type: "bar",
         symbol: "none",
         sampling: "lttb",
-        itemStyle: {
-          
-        },
+        itemStyle: {},
         areaStyle: {
           color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
             {

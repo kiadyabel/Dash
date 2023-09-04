@@ -67,7 +67,7 @@ const ChartCdrs = () => {
     // Configuration du titre
     title: {
       left: "center",
-      text: `CDRS  ${selectedType}`, // Titre du graphique
+      text: `CDR  ${selectedType}`, // Titre du graphique
     },
     // Configuration de la boîte à outils
     toolbox: {

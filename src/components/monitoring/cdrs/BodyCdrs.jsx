@@ -39,7 +39,7 @@ const BodyCdrs = () => {
           }}
           component="div"
         >
-          Evolution du nombre de CDRs par type:{"  "} {selectedType}
+          Evolution du volume par type :{"  "} {selectedType}
           {/* Utilisation de la valeur sélectionnée */}
         </Typography>
         {/* Rendu des composants ChartFichier et ChartCdrs */}

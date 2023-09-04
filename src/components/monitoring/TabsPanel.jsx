@@ -71,6 +71,9 @@ const TabsPanel = () => {
             label="CDRs Monitoring"
             sx={{
               backgroundColor: value === 0 ? "black" : undefined,
+              "&.Mui-selected": {
+                color: "white", // Texte en blanc quand l'onglet est sélectionné
+              },
             }}
             {...a11yProps(0)}
           />
@@ -79,6 +82,9 @@ const TabsPanel = () => {
             {...a11yProps(1)}
             sx={{
               backgroundColor: value === 1 ? "black" : undefined,
+              "&.Mui-selected": {
+                color: "white", // Texte en blanc quand l'onglet est sélectionné
+              },
             }}
           />
         </Tabs>

@@ -10,6 +10,7 @@ import CircularIndeterminate from "../../utils/CircularProgress";
 import { useState, useEffect } from "react";
 import { FetchData } from "../../utils/FetchData";
 import { useDateContext } from "../../utils/DateContext";
+import numeral from "numeral";
 
 
 const Vignette = () => {
@@ -26,7 +27,13 @@ const Vignette = () => {
         setIsLoading(true); // Mettre isLoading à true avant de démarrer la récupération des données
 
         const fetchedData = await FetchData(type, date, null);
-        const sortedData = fetchedData.data.sort((a, b) => a.var - b.var); // Sort by val.var in ascending order
+        //tri par valeur
+        const sortedData = fetchedData.data.sort((a, b) => {
+          // mettre le TOTAL toujour a la fin
+          if (a.name === "TOTAL") return 1;
+          if (b.name === "TOTAL") return -1;
+          return a.var - b.var;
+        });
         setData(sortedData);
         setIsLoading(false);
       } catch (error) {
@@ -36,11 +43,16 @@ const Vignette = () => {
 
     fetchDataFromApi();
   }, [selectedDate]);
+
+  // forlat number millien
+  const formatNumberMillien = (number) => {
+    return numeral(number).format("0,0");
+  };
   return (
     <>
       <Grid container spacing={2} position="relative">
         {data.map((val) => (
-          <Grid item xs={6} sm={6} md={3} lg={1.5} key={val.name} >
+          <Grid item xs={6} sm={6} md={3} lg={1.5} key={val.name}>
             <Card sx={{ display: "flex", justifyContent: "space-between" }}>
               <Box sx={{ display: "flex", flexDirection: "column" }}>
                 <CardContent sx={{ flex: "1 0 auto" }}>
@@ -59,7 +71,7 @@ const Vignette = () => {
                     fichier
                   </Typography>
                   <Typography sx={{ fontWeight: "bold", color: "blue" }}>
-                    {val.value}
+                    {formatNumberMillien(val.value)}
                   </Typography>
                 </CardContent>
               </Box>

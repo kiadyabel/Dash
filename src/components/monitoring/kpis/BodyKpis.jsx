@@ -34,7 +34,7 @@ const BodyKpis = () => {
             display: { xs: "none", sm: "none", md: "block" },
           }}
         >
-          TREND de KPIs:{"  "} {selectedName}
+          Evolution du KPI :{"  "} {selectedName}
           {/* Utilisation de la valeur sélectionnée */}
         </Typography>
         {/* Rendu des composants ChartKpis et ChartChargeQy */}

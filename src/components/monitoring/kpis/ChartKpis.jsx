@@ -68,7 +68,7 @@ const ChartKpis = () => {
     // Configuration du titre
     title: {
       left: "center",
-      text: `Historique :  ${selectedName}`, // Titre du graphique
+      text: `${selectedName}  par jour`, // Titre du graphique
     },
     // Configuration de la boîte à outils
     toolbox: {

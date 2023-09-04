@@ -12,3 +12,9 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+/*fixer la ligne de All dans la datagrid Cdrs*/
+.fixed-row{
+  position: sticky;
+  top: 56px;
+  z-index: 1111;
+}

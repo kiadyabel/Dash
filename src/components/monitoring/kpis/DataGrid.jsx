@@ -13,8 +13,11 @@ import CircularIndeterminate from "../../../utils/CircularProgress";
 import { Box } from "@mui/material";
 import { useSelectedName } from "./OnClickValueKpis";
 import { useDateContext } from "../../../utils/DateContext";
+import { useColorContext } from "../../../utils/ColorContext";
+import Tooltip from "@mui/material/Tooltip";
 
 import MobileRender from "./MobileRender";
+import numeral from "numeral";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -42,7 +45,14 @@ const DataGrid = () => {
   const [isLoading, setIsLoading] = useState(true); // Circleprogress
   const { setSelectedName } = useSelectedName(); // // Utilisez le hook useSelectedName pour accéder aux méthodes du contexte.
   const { selectedDate } = useDateContext(); // dateContext
+
+  const { color1, color2, color3, color4 } = useColorContext(); // Utiliser le contexte des couleurs
+
   const [isModalOpen, setIsModalOpen] = useState(false); // État pour gérer l'ouverture/fermeture de la modal
+
+  // Gestion d'etat tri
+  const [order, setOrder] = useState("desc"); // État pour l'ordre de tri (asc ou desc)
+  const [orderBy, setOrderBy] = useState("var"); // État pour l'en-tête de tri par défaut
 
   useEffect(() => {
     const fetchDataFromApi = async () => {
@@ -53,7 +63,17 @@ const DataGrid = () => {
         setIsLoading(true); // Mettre isLoading à true avant de démarrer la récupération des données
 
         const fetchedData = await FetchData(type, date, null);
-        setData(fetchedData.data);
+
+        // Triez les données en fonction de l'ordre et de l'en-tête(table) de tri
+        const comparator = (a, b) => {
+          if (a[orderBy] < b[orderBy]) return order === "asc" ? -1 : 1;
+          if (a[orderBy] > b[orderBy]) return order === "asc" ? 1 : -1;
+          return 0;
+        };
+
+        const sortedData = fetchedData.data.slice().sort(comparator);
+
+        setData(sortedData);
         setIsLoading(false);
       } catch (error) {
         console.error("Erreur lors de la récupération des données :", error);
@@ -61,7 +81,14 @@ const DataGrid = () => {
     };
 
     fetchDataFromApi();
-  }, [selectedDate]);
+  }, [selectedDate, order, orderBy]);
+
+  //triage sus chaque colone de tableau
+  const handleRequestSort = (property) => {
+    const isAsc = orderBy === property && order === "asc";
+    setOrder(isAsc ? "desc" : "asc");
+    setOrderBy(property);
+  };
 
   const handleRowClick = (name) => {
     setSelectedName(name); // Mettre à jour l'état avec le type sélectionné avec context
@@ -69,6 +96,34 @@ const DataGrid = () => {
 
   const handleModalOpen = (type) => {
     setSelectedName(type); // Mettre à jour la ligne sélectionnée
+  };
+
+  // forlat number millien
+  const formatNumberMillien = (number) => {
+    return numeral(number).format("0,0");
+  };
+
+  // Fonction pour générer le texte de l'info-bulle en fonction de la colonne
+  const getTooltipText = (column) => {
+    switch (column) {
+      case "Source":
+        return "Source par KPI";
+      case "KPI":
+        return "Nom du KPI";
+      case "Fréquence":
+        return "Fréquence";
+      case "Valeur":
+        return "Valeur du KPI";
+      case "Variation":
+        return "Variation du KPI";
+      case "Last Date":
+        return "Dernier date du KPI";
+      case "Slots":
+        return "Slots du KPI";
+
+      default:
+        return "";
+    }
   };
 
   //pour le table en taille mobile et tablette
@@ -81,43 +136,120 @@ const DataGrid = () => {
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
             <TableRow>
-              <StyledTableCell align="left">Source</StyledTableCell>
-              <StyledTableCell align="left">KPIs</StyledTableCell>
-              <StyledTableCell align="center">Fréquence</StyledTableCell>
-              <StyledTableCell align="right">Valeur</StyledTableCell>
-              <StyledTableCell align="center">Variation</StyledTableCell>
-              <StyledTableCell align="center">Date</StyledTableCell>
-              <StyledTableCell align="center">Slots</StyledTableCell>
+              <StyledTableCell
+                align="left"
+                active={orderBy === "source"}
+                direction={orderBy === "source" ? order : "asc"}
+                onClick={() => handleRequestSort("source")}
+              >
+                <Tooltip arrow title={getTooltipText("Source")} placement="top">
+                  Source
+                </Tooltip>
+              </StyledTableCell>
+              <StyledTableCell
+                align="left"
+                active={orderBy === "name"}
+                direction={orderBy === "name" ? order : "asc"}
+                onClick={() => handleRequestSort("name")}
+              >
+                <Tooltip arrow title={getTooltipText("KPI")} placement="top">
+                  KPI
+                </Tooltip>
+              </StyledTableCell>
+              <StyledTableCell
+                align="center"
+                active={orderBy === "frequence"}
+                direction={orderBy === "frequence" ? order : "asc"}
+                onClick={() => handleRequestSort("frequence")}
+              >
+                <Tooltip
+                  arrow
+                  title={getTooltipText("Fréquence")}
+                  placement="top"
+                >
+                  Fréquence
+                </Tooltip>
+              </StyledTableCell>
+              <StyledTableCell
+                align="right"
+                active={orderBy === "valeur"}
+                direction={orderBy === "valeur" ? order : "asc"}
+                onClick={() => handleRequestSort("valeur")}
+              >
+                <Tooltip arrow title={getTooltipText("Valeur")} placement="top">
+                  Valeur
+                </Tooltip>
+              </StyledTableCell>
+              <StyledTableCell
+                align="center"
+                active={orderBy === "var"}
+                direction={orderBy === "var" ? order : "asc"}
+                onClick={() => handleRequestSort("var")}
+              >
+                <Tooltip
+                  arrow
+                  title={getTooltipText("Variation")}
+                  placement="top"
+                >
+                  Variation
+                </Tooltip>
+              </StyledTableCell>
+              <StyledTableCell
+                align="center"
+                active={orderBy === "date"}
+                direction={orderBy === "date" ? order : "asc"}
+                onClick={() => handleRequestSort("date")}
+              >
+                <Tooltip
+                  arrow
+                  title={getTooltipText("Last Date")}
+                  placement="top"
+                >
+                  Last Date
+                </Tooltip>
+              </StyledTableCell>
+              <StyledTableCell
+                align="center"
+                active={orderBy === "slot"}
+                direction={orderBy === "slot" ? order : "asc"}
+                onClick={() => handleRequestSort("slot")}
+              >
+                <Tooltip arrow title={getTooltipText("Slots")} placement="top">
+                  Slots
+                </Tooltip>
+              </StyledTableCell>
             </TableRow>
           </TableHead>
 
           <TableBody>
-            {data.map((tr, index) => (
+            {data.map((row, index) => (
               <StyledTableRow
                 key={index}
                 onClick={() => {
-                  handleModalOpen(tr.name);
+                  handleModalOpen(row.name);
                   setIsModalOpen(true);
                 }}
                 style={
-                  tr.var <= 5
-                    ? { backgroundColor: "white" }
-                    : tr.var <= 15
-                    ? { backgroundColor: "orange" }
-                    : tr.var <= 25
-                    ? { backgroundColor: "#BF8013" }
-                    : { backgroundColor: "red" }
+                  Math.abs(row.var) <= 5
+                    ? { backgroundColor: color1 }
+                    : Math.abs(row.var) <= 15
+                    ? { backgroundColor: color2 }
+                    : Math.abs(row.var) <= 25
+                    ? { backgroundColor: color3 }
+                    : { backgroundColor: color4 }
                 }
               >
-                <StyledTableCell align="left">{tr.source}</StyledTableCell>
-                <StyledTableCell align="left">{tr.name}</StyledTableCell>
+                <StyledTableCell align="left">{row.source}</StyledTableCell>
+                <StyledTableCell align="left">{row.name}</StyledTableCell>
                 <StyledTableCell align="center">
-                  {tr.frequence}
+                  {row.frequence}
                 </StyledTableCell>
-                <StyledTableCell align="right">{tr.valeur}</StyledTableCell>
-                <StyledTableCell align="center">{tr.var} %</StyledTableCell>
-                <StyledTableCell align="center">{tr.date}</StyledTableCell>
-                <StyledTableCell align="center">{tr.slot}</StyledTableCell>
+                <StyledTableCell align="right">
+                  {formatNumberMillien(row.valeur)}
+                </StyledTableCell>
+                <StyledTableCell align="center">{row.var} %</StyledTableCell>
+                <StyledTableCell align="center">{row.date}</StyledTableCell>
+                <StyledTableCell align="center">{row.slot}</StyledTableCell>
               </StyledTableRow>
             ))}
           </TableBody>
@@ -156,13 +288,104 @@ const DataGrid = () => {
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow>
-                  <StyledTableCell align="left">Source</StyledTableCell>
-                  <StyledTableCell align="left">KPIs</StyledTableCell>
-                  <StyledTableCell align="center">Fréquence</StyledTableCell>
-                  <StyledTableCell align="right">Valeur</StyledTableCell>
-                  <StyledTableCell align="center">Variation</StyledTableCell>
-                  <StyledTableCell align="center">Date</StyledTableCell>
-                  <StyledTableCell align="center">Slots</StyledTableCell>
+                  <StyledTableCell
+                    align="left"
+                    active={orderBy === "source"}
+                    direction={orderBy === "source" ? order : "asc"}
+                    onClick={() => handleRequestSort("source")}
+                  >
+                    <Tooltip
+                      arrow
+                      title={getTooltipText("Source")}
+                      placement="top"
+                    >
+                      Source
+                    </Tooltip>
+                  </StyledTableCell>
+                  <StyledTableCell
+                    align="left"
+                    active={orderBy === "name"}
+                    direction={orderBy === "name" ? order : "asc"}
+                    onClick={() => handleRequestSort("name")}
+                  >
+                    <Tooltip
+                      arrow
+                      title={getTooltipText("KPI")}
+                      placement="top"
+                    >
+                      KPI
+                    </Tooltip>
+                  </StyledTableCell>
+                  <StyledTableCell
+                    align="center"
+                    active={orderBy === "frequence"}
+                    direction={orderBy === "frequence" ? order : "asc"}
+                    onClick={() => handleRequestSort("frequence")}
+                  >
+                    <Tooltip
+                      arrow
+                      title={getTooltipText("Fréquence")}
+                      placement="top"
+                    >
+                      Fréquence
+                    </Tooltip>
+                  </StyledTableCell>
+                  <StyledTableCell
+                    align="right"
+                    active={orderBy === "valeur"}
+                    direction={orderBy === "valeur" ? order : "asc"}
+                    onClick={() => handleRequestSort("valeur")}
+                  >
+                    <Tooltip
+                      arrow
+                      title={getTooltipText("Valeur")}
+                      placement="top"
+                    >
+                      Valeur
+                    </Tooltip>
+                  </StyledTableCell>
+                  <StyledTableCell
+                    align="center"
+                    active={orderBy === "var"}
+                    direction={orderBy === "var" ? order : "asc"}
+                    onClick={() => handleRequestSort("var")}
+                  >
+                    <Tooltip
+                      arrow
+                      title={getTooltipText("Variation")}
+                      placement="top"
+                    >
+                      Variation
+                    </Tooltip>
+                  </StyledTableCell>
+                  <StyledTableCell
+                    align="center"
+                    active={orderBy === "date"}
+                    direction={orderBy === "date" ? order : "asc"}
+                    onClick={() => handleRequestSort("date")}
+                  >
+                    <Tooltip
+                      arrow
+                      title={getTooltipText("Last Date")}
+                      placement="top"
+                    >
+                      Last Date
+                    </Tooltip>
+                  </StyledTableCell>
+                  <StyledTableCell
+                    align="center"
+                    active={orderBy === "slot"}
+                    direction={orderBy === "slot" ? order : "asc"}
+                    onClick={() => handleRequestSort("slot")}
+                  >
+                    <Tooltip
+                      arrow
+                      title={getTooltipText("Slots")}
+                      placement="top"
+                    >
+                      Slots
+                    </Tooltip>
+                  </StyledTableCell>
                 </TableRow>
               </TableHead>
 
@@ -172,24 +395,22 @@ const DataGrid = () => {
                     key={index}
                     onClick={() => handleRowClick(row.name)}
                     style={
-                      row.var <= 5
-                        ? { backgroundColor: "white" }
-                        : row.var <= 15
-                        ? { backgroundColor: "orange" }
-                        : row.var <= 25
-                        ? { backgroundColor: "#BF8013" }
-                        : { backgroundColor: "red" }
+                      Math.abs(row.var) <= 5
+                        ? { backgroundColor: color1 }
+                        : Math.abs(row.var) <= 15
+                        ? { backgroundColor: color2 }
+                        : Math.abs(row.var) <= 25
+                        ? { backgroundColor: color3 }
+                        : { backgroundColor: color4 }
                     }
                   >
-                    <StyledTableCell align="left">
-                      {row.source}
-                    </StyledTableCell>
+                    <StyledTableCell align="left">{row.source}</StyledTableCell>
                     <StyledTableCell align="left">{row.name}</StyledTableCell>
                     <StyledTableCell align="center">
                       {row.frequence}
                     </StyledTableCell>
                     <StyledTableCell align="right">
-                      {row.valeur}
+                      {formatNumberMillien(row.valeur)}
                     </StyledTableCell>
                     <StyledTableCell align="center">
                       {row.var} %

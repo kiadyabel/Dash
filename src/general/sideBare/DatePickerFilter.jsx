@@ -146,7 +146,7 @@ export default function DatePickersFilters() {
                 marginBottom: "8px",
               }}
             >
-              <Typography sx={{ fontSize: "12px" }}>Max 5</Typography>
+              <Typography sx={{ fontSize: "12px" }}>Min 0</Typography>
               <CustomezedSliderSeuil
                 min={0}
                 max={5}
@@ -170,7 +170,7 @@ export default function DatePickersFilters() {
                 marginBottom: "8px",
               }}
             >
-              <Typography sx={{ fontSize: "12px" }}>Max 15</Typography>
+              <Typography sx={{ fontSize: "12px" }}>Min 5</Typography>
               <CustomezedSliderSeuil
                 min={5}
                 max={15}
@@ -194,7 +194,7 @@ export default function DatePickersFilters() {
                 marginBottom: "8px",
               }}
             >
-              <Typography sx={{ fontSize: "12px" }}>Max 25</Typography>
+              <Typography sx={{ fontSize: "12px" }}>Min 15</Typography>
               <CustomezedSliderSeuil
                 min={15}
                 max={25}
@@ -218,7 +218,7 @@ export default function DatePickersFilters() {
                   justifyContent: "space-between",
                 }}
               >
-                <Typography sx={{ fontSize: "12px" }}>Max 100</Typography>
+                <Typography sx={{ fontSize: "12px" }}>Min 25</Typography>
                 <CustomezedSliderSeuil
                   min={25}
                   max={100}

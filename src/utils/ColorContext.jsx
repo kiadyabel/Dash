@@ -10,7 +10,7 @@ export const useColorContext = () => useContext(ColorContext);
 export const ColorProvider = ({ children }) => {
   // État local pour les différentes couleurs
   const [color1, setColor1] = useState("#eeeeee"); // pour max 5
-  const [color2, setColor2] = useState("#ffa500"); // pour max 15
+  const [color2, setColor2] = useState("#f0c300"); // pour max 15
   const [color3, setColor3] = useState("#BF8013"); // pour max 25
   const [color4, setColor4] = useState("#f00020"); // pour max 100
 

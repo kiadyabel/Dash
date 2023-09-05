@@ -127,7 +127,7 @@ const DataGrid = () => {
       case "Fichier (traité DWH)":
         return "Fichier traité dans la base Data werhouse";
       case "Med vs BIG5":
-        return "Delta entre le fichier mediation et BIG";
+        return "Delta entre le fichier mediation et BIG5";
       case "Var fich":
         return "Variation Fichier";
       case "CDR":
@@ -178,7 +178,11 @@ const DataGrid = () => {
                 direction={orderBy === "mediation" ? order : "asc"}
                 onClick={() => handleRequestSort("mediation")}
               >
-                <Tooltip arrow title={getTooltipText("Fich Med")} placement="top">
+                <Tooltip
+                  arrow
+                  title={getTooltipText("Fich Med")}
+                  placement="top"
+                >
                   Fich Med
                 </Tooltip>
               </StyledTableCell>
@@ -188,7 +192,11 @@ const DataGrid = () => {
                 direction={orderBy === "big5" ? order : "asc"}
                 onClick={() => handleRequestSort("big5")}
               >
-                <Tooltip arrow title={getTooltipText("Fichier BIG5")} placement="top">
+                <Tooltip
+                  arrow
+                  title={getTooltipText("Fichier BIG5")}
+                  placement="top"
+                >
                   Fichier BIG5
                 </Tooltip>
               </StyledTableCell>
@@ -198,7 +206,8 @@ const DataGrid = () => {
                 direction={orderBy === "fichiers" ? order : "asc"}
                 onClick={() => handleRequestSort("fichiers")}
               >
-                <Tooltip arrow
+                <Tooltip
+                  arrow
                   title={getTooltipText("Fichier (traité DWH)")}
                   placement="top"
                 >
@@ -211,7 +220,11 @@ const DataGrid = () => {
                 direction={orderBy === "delta" ? order : "asc"}
                 onClick={() => handleRequestSort("delta")}
               >
-                <Tooltip arrow title={getTooltipText("Med vs BIG5")} placement="top">
+                <Tooltip
+                  arrow
+                  title={getTooltipText("Med vs BIG5")}
+                  placement="top"
+                >
                   Med vs BIG5
                 </Tooltip>
               </StyledTableCell>
@@ -221,7 +234,11 @@ const DataGrid = () => {
                 direction={orderBy === "var_fichiers" ? order : "asc"}
                 onClick={() => handleRequestSort("var_fichiers")}
               >
-                <Tooltip arrow title={getTooltipText("Var fich")} placement="top">
+                <Tooltip
+                  arrow
+                  title={getTooltipText("Var fich")}
+                  placement="top"
+                >
                   Var fich
                 </Tooltip>
               </StyledTableCell>
@@ -241,7 +258,11 @@ const DataGrid = () => {
                 direction={orderBy === "var_cdrs" ? order : "asc"}
                 onClick={() => handleRequestSort("var_cdrs")}
               >
-                <Tooltip arrow title={getTooltipText("Var CDR")} placement="top">
+                <Tooltip
+                  arrow
+                  title={getTooltipText("Var CDR")}
+                  placement="top"
+                >
                   Var CDR
                 </Tooltip>
               </StyledTableCell>
@@ -251,7 +272,8 @@ const DataGrid = () => {
                 direction={orderBy === "last_date" ? order : "asc"}
                 onClick={() => handleRequestSort("last_date")}
               >
-                <Tooltip arrow
+                <Tooltip
+                  arrow
                   title={getTooltipText("Date dernier CDR")}
                   placement="top"
                 >
@@ -272,13 +294,27 @@ const DataGrid = () => {
                 }}
                 style={{
                   backgroundColor:
-                    Math.abs(row.var_cdrs) <= 5
+                    Math.abs(row.var_cdrs) >= 0 &&
+                    Math.abs(row.var_cdrs) <= sliderValue1
                       ? color1
-                      : Math.abs(row.var_cdrs) <= 15
+                      : Math.abs(row.var_cdrs) <= 5
+                      ? "#eeeeee"
+                      : Math.abs(row.var_cdrs) > 5 &&
+                        Math.abs(row.var_cdrs) <= sliderValue2
                       ? color2
-                      : Math.abs(row.var_cdrs) <= 25
+                      : Math.abs(row.var_cdrs) <= 15
+                      ? "#f0c300"
+                      : Math.abs(row.var_cdrs) > 15 &&
+                        Math.abs(row.var_cdrs) <= sliderValue3
                       ? color3
-                      : color4,
+                      : Math.abs(row.var_cdrs) <= 25
+                      ? "#BF8013"
+                      : Math.abs(row.var_cdrs) > 25 &&
+                        Math.abs(row.var_cdrs) <= sliderValue4
+                      ? color4
+                      : Math.abs(row.var_cdrs) <= 100
+                      ? "#f00020"
+                      : "",
                   border: index === selectedRow ? "2px solid blue" : "none", // Ajouter une bordure si la ligne est sélectionnée
                 }}
                 className={row.source === "All" ? "fixed-row" : ""}
@@ -286,13 +322,17 @@ const DataGrid = () => {
                 <StyledTableCell align="left">{row.source}</StyledTableCell>
                 <StyledTableCell align="left">{row.type}</StyledTableCell>
                 <StyledTableCell align="center">
-                  {row.mediation}
+                  {formatNumberMillien(row.mediation)}
                 </StyledTableCell>
-                <StyledTableCell align="center">{row.big5}</StyledTableCell>
+                <StyledTableCell align="center">
+                  {formatNumberMillien(row.big5)}
+                </StyledTableCell>
                 <StyledTableCell align="right">
                   {formatNumberMillien(row.fichiers)}
                 </StyledTableCell>
-                <StyledTableCell align="center">{row.delta}</StyledTableCell>
+                <StyledTableCell align="center">
+                  {formatNumberMillien(row.delta)}
+                </StyledTableCell>
                 <StyledTableCell align="center">
                   {row.var_fichiers} %
                 </StyledTableCell>
@@ -354,7 +394,11 @@ const DataGrid = () => {
                     direction={orderBy === "source" ? order : "asc"}
                     onClick={() => handleRequestSort("source")}
                   >
-                    <Tooltip arrow title={getTooltipText("source")} placement="top">
+                    <Tooltip
+                      arrow
+                      title={getTooltipText("source")}
+                      placement="top"
+                    >
                       Source
                     </Tooltip>
                   </StyledTableCell>
@@ -364,7 +408,11 @@ const DataGrid = () => {
                     direction={orderBy === "type" ? order : "asc"}
                     onClick={() => handleRequestSort("type")}
                   >
-                    <Tooltip arrow title={getTooltipText("Type")} placement="top">
+                    <Tooltip
+                      arrow
+                      title={getTooltipText("Type")}
+                      placement="top"
+                    >
                       Type
                     </Tooltip>
                   </StyledTableCell>
@@ -374,7 +422,11 @@ const DataGrid = () => {
                     direction={orderBy === "mediation" ? order : "asc"}
                     onClick={() => handleRequestSort("mediation")}
                   >
-                    <Tooltip arrow title={getTooltipText("Fich Med")} placement="top">
+                    <Tooltip
+                      arrow
+                      title={getTooltipText("Fich Med")}
+                      placement="top"
+                    >
                       Fich Med
                     </Tooltip>
                   </StyledTableCell>
@@ -384,7 +436,8 @@ const DataGrid = () => {
                     direction={orderBy === "big5" ? order : "asc"}
                     onClick={() => handleRequestSort("big5")}
                   >
-                    <Tooltip arrow
+                    <Tooltip
+                      arrow
                       title={getTooltipText("Fichier BIG5")}
                       placement="top"
                     >
@@ -397,7 +450,8 @@ const DataGrid = () => {
                     direction={orderBy === "fichiers" ? order : "asc"}
                     onClick={() => handleRequestSort("fichiers")}
                   >
-                    <Tooltip arrow
+                    <Tooltip
+                      arrow
                       title={getTooltipText("Fichier (traité DWH)")}
                       placement="top"
                     >
@@ -410,7 +464,8 @@ const DataGrid = () => {
                     direction={orderBy === "delta" ? order : "asc"}
                     onClick={() => handleRequestSort("delta")}
                   >
-                    <Tooltip arrow
+                    <Tooltip
+                      arrow
                       title={getTooltipText("Med vs BIG5")}
                       placement="top"
                     >
@@ -423,7 +478,11 @@ const DataGrid = () => {
                     direction={orderBy === "var_fichiers" ? order : "asc"}
                     onClick={() => handleRequestSort("var_fichiers")}
                   >
-                    <Tooltip arrow title={getTooltipText("Var fich")} placement="top">
+                    <Tooltip
+                      arrow
+                      title={getTooltipText("Var fich")}
+                      placement="top"
+                    >
                       Var fich
                     </Tooltip>
                   </StyledTableCell>
@@ -433,7 +492,11 @@ const DataGrid = () => {
                     direction={orderBy === "cdrs" ? order : "asc"}
                     onClick={() => handleRequestSort("cdrs")}
                   >
-                    <Tooltip arrow title={getTooltipText("CDR")} placement="top">
+                    <Tooltip
+                      arrow
+                      title={getTooltipText("CDR")}
+                      placement="top"
+                    >
                       CDR
                     </Tooltip>
                   </StyledTableCell>
@@ -443,7 +506,11 @@ const DataGrid = () => {
                     direction={orderBy === "var_cdrs" ? order : "asc"}
                     onClick={() => handleRequestSort("var_cdrs")}
                   >
-                    <Tooltip arrow title={getTooltipText("Var CDR")} placement="top">
+                    <Tooltip
+                      arrow
+                      title={getTooltipText("Var CDR")}
+                      placement="top"
+                    >
                       Var CDR
                     </Tooltip>
                   </StyledTableCell>
@@ -453,7 +520,8 @@ const DataGrid = () => {
                     direction={orderBy === "last_date" ? order : "asc"}
                     onClick={() => handleRequestSort("last_date")}
                   >
-                    <Tooltip arrow
+                    <Tooltip
+                      arrow
                       title={getTooltipText("Date dernier CDR")}
                       placement="top"
                     >
@@ -482,7 +550,7 @@ const DataGrid = () => {
                             Math.abs(row.var_cdrs) <= sliderValue2
                           ? color2
                           : Math.abs(row.var_cdrs) <= 15
-                          ? "#ffa500"
+                          ? "#f0c300"
                           : Math.abs(row.var_cdrs) > 15 &&
                             Math.abs(row.var_cdrs) <= sliderValue3
                           ? color3
@@ -502,14 +570,16 @@ const DataGrid = () => {
                     <StyledTableCell align="left">{row.source}</StyledTableCell>
                     <StyledTableCell align="left">{row.type}</StyledTableCell>
                     <StyledTableCell align="center">
-                      {row.mediation}
+                      {formatNumberMillien(row.mediation)}
                     </StyledTableCell>
-                    <StyledTableCell align="center">{row.big5}</StyledTableCell>
+                    <StyledTableCell align="center">
+                      {formatNumberMillien(row.big5)}
+                    </StyledTableCell>
                     <StyledTableCell align="right">
                       {formatNumberMillien(row.fichiers)}
                     </StyledTableCell>
                     <StyledTableCell align="center">
-                      {row.delta}
+                      {formatNumberMillien(row.delta)}
                     </StyledTableCell>
                     <StyledTableCell align="center">
                       {row.var_fichiers} %

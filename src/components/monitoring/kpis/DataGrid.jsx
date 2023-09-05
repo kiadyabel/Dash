@@ -14,6 +14,7 @@ import { Box } from "@mui/material";
 import { useSelectedName } from "./OnClickValueKpis";
 import { useDateContext } from "../../../utils/DateContext";
 import { useColorContext } from "../../../utils/ColorContext";
+import { useSliderValues } from "../../../utils/SliderValueContext";
 import Tooltip from "@mui/material/Tooltip";
 
 import MobileRender from "./MobileRender";
@@ -47,8 +48,11 @@ const DataGrid = () => {
   const { selectedDate } = useDateContext(); // dateContext
 
   const { color1, color2, color3, color4 } = useColorContext(); // Utiliser le contexte des couleurs
+  const { sliderValue1, sliderValue2, sliderValue3, sliderValue4 } =
+    useSliderValues(); // Utiliser le contexte des valeurs dans le slider
 
   const [isModalOpen, setIsModalOpen] = useState(false); // État pour gérer l'ouverture/fermeture de la modal
+  const [selectedRow, setSelectedRow] = useState(null); //etat pour stocker la ligne selectionner
 
   // Gestion d'etat tri
   const [order, setOrder] = useState("desc"); // État pour l'ordre de tri (asc ou desc)
@@ -227,17 +231,33 @@ const DataGrid = () => {
                 key={index}
                 onClick={() => {
                   handleModalOpen(row.name);
+                  setSelectedRow(index); // Définir la ligne sélectionnée ici
                   setIsModalOpen(true);
                 }}
-                style={
-                  Math.abs(row.var) <= 5
-                    ? { backgroundColor: color1 }
-                    : Math.abs(row.var) <= 15
-                    ? { backgroundColor: color2 }
-                    : Math.abs(row.var) <= 25
-                    ? { backgroundColor: color3 }
-                    : { backgroundColor: color4 }
-                }
+                style={{
+                  backgroundColor:
+                    Math.abs(row.var) >= 0 && Math.abs(row.var) <= sliderValue1
+                      ? color1
+                      : Math.abs(row.var) <= 5
+                      ? "#eeeeee"
+                      : Math.abs(row.var) > 5 &&
+                        Math.abs(row.var) <= sliderValue2
+                      ? color2
+                      : Math.abs(row.var) <= 15
+                      ? "#f0c300"
+                      : Math.abs(row.var) > 15 &&
+                        Math.abs(row.var) <= sliderValue3
+                      ? color3
+                      : Math.abs(row.var) <= 25
+                      ? "#BF8013"
+                      : Math.abs(row.var) > 25 &&
+                        Math.abs(row.var) <= sliderValue4
+                      ? color4
+                      : Math.abs(row.var) <= 100
+                      ? "#f00020"
+                      : "",
+                  border: index === selectedRow ? "2px solid blue" : "none", // Ajouter une bordure si la ligne est sélectionnée
+                }}
               >
                 <StyledTableCell align="left">{row.source}</StyledTableCell>
                 <StyledTableCell align="left">{row.name}</StyledTableCell>
@@ -393,16 +413,35 @@ const DataGrid = () => {
                 {data.map((row, index) => (
                   <StyledTableRow
                     key={index}
-                    onClick={() => handleRowClick(row.name)}
-                    style={
-                      Math.abs(row.var) <= 5
-                        ? { backgroundColor: color1 }
-                        : Math.abs(row.var) <= 15
-                        ? { backgroundColor: color2 }
-                        : Math.abs(row.var) <= 25
-                        ? { backgroundColor: color3 }
-                        : { backgroundColor: color4 }
-                    }
+                    onClick={() => {
+                      handleRowClick(row.name);
+                      setSelectedRow(index); // Définir la ligne sélectionnée ici
+                    }}
+                    style={{
+                      backgroundColor:
+                        Math.abs(row.var) >= 0 &&
+                        Math.abs(row.var) <= sliderValue1
+                          ? color1
+                          : Math.abs(row.var) <= 5
+                          ? "#eeeeee"
+                          : Math.abs(row.var) > 5 &&
+                            Math.abs(row.var) <= sliderValue2
+                          ? color2
+                          : Math.abs(row.var) <= 15
+                          ? "#f0c300"
+                          : Math.abs(row.var) > 15 &&
+                            Math.abs(row.var) <= sliderValue3
+                          ? color3
+                          : Math.abs(row.var) <= 25
+                          ? "#BF8013"
+                          : Math.abs(row.var) > 25 &&
+                            Math.abs(row.var) <= sliderValue4
+                          ? color4
+                          : Math.abs(row.var) <= 100
+                          ? "#f00020"
+                          : "",
+                      border: index === selectedRow ? "2px solid blue" : "none", // Ajouter une bordure si la ligne est sélectionnée
+                    }}
                   >
                     <StyledTableCell align="left">{row.source}</StyledTableCell>
                     <StyledTableCell align="left">{row.name}</StyledTableCell>

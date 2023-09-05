@@ -10,7 +10,7 @@ import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import FilterAltIcon from "@mui/icons-material/FilterAlt";
 import AccountCircle from "@mui/icons-material/AccountCircle";
-import DatePickersFilters from "./DatePicker";
+import DatePickersFilters from "./DatePickerFilter";
 import { useDateContext } from "../../utils/DateContext";
 import logoOrange from "../../utils/image/logoOrange.png";
 import logoKrill from "../../utils/image/logoKrill.png";

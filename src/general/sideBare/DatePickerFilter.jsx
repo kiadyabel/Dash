@@ -9,10 +9,12 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { useDateContext } from "../../utils/DateContext";
 import { useColorContext } from "../../utils/ColorContext";
-import { Box, Typography } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import CustomezedSliderSeuil from "../../utils/CustomezedSliderSeuil";
+import FormatColorResetIcon from "@mui/icons-material/FormatColorReset";
 import { useSliderValues } from "../../utils/SliderValueContext";
+
 
 // Étendre Dayjs avec le plugin de format personnalisé
 dayjs.extend(customParseFormat);
@@ -63,6 +65,19 @@ export default function DatePickersFilters() {
     updateSelectedDate(dateConvertString); // Mettre à jour la date dans le contexte après avoir cliqué sur "Filtrer"
   };
 
+
+  const handleClikReinitialiseSliderValue = (event) => {
+    event.preventDefault();
+    setSliderValue1(5);
+    setSliderValue2(15);
+    setSliderValue3(25);
+    setSliderValue4(100);
+    setColor1("#eeeeee");
+    setColor2("#f0c300");
+    setColor3("#BF8013");
+    setColor4("#f00020");
+  };
+
   return (
     <>
       {isContentVisible && (
@@ -105,8 +120,22 @@ export default function DatePickersFilters() {
               flexDirection: "column",
             }}
           >
-            <Typography variant="h7" color="f5f5f5">
-              Couleurs selon le Seuil
+            <Typography variant="h7" color="f5f5f5" marginBottom={4}>
+              Couleurs selon le Seuil{"   "}
+              <Tooltip
+                title="Réinitialiser la couleur et valeur du seuil"
+                placement="top"
+              >
+                <IconButton
+                  onClick={(e) => handleClikReinitialiseSliderValue(e)}
+                >
+                  <FormatColorResetIcon
+                    style={{
+                      color: "inherit",
+                    }}
+                  />
+                </IconButton>
+              </Tooltip>
             </Typography>
             <Box
               sx={{
@@ -129,7 +158,7 @@ export default function DatePickersFilters() {
                 type="color"
                 value={color1}
                 onChange={(e) => setColor1(e.target.value)}
-                style={{ cursor: "pointer" }}
+                style={{ cursor: "pointer", marginLeft: "8px" }}
               />
             </Box>
             <Box
@@ -153,7 +182,7 @@ export default function DatePickersFilters() {
                 type="color"
                 value={color2}
                 onChange={(e) => setColor2(e.target.value)}
-                style={{ cursor: "pointer" }}
+                style={{ cursor: "pointer", marginLeft: "8px" }}
               />
             </Box>
             <Box
@@ -177,7 +206,7 @@ export default function DatePickersFilters() {
                 type="color"
                 value={color3}
                 onChange={(e) => setColor3(e.target.value)}
-                style={{ cursor: "pointer" }}
+                style={{ cursor: "pointer", marginLeft: "8px" }}
               />
             </Box>
             <Box>
@@ -201,7 +230,7 @@ export default function DatePickersFilters() {
                   type="color"
                   value={color4}
                   onChange={(e) => setColor4(e.target.value)}
-                  style={{ cursor: "pointer" }}
+                  style={{ cursor: "pointer", marginLeft: "8px" }}
                 />
               </Box>
             </Box>

@@ -387,7 +387,7 @@ const DataGrid = () => {
           >
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
-                <TableRow>
+                <TableRow style={{height:"30px"}}>
                   <StyledTableCell
                     align="left"
                     active={orderBy === "source"}

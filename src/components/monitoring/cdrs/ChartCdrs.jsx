@@ -61,7 +61,7 @@ const ChartCdrs = () => {
     tooltip: {
       trigger: "axis",
       position: function (pt) {
-        return [pt[0], "10%"];
+        return [pt[0] - 100, "10%"];
       },
     },
     // Configuration du titre

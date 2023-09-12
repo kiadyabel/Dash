@@ -20,6 +20,8 @@ import Tooltip from "@mui/material/Tooltip";
 import MobileRender from "./MobileRender";
 import numeral from "numeral";
 
+import { useTranslation } from "react-i18next"; // utiliser pour la translation
+
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -42,6 +44,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const DataGrid = () => {
+  const { t } = useTranslation(); // translation
   const [data, setData] = useState([]); // donner vien de l'api
   const [isLoading, setIsLoading] = useState(true); // Circleprogress
   const { setSelectedName } = useSelectedName(); // // Utilisez le hook useSelectedName pour accéder aux méthodes du contexte.
@@ -70,8 +73,19 @@ const DataGrid = () => {
 
         // Triez les données en fonction de l'ordre et de l'en-tête(table) de tri
         const comparator = (a, b) => {
-          if (a[orderBy] < b[orderBy]) return order === "asc" ? -1 : 1;
-          if (a[orderBy] > b[orderBy]) return order === "asc" ? 1 : -1;
+          if (orderBy === "var") {
+            // Tri spécifique pour la colonne var_cdrs
+            const absoluteA = Math.abs(a.var);
+            const absoluteB = Math.abs(b.var);
+
+            if (absoluteA < absoluteB) return order === "asc" ? -1 : 1;
+            if (absoluteA > absoluteB) return order === "asc" ? 1 : -1;
+          } else {
+            // Tri par défaut pour les autres colonnes
+            if (a[orderBy] < b[orderBy]) return order === "asc" ? -1 : 1;
+            if (a[orderBy] > b[orderBy]) return order === "asc" ? 1 : -1;
+          }
+
           return 0;
         };
 
@@ -111,19 +125,19 @@ const DataGrid = () => {
   const getTooltipText = (column) => {
     switch (column) {
       case "Source":
-        return "Source par KPI";
+        return t("source_kpi");
       case "KPI":
         return "Nom du KPI";
       case "Fréquence":
         return "Fréquence";
       case "Valeur":
-        return "Valeur du KPI";
+        return t("valeur_kpi");
       case "Variation":
-        return "Variation du KPI";
+        return t("variation_kpi");
       case "Last Date":
-        return "Dernier date du KPI";
+        return t("Date_dernier_kpi");
       case "Slots":
-        return "Slots du KPI";
+        return t("slot_kpi");
 
       default:
         return "";
@@ -147,7 +161,7 @@ const DataGrid = () => {
                 onClick={() => handleRequestSort("source")}
               >
                 <Tooltip arrow title={getTooltipText("Source")} placement="top">
-                  Source
+                  {t("source_ttl")}
                 </Tooltip>
               </StyledTableCell>
               <StyledTableCell
@@ -157,7 +171,7 @@ const DataGrid = () => {
                 onClick={() => handleRequestSort("name")}
               >
                 <Tooltip arrow title={getTooltipText("KPI")} placement="top">
-                  KPI
+                  {t("KPI")}
                 </Tooltip>
               </StyledTableCell>
               <StyledTableCell
@@ -171,7 +185,7 @@ const DataGrid = () => {
                   title={getTooltipText("Fréquence")}
                   placement="top"
                 >
-                  Fréquence
+                  {t("fequence_ttl")}
                 </Tooltip>
               </StyledTableCell>
               <StyledTableCell
@@ -181,7 +195,7 @@ const DataGrid = () => {
                 onClick={() => handleRequestSort("valeur")}
               >
                 <Tooltip arrow title={getTooltipText("Valeur")} placement="top">
-                  Valeur
+                  {t("valeur_ttl")}
                 </Tooltip>
               </StyledTableCell>
               <StyledTableCell
@@ -195,7 +209,7 @@ const DataGrid = () => {
                   title={getTooltipText("Variation")}
                   placement="top"
                 >
-                  Variation
+                  {"variation_ttl"}
                 </Tooltip>
               </StyledTableCell>
               <StyledTableCell
@@ -209,7 +223,7 @@ const DataGrid = () => {
                   title={getTooltipText("Last Date")}
                   placement="top"
                 >
-                  Last Date
+                  {t("date_kpi_ttl")}
                 </Tooltip>
               </StyledTableCell>
               <StyledTableCell
@@ -219,7 +233,7 @@ const DataGrid = () => {
                 onClick={() => handleRequestSort("slot")}
               >
                 <Tooltip arrow title={getTooltipText("Slots")} placement="top">
-                  Slots
+                  {t("slot_ttl")}
                 </Tooltip>
               </StyledTableCell>
             </TableRow>
@@ -319,7 +333,7 @@ const DataGrid = () => {
                       title={getTooltipText("Source")}
                       placement="top"
                     >
-                      Source
+                      {t("source_ttl")}
                     </Tooltip>
                   </StyledTableCell>
                   <StyledTableCell
@@ -333,7 +347,7 @@ const DataGrid = () => {
                       title={getTooltipText("KPI")}
                       placement="top"
                     >
-                      KPI
+                      {t("KPI")}
                     </Tooltip>
                   </StyledTableCell>
                   <StyledTableCell
@@ -347,7 +361,7 @@ const DataGrid = () => {
                       title={getTooltipText("Fréquence")}
                       placement="top"
                     >
-                      Fréquence
+                      {t("fequence_ttl")}
                     </Tooltip>
                   </StyledTableCell>
                   <StyledTableCell
@@ -361,7 +375,7 @@ const DataGrid = () => {
                       title={getTooltipText("Valeur")}
                       placement="top"
                     >
-                      Valeur
+                      {t("valeur_ttl")}
                     </Tooltip>
                   </StyledTableCell>
                   <StyledTableCell
@@ -375,7 +389,7 @@ const DataGrid = () => {
                       title={getTooltipText("Variation")}
                       placement="top"
                     >
-                      Variation
+                      {t("variation_ttl")}
                     </Tooltip>
                   </StyledTableCell>
                   <StyledTableCell
@@ -389,7 +403,7 @@ const DataGrid = () => {
                       title={getTooltipText("Last Date")}
                       placement="top"
                     >
-                      Last Date
+                      {t("date_kpi_ttl")}
                     </Tooltip>
                   </StyledTableCell>
                   <StyledTableCell
@@ -403,7 +417,7 @@ const DataGrid = () => {
                       title={getTooltipText("Slots")}
                       placement="top"
                     >
-                      Slots
+                      {t("slot_ttl")}
                     </Tooltip>
                   </StyledTableCell>
                 </TableRow>

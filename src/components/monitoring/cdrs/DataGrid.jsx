@@ -16,6 +16,7 @@ import { useDateContext } from "../../../utils/DateContext";
 import { useColorContext } from "../../../utils/ColorContext";
 import numeral from "numeral";
 import { useSliderValues } from "../../../utils/SliderValueContext";
+import { useTranslation } from "react-i18next"; // utiliser pour la traduction
 
 import MobileRender from "./MobileRender";
 
@@ -39,6 +40,8 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 const DataGrid = () => {
+  const { t } = useTranslation();
+
   const [data, setData] = useState([]); // donner qui vien de l'api , à rendre sur la table
   const [isLoading, setIsLoading] = useState(true); // pour le circularebar
   const { setSelectedType } = useSelectedType(); // Utilisez le hook useSelectedType pour accéder aux méthodes du contexte.
@@ -64,12 +67,22 @@ const DataGrid = () => {
 
         const fetchedData = await FetchData(type, date, null);
 
-        // Triez les données en fonction de l'ordre et de l'en-tête(table) de tri
         const comparator = (a, b) => {
           if (a.source === "All") return -1; // "All" toujours en haut
-          if (b.source === "All") return 1;
-          if (a[orderBy] < b[orderBy]) return order === "asc" ? -1 : 1;
-          if (a[orderBy] > b[orderBy]) return order === "asc" ? 1 : -1;
+
+          if (orderBy === "var_cdrs") {
+            // Tri spécifique pour la colonne var_cdrs
+            const absoluteA = Math.abs(a.var_cdrs);
+            const absoluteB = Math.abs(b.var_cdrs);
+
+            if (absoluteA < absoluteB) return order === "asc" ? -1 : 1;
+            if (absoluteA > absoluteB) return order === "asc" ? 1 : -1;
+          } else {
+            // Tri par défaut pour les autres colonnes
+            if (a[orderBy] < b[orderBy]) return order === "asc" ? -1 : 1;
+            if (a[orderBy] > b[orderBy]) return order === "asc" ? 1 : -1;
+          }
+
           return 0;
         };
 
@@ -117,25 +130,25 @@ const DataGrid = () => {
   const getTooltipText = (column) => {
     switch (column) {
       case "source":
-        return "Source par CDR";
+        return t("source_cdr");
       case "Type":
-        return "Type de CDR";
+        return t("Type_cdr");
       case "Fich Med":
-        return "Fichier mediation";
+        return t("Fich_Med");
       case "Fichier BIG5":
-        return "Fichier BIG5";
+        return t("Fichier_BIG5");
       case "Fichier (traité DWH)":
-        return "Fichier traité dans la base Data werhouse";
+        return t("Fichier_dwh");
       case "Med vs BIG5":
-        return "Delta entre le fichier mediation et BIG5";
+        return t("Med_vs_BIG5");
       case "Var fich":
-        return "Variation Fichier";
+        return t("Var_fich");
       case "CDR":
-        return "Nombre de CDR";
+        return t("CDR");
       case "Var CDR":
-        return "Variation de CDR";
+        return t("Var_CDR");
       case "Date dernier CDR":
-        return "Dernier date de CDR";
+        return t("Date_dernier_CDR");
 
       default:
         return "";
@@ -151,7 +164,7 @@ const DataGrid = () => {
       >
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
-            <TableRow>
+            <TableRow style={{ height: "30px" }}>
               <StyledTableCell
                 align="left"
                 active={orderBy === "source"}
@@ -159,7 +172,7 @@ const DataGrid = () => {
                 onClick={() => handleRequestSort("source")}
               >
                 <Tooltip arrow title={getTooltipText("source")} placement="top">
-                  Source
+                  {t("source_ttl")}
                 </Tooltip>
               </StyledTableCell>
               <StyledTableCell
@@ -169,7 +182,7 @@ const DataGrid = () => {
                 onClick={() => handleRequestSort("type")}
               >
                 <Tooltip arrow title={getTooltipText("Type")} placement="top">
-                  Type
+                  {t("type_ttl")}
                 </Tooltip>
               </StyledTableCell>
               <StyledTableCell
@@ -183,7 +196,7 @@ const DataGrid = () => {
                   title={getTooltipText("Fich Med")}
                   placement="top"
                 >
-                  Fich Med
+                  {t("fich_med_ttl")}
                 </Tooltip>
               </StyledTableCell>
               <StyledTableCell
@@ -197,7 +210,7 @@ const DataGrid = () => {
                   title={getTooltipText("Fichier BIG5")}
                   placement="top"
                 >
-                  Fichier BIG5
+                  {t("fich_big5_ttl")}
                 </Tooltip>
               </StyledTableCell>
               <StyledTableCell
@@ -211,7 +224,7 @@ const DataGrid = () => {
                   title={getTooltipText("Fichier (traité DWH)")}
                   placement="top"
                 >
-                  Fichier (traité DWH)
+                  {t("fich_traite_dwh_ttl")}
                 </Tooltip>
               </StyledTableCell>
               <StyledTableCell
@@ -225,7 +238,7 @@ const DataGrid = () => {
                   title={getTooltipText("Med vs BIG5")}
                   placement="top"
                 >
-                  Med vs BIG5
+                  {t("med_vs_big5_ttl")}
                 </Tooltip>
               </StyledTableCell>
               <StyledTableCell
@@ -239,7 +252,7 @@ const DataGrid = () => {
                   title={getTooltipText("Var fich")}
                   placement="top"
                 >
-                  Var fich
+                  {t("var_fich_ttl")}
                 </Tooltip>
               </StyledTableCell>
               <StyledTableCell
@@ -249,7 +262,7 @@ const DataGrid = () => {
                 onClick={() => handleRequestSort("cdrs")}
               >
                 <Tooltip arrow title={getTooltipText("CDR")} placement="top">
-                  CDR
+                  {t("cdr_ttl")}
                 </Tooltip>
               </StyledTableCell>
               <StyledTableCell
@@ -263,7 +276,7 @@ const DataGrid = () => {
                   title={getTooltipText("Var CDR")}
                   placement="top"
                 >
-                  Var CDR
+                  {t("var_cdr_ttl")}
                 </Tooltip>
               </StyledTableCell>
               <StyledTableCell
@@ -277,7 +290,7 @@ const DataGrid = () => {
                   title={getTooltipText("Date dernier CDR")}
                   placement="top"
                 >
-                  Date dernier CDR
+                  {t("date_cdr_ttl_cdr")}
                 </Tooltip>
               </StyledTableCell>
             </TableRow>
@@ -387,7 +400,7 @@ const DataGrid = () => {
           >
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
-                <TableRow style={{height:"30px"}}>
+                <TableRow style={{ height: "30px" }}>
                   <StyledTableCell
                     align="left"
                     active={orderBy === "source"}
@@ -399,7 +412,7 @@ const DataGrid = () => {
                       title={getTooltipText("source")}
                       placement="top"
                     >
-                      Source
+                      {t("source_ttl")}
                     </Tooltip>
                   </StyledTableCell>
                   <StyledTableCell
@@ -413,7 +426,7 @@ const DataGrid = () => {
                       title={getTooltipText("Type")}
                       placement="top"
                     >
-                      Type
+                      {t("type_ttl")}
                     </Tooltip>
                   </StyledTableCell>
                   <StyledTableCell
@@ -427,7 +440,7 @@ const DataGrid = () => {
                       title={getTooltipText("Fich Med")}
                       placement="top"
                     >
-                      Fich Med
+                      {t("fich_med_ttl")}
                     </Tooltip>
                   </StyledTableCell>
                   <StyledTableCell
@@ -441,7 +454,7 @@ const DataGrid = () => {
                       title={getTooltipText("Fichier BIG5")}
                       placement="top"
                     >
-                      Fichier BIG5
+                      {t("fich_big5_ttl")}
                     </Tooltip>
                   </StyledTableCell>
                   <StyledTableCell
@@ -455,7 +468,7 @@ const DataGrid = () => {
                       title={getTooltipText("Fichier (traité DWH)")}
                       placement="top"
                     >
-                      Fichier (traité DWH)
+                      {t("fich_traite_dwh_ttl")}
                     </Tooltip>
                   </StyledTableCell>
                   <StyledTableCell
@@ -469,7 +482,7 @@ const DataGrid = () => {
                       title={getTooltipText("Med vs BIG5")}
                       placement="top"
                     >
-                      Med vs BIG5
+                      {t("med_vs_big5_ttl")}
                     </Tooltip>
                   </StyledTableCell>
                   <StyledTableCell
@@ -483,7 +496,7 @@ const DataGrid = () => {
                       title={getTooltipText("Var fich")}
                       placement="top"
                     >
-                      Var fich
+                      {t("var_fich_ttl")}
                     </Tooltip>
                   </StyledTableCell>
                   <StyledTableCell
@@ -497,7 +510,7 @@ const DataGrid = () => {
                       title={getTooltipText("CDR")}
                       placement="top"
                     >
-                      CDR
+                      {t("cdr_ttl")}
                     </Tooltip>
                   </StyledTableCell>
                   <StyledTableCell
@@ -511,7 +524,7 @@ const DataGrid = () => {
                       title={getTooltipText("Var CDR")}
                       placement="top"
                     >
-                      Var CDR
+                      {t("var_cdr_ttl")}
                     </Tooltip>
                   </StyledTableCell>
                   <StyledTableCell
@@ -525,7 +538,7 @@ const DataGrid = () => {
                       title={getTooltipText("Date dernier CDR")}
                       placement="top"
                     >
-                      Date dernier CDR
+                      {t("date_cdr_ttl_cdr")}
                     </Tooltip>
                   </StyledTableCell>
                 </TableRow>

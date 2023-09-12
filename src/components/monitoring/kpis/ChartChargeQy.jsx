@@ -11,9 +11,13 @@ import ReactECharts from "echarts-for-react"; // Import de ReactECharts depuis l
 
 import numeral from "numeral"; // Import de la bibliothèque numeral pour le formatage des nombres
 import ModalChart from "../../../utils/ModalChart"; // Import d'un composant ModalChart depuis un chemin relatif
+import { useTranslation } from "react-i18next"; // utiliser pour la translation
+
+
 
 // Définition du composant ChartChargeQy
 const ChartChargeQy = () => {
+  const { t } = useTranslation(); // translation
   // Hooks d'état
   const [val, setVal] = useState([]); // données
   const [dataValue, setDataValue] = useState([]); // État pour stocker les valeurs qty_files
@@ -69,7 +73,7 @@ const ChartChargeQy = () => {
     // Configuration du titre
     title: {
       left: "center",
-      text: `${selectedName}  par tranche horaire`,
+      text: `${selectedName}  ${t("evaluation_horaire")}`,
     },
     // Configuration de la boîte à outils
     toolbox: {
@@ -134,16 +138,15 @@ const ChartChargeQy = () => {
   return (
     <div>
       {/* Bouton pour ouvrir le modal */}
-      {shouldRenderChart &&
-        !isTabletOrMobile &&(
-          <IconButton
-            title="zoom"
-            sx={{ cursor: "pointer", float: "left", zIndex: 12 }}
-            onClick={() => setShowModal(!showModal)} // Inversion de la valeur de showModal au clic
-          >
-            <CenterFocusWeakIcon /> {/* Icône */}
-          </IconButton>
-        )}
+      {shouldRenderChart && !isTabletOrMobile && (
+        <IconButton
+          title="zoom"
+          sx={{ cursor: "pointer", float: "left", zIndex: 12 }}
+          onClick={() => setShowModal(!showModal)} // Inversion de la valeur de showModal au clic
+        >
+          <CenterFocusWeakIcon /> {/* Icône */}
+        </IconButton>
+      )}
 
       <div style={{ position: "relative" }}>
         {/* Affichage du graphique si le chargement est terminé */}

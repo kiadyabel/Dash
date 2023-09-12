@@ -5,11 +5,15 @@ import DataGrid from "./DataGrid"; // Import d'un composant DataGrid depuis un c
 import ChartKpis from "./ChartKpis"; // Import d'un composant ChartKpis depuis un chemin relatif
 import ChartChargeQy from "./ChartChargeQy"; // Import d'un composant ChartChargeQy depuis un chemin relatif
 import { useSelectedName } from "./OnClickValueKpis"; // Import d'un hook custom depuis un chemin relatif
+import { useTranslation } from "react-i18next"; // utiliser pour la translation
+
 
 // Définition du composant BodyKpis
 const BodyKpis = () => {
   // Utilisation du hook custom useSelectedName pour obtenir la valeur sélectionnée
   const { selectedName } = useSelectedName();
+
+  const { t } = useTranslation(); // translation
 
   // Rendu du composant
   return (
@@ -34,7 +38,7 @@ const BodyKpis = () => {
             display: { xs: "none", sm: "none", md: "block" },
           }}
         >
-          Evolution du KPI :{"  "} {selectedName}
+          {t("evaluation_kpi")} :{"  "} {selectedName}
           {/* Utilisation de la valeur sélectionnée */}
         </Typography>
         {/* Rendu des composants ChartKpis et ChartChargeQy */}

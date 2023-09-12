@@ -14,7 +14,7 @@ import DatePickersFilters from "./DatePickerFilter";
 import { useDateContext } from "../../utils/DateContext";
 import logoOrange from "../../utils/image/logoOrange.png";
 import logoKrill from "../../utils/image/logoKrill.png";
-
+import LanguageSwitcher from "../../utils/SelectLangue";
 // Largeur du sidebar
 const drawerWidth = 150;
 
@@ -161,6 +161,7 @@ const AppBarDash = () => {
             >
               <AccountCircle />
             </IconButton>
+            <LanguageSwitcher/>
             {/* DatePickersFilters */}
             {showDatePickers && (
               <div style={{ position: "absolute", right: "50px", top: "63px" }}>

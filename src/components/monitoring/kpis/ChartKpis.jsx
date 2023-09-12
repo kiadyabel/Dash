@@ -9,9 +9,13 @@ import numeral from "numeral"; // Import de la bibliothèque numeral pour le for
 import ReactECharts from "echarts-for-react"; // Import de ReactECharts depuis la bibliothèque echarts-for-react
 import ModalChart from "../../../utils/ModalChart"; // Import d'un composant ModalChart depuis un chemin relatif
 import CenterFocusWeakIcon from "@mui/icons-material/CenterFocusWeak"; // Import de l'icône CenterFocusWeak depuis la bibliothèque MUI
+import { useTranslation } from "react-i18next"; // utiliser pour la translation
+
+
 
 // Définition du composant ChartKpis
 const ChartKpis = () => {
+  const { t } = useTranslation(); // translation
   // Hooks d'état
   const [val, setVal] = useState([]); // données
   const [dataValue, setDataValue] = useState([]); // État pour stocker les valeurs qty_files
@@ -20,7 +24,6 @@ const ChartKpis = () => {
   const { selectedName } = useSelectedName(); // Utilisation du hook custom useSelectedName pour obtenir la valeur sélectionnée
   const { selectedDate } = useDateContext(); // Utilisation du hook custom useDateContext pour obtenir la date sélectionnée
   const [showModal, setShowModal] = useState(false); // État pour gérer l'affichage du modal
-
 
   // Vérifiez si l'écran est une tablette ou un mobile
   const isTabletOrMobile = useMediaQuery((theme) =>
@@ -62,13 +65,13 @@ const ChartKpis = () => {
     tooltip: {
       trigger: "axis",
       position: function (pt) {
-        return [pt[0]-200, "10%"];
+        return [pt[0] - 200, "10%"];
       },
     },
     // Configuration du titre
     title: {
       left: "center",
-      text: `${selectedName}  par jour`, // Titre du graphique
+      text: `${selectedName}  ${t("evaluation_jour")}`, // Titre du graphique
     },
     // Configuration de la boîte à outils
     toolbox: {
@@ -118,16 +121,15 @@ const ChartKpis = () => {
   return (
     <div>
       {/* Bouton pour ouvrir le modal */}
-      {shouldRenderChart &&
-        !isTabletOrMobile &&(
-          <IconButton
-            title="zoom"
-            sx={{ cursor: "pointer", float: "left", zIndex: 12 }}
-            onClick={() => setShowModal(!showModal)} // Inversion de la valeur de showModal au clic
-          >
-            <CenterFocusWeakIcon /> {/* Icône */}
-          </IconButton>
-        )}
+      {shouldRenderChart && !isTabletOrMobile && (
+        <IconButton
+          title="zoom"
+          sx={{ cursor: "pointer", float: "left", zIndex: 12 }}
+          onClick={() => setShowModal(!showModal)} // Inversion de la valeur de showModal au clic
+        >
+          <CenterFocusWeakIcon /> {/* Icône */}
+        </IconButton>
+      )}
       <div style={{ position: "relative" }}>
         {/* Affichage du graphique si le chargement est terminé */}
         {shouldRenderChart && (

@@ -11,9 +11,11 @@ import { useState, useEffect } from "react";
 import { FetchData } from "../../utils/FetchData";
 import { useDateContext } from "../../utils/DateContext";
 import numeral from "numeral";
-
+import { useTranslation } from "react-i18next";
 
 const Vignette = () => {
+  const { t } = useTranslation(); // translation 
+
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { selectedDate } = useDateContext(); // dateContext
@@ -68,7 +70,7 @@ const Vignette = () => {
                     color="#707070"
                     component="div"
                   >
-                    fichier
+                    {t('fichier')}
                   </Typography>
                   <Typography sx={{ fontWeight: "bold", color: "blue" }}>
                     {formatNumberMillien(val.value)}

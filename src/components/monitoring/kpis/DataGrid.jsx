@@ -361,7 +361,7 @@ const DataGrid = () => {
                       title={getTooltipText("Fréquence")}
                       placement="top"
                     >
-                      {t("fequence_ttl")}
+                      {t("frequence_ttl")}
                     </Tooltip>
                   </StyledTableCell>
                   <StyledTableCell

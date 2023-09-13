@@ -101,7 +101,7 @@ export default function DatePickersFilters() {
             <DemoContainer components={["DatePicker"]}>
               {/* DatePicker avec le TextField associé */}
               <DatePicker
-                label="Sélectionner une date"
+                label={t("selection_date")}
                 value={dayjs(selectedDate, "DD-MM-YYYY")}
                 onChange={handleDateChange}
                 dateFormat="DD-MM-YYYY"
@@ -121,13 +121,14 @@ export default function DatePickersFilters() {
               flexDirection: "column",
             }}
           >
-            <Typography sx={{fontSize:"12px"}} color="f5f5f5" marginBottom={4}>
+            <Typography
+              sx={{ fontSize: "12px" }}
+              color="f5f5f5"
+              marginBottom={4}
+            >
               {t("couleur_seuil")}
               {"   "}
-              <Tooltip
-                title="Réinitialiser la couleur et valeur du seuil"
-                placement="top"
-              >
+              <Tooltip title={t("reinitialise_couleur")} placement="top">
                 <IconButton
                   onClick={(e) => handleClikReinitialiseSliderValue(e)}
                 >

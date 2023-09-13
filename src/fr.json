@@ -40,5 +40,6 @@
 
   "filtrer":"Filtrer",
   "couleur_seuil":"Couleur selon le seuil",
-  "reinitialise_couleur":"Réinitialiser la couleur et valeur du seuil"
+  "reinitialise_couleur":"Réinitialiser la couleur et valeur du seuil",
+  "selection_date":"sélectionner une date"
 }

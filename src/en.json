@@ -40,5 +40,6 @@
 
   "filtrer": "Filter",
   "couleur_seuil": "Color according to threshold",
-  "reinitialise_couleur": "Reset color and threshold value"
+  "reinitialise_couleur": "Reset color and threshold value",
+  "selection_date": "select a date"
 }

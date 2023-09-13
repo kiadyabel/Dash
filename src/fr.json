@@ -7,13 +7,14 @@
   "med_vs_big5_ttl": "Med vs BIG5",
   "var_fich_ttl": "Var Fich",
   "cdr_ttl": "CDR",
+  "kpi_ttl": "KPI",
   "var_cdr_ttl": "Var CDR",
   "date_cdr_ttl_cdr": "Date dernier CDR",
-  "fequence_ttl": "Fréquence",
+  "frequence_ttl": "Fréquence",
   "date_kpi_ttl": "Dernier date",
   "variation_ttl": "Variation",
   "valeur_ttl": "Valeur",
-  "slot_ttl":"Slots",
+  "slot_ttl": "Slots",
 
   "fichier": "fichier",
   "source_cdr": "Source",
@@ -28,18 +29,19 @@
   "Date_dernier_CDR": "Dernier date de CDR",
   "evaluation_cdr": "Evolution du volume par type",
 
-  "KPI":"KPI",
+  "KPI": "Nom du KPI",
   "source_kpi": "Source par KPI",
+  "frequence": "Fréquence",
   "valeur_kpi": "Valeur de KPI",
   "Date_dernier_kpi": "Dernier date de KPI",
   "variation_kpi": "variation du KPI",
   "evaluation_kpi": "Evolution du KPI",
   "slot_kpi": "Slots du KPI",
-  "evaluation_jour":"par jour",
-  "evaluation_horaire":"par tranche horaire",
+  "evaluation_jour": "par jour",
+  "evaluation_horaire": "par tranche horaire",
 
-  "filtrer":"Filtrer",
-  "couleur_seuil":"Couleur selon le seuil",
-  "reinitialise_couleur":"Réinitialiser la couleur et valeur du seuil",
-  "selection_date":"sélectionner une date"
+  "filtrer": "Filtrer",
+  "couleur_seuil": "Couleur selon le seuil",
+  "reinitialise_couleur": "Réinitialiser la couleur et valeur du seuil",
+  "selection_date": "sélectionner une date"
 }

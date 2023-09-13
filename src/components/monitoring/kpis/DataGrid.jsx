@@ -127,9 +127,9 @@ const DataGrid = () => {
       case "Source":
         return t("source_kpi");
       case "KPI":
-        return "Nom du KPI";
+        return t("KPI");
       case "Fréquence":
-        return "Fréquence";
+        return t("frequence");
       case "Valeur":
         return t("valeur_kpi");
       case "Variation":
@@ -171,7 +171,7 @@ const DataGrid = () => {
                 onClick={() => handleRequestSort("name")}
               >
                 <Tooltip arrow title={getTooltipText("KPI")} placement="top">
-                  {t("KPI")}
+                  {t("kpi_ttl")}
                 </Tooltip>
               </StyledTableCell>
               <StyledTableCell
@@ -185,7 +185,7 @@ const DataGrid = () => {
                   title={getTooltipText("Fréquence")}
                   placement="top"
                 >
-                  {t("fequence_ttl")}
+                  {t("frequence_ttl")}
                 </Tooltip>
               </StyledTableCell>
               <StyledTableCell
@@ -347,7 +347,7 @@ const DataGrid = () => {
                       title={getTooltipText("KPI")}
                       placement="top"
                     >
-                      {t("KPI")}
+                      {t("kpi_ttl")}
                     </Tooltip>
                   </StyledTableCell>
                   <StyledTableCell

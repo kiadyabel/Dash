@@ -3,8 +3,12 @@ import { Box, Modal, Typography, useMediaQuery } from "@mui/material";
 import ChartFichier from "./ChartFichier"; // Import d'un composant ChartFichier depuis un chemin relatif
 import ChartCdrs from "./ChartCdrs"; // Import d'un composant ChartCdrs depuis un chemin relatif
 import { useSelectedType } from "./onClickValueCdrs"; // Import d'un hook custom depuis un chemin relatif
+import { useTranslation } from "react-i18next"; // utiliser pour la translation
+
 
 const MobileRender = ({ isModalOpen, closeModal }) => {
+  const { t } = useTranslation(); // translation
+
   // Utilisation du hook custom useSelectedType pour obtenir la valeur sélectionnée
   const { selectedType } = useSelectedType();
   // Vérifie si l'écran est de taille tablette en utilisant le breakpoint "md"
@@ -32,8 +36,8 @@ const MobileRender = ({ isModalOpen, closeModal }) => {
           backgroundColor: "#f5f5f5",
           boxShadow: "2px 6px 14px black",
           paddingBottom: 20,
-          paddingLeft:8,
-          paddingRight:8
+          paddingLeft: 8,
+          paddingRight: 8,
         }}
       >
         <Typography
@@ -45,7 +49,7 @@ const MobileRender = ({ isModalOpen, closeModal }) => {
             padding: 2,
           }}
         >
-          Evolution du nombre de CDRs: {"  "} {selectedType}
+          {t("evaluation_cdr")} : {"  "} {selectedType}
           {/* Utilisation de la valeur sélectionnée */}
         </Typography>
         {/* Rendu des composants ChartFichier et ChartCdrs */}

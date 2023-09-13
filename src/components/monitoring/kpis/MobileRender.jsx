@@ -3,13 +3,16 @@ import { Box, Typography, Modal, useMediaQuery } from "@mui/material";
 import ChartKpis from "./ChartKpis"; // Import d'un composant ChartKpis depuis un chemin relatif
 import ChartChargeQy from "./ChartChargeQy"; // Import d'un composant ChartChargeQy depuis un chemin relatif
 import { useSelectedName } from "./OnClickValueKpis"; // Import d'un hook custom depuis un chemin relatif
+import { useTranslation } from "react-i18next"; // utiliser pour la translation
 
 const MobileRender = ({ isModalOpen, closeModal }) => {
+  const { t } = useTranslation(); // translation
+
   // Utilisation du hook custom useSelectedName pour obtenir la valeur sélectionnée
   const { selectedName } = useSelectedName();
   // Vérifie si l'écran est de tailleup tablette en utilisant le breakpoint "md"
   const isTabletScreen = useMediaQuery((theme) => theme.breakpoints.down("md"));
-   const isPhoneScreen = useMediaQuery((theme) => theme.breakpoints.down("xs"));
+  const isPhoneScreen = useMediaQuery((theme) => theme.breakpoints.down("xs"));
 
   // Condition pour définir la largeur du div en fonction de la taille de l'écran
   const divWidth = isTabletScreen ? "400px" : isPhoneScreen ? "380px" : "auto";
@@ -45,7 +48,7 @@ const MobileRender = ({ isModalOpen, closeModal }) => {
             padding: 2,
           }}
         >
-          TREND de KPIs:{"  "} {selectedName}
+          {t("evaluation_kpi")} :{"  "} {selectedName}
           {/* Utilisation de la valeur sélectionnée */}
         </Typography>
         {/* Rendu des composants ChartKpis et ChartChargeQy */}

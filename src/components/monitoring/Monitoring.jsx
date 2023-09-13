@@ -1,6 +1,6 @@
 import React from "react";
-import TabsPanel from "./TabsPanel";
-import Vignette from "./Vignette";
+import TabsPanel from "./TabsPanel"; // rendue du tabspanel
+import Vignette from "./Vignette"; // rendu du vigniette
 import { Box } from "@mui/material";
 
 const Monitoring = () => {

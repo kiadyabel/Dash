@@ -3,10 +3,9 @@ import React from "react";
 import { Box, Grid, Typography } from "@mui/material";
 import DataGrid from "./DataGrid"; // Import d'un composant DataGrid depuis un chemin relatif
 import ChartKpis from "./ChartKpis"; // Import d'un composant ChartKpis depuis un chemin relatif
-import ChartChargeQy from "./ChartChargeQy"; // Import d'un composant ChartChargeQy depuis un chemin relatif
+import ChartChargeQy from "./ChartSlots"; // Import d'un composant ChartChargeQy depuis un chemin relatif
 import { useSelectedName } from "./OnClickValueKpis"; // Import d'un hook custom depuis un chemin relatif
 import { useTranslation } from "react-i18next"; // utiliser pour la translation
-
 
 // Définition du composant BodyKpis
 const BodyKpis = () => {

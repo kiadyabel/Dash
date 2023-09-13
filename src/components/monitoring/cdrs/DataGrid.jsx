@@ -214,7 +214,7 @@ const DataGrid = () => {
                 </Tooltip>
               </StyledTableCell>
               <StyledTableCell
-                align="right"
+                align="center"
                 active={orderBy === "fichiers"}
                 direction={orderBy === "fichiers" ? order : "asc"}
                 onClick={() => handleRequestSort("fichiers")}
@@ -340,7 +340,7 @@ const DataGrid = () => {
                 <StyledTableCell align="center">
                   {formatNumberMillien(row.big5)}
                 </StyledTableCell>
-                <StyledTableCell align="right">
+                <StyledTableCell align="center">
                   {formatNumberMillien(row.fichiers)}
                 </StyledTableCell>
                 <StyledTableCell align="center">
@@ -458,7 +458,7 @@ const DataGrid = () => {
                     </Tooltip>
                   </StyledTableCell>
                   <StyledTableCell
-                    align="right"
+                    align="center"
                     active={orderBy === "fichiers"}
                     direction={orderBy === "fichiers" ? order : "asc"}
                     onClick={() => handleRequestSort("fichiers")}
@@ -588,7 +588,7 @@ const DataGrid = () => {
                     <StyledTableCell align="center">
                       {formatNumberMillien(row.big5)}
                     </StyledTableCell>
-                    <StyledTableCell align="right">
+                    <StyledTableCell align="center">
                       {formatNumberMillien(row.fichiers)}
                     </StyledTableCell>
                     <StyledTableCell align="center">

@@ -14,12 +14,14 @@ import Tooltip from "@mui/material/Tooltip";
 import CustomezedSliderSeuil from "../../utils/CustomezedSliderSeuil";
 import FormatColorResetIcon from "@mui/icons-material/FormatColorReset";
 import { useSliderValues } from "../../utils/SliderValueContext";
-
+import { useTranslation } from "react-i18next"; // utiliser pour la translation
 
 // Étendre Dayjs avec le plugin de format personnalisé
 dayjs.extend(customParseFormat);
 
 export default function DatePickersFilters() {
+  const { t } = useTranslation(); // translation
+
   // Utiliser le contexte de date
   const { selectedDate, updateSelectedDate } = useDateContext();
 
@@ -64,7 +66,6 @@ export default function DatePickersFilters() {
     const dateConvertString = newDateValue.format("DD-MM-YYYY").toString(); // Convertir la date en format string
     updateSelectedDate(dateConvertString); // Mettre à jour la date dans le contexte après avoir cliqué sur "Filtrer"
   };
-
 
   const handleClikReinitialiseSliderValue = (event) => {
     event.preventDefault();
@@ -121,7 +122,8 @@ export default function DatePickersFilters() {
             }}
           >
             <Typography variant="h7" color="f5f5f5" marginBottom={4}>
-              Couleurs selon le Seuil{"   "}
+              {t("couleur_seuil")}
+              {"   "}
               <Tooltip
                 title="Réinitialiser la couleur et valeur du seuil"
                 placement="top"
@@ -249,7 +251,7 @@ export default function DatePickersFilters() {
               disabled={!newDateValue}
               sx={{ cursor: !newDateValue ? "not-allowed" : "pointer" }}
             >
-              Filtrer
+              {t("filtrer")}
             </Button>
           </Tooltip>
         </div>

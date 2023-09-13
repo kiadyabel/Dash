@@ -36,5 +36,8 @@
   "evaluation_kpi": "Evolution du KPI",
   "slot_kpi": "Slots du KPI",
   "evaluation_jour":"par jour",
-  "evaluation_horaire":"par tranche horaire"
+  "evaluation_horaire":"par tranche horaire",
+
+  "filtrer":"Filtrer",
+  "couleur_seuil":"Couleur selon le seuil"
 }

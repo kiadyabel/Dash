@@ -39,5 +39,6 @@
   "evaluation_horaire":"par tranche horaire",
 
   "filtrer":"Filtrer",
-  "couleur_seuil":"Couleur selon le seuil"
+  "couleur_seuil":"Couleur selon le seuil",
+  "reinitialise_couleur":"Réinitialiser la couleur et valeur du seuil"
 }

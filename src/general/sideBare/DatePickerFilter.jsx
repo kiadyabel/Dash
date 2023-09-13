@@ -121,7 +121,7 @@ export default function DatePickersFilters() {
               flexDirection: "column",
             }}
           >
-            <Typography variant="h7" color="f5f5f5" marginBottom={4}>
+            <Typography sx={{fontSize:"12px"}} color="f5f5f5" marginBottom={4}>
               {t("couleur_seuil")}
               {"   "}
               <Tooltip

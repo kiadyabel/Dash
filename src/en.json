@@ -39,5 +39,6 @@
   "evaluation_horaire": "by time slot",
 
   "filtrer": "Filter",
-  "couleur_seuil": "Color according to threshold"
+  "couleur_seuil": "Color according to threshold",
+  "reinitialise_couleur": "Reset color and threshold value"
 }

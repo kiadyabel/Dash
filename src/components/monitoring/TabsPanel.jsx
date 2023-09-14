@@ -7,9 +7,10 @@ import Box from "@mui/material/Box";
 import IndexCdrs from "./cdrs/IndexCdrs";
 import IndexKpis from "./kpis/IndexKpis";
 
+// Composant TabPanel pour afficher le contenu de chaque onglet
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
-     
+
   return (
     <div
       role="tabpanel"
@@ -27,6 +28,7 @@ const TabPanel = (props) => {
   );
 };
 
+// Fonction utilitaire pour définir les attributs d'accessibilité ARIA pour chaque onglet
 const a11yProps = (index) => {
   return {
     id: `full-width-tab-${index}`,
@@ -34,9 +36,11 @@ const a11yProps = (index) => {
   };
 };
 
+// Composant principal TabsPanel
 const TabsPanel = () => {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(0); // État pour gérer l'onglet actif (par défaut 0 pour le monitoring des CDR)
 
+  // Fonction de gestion du changement d'onglet
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -63,16 +67,16 @@ const TabsPanel = () => {
           aria-label="full width tabs"
           sx={{
             "& .MuiTabs-indicator": {
-              height: "5px", // hauteur de l'indicator color
+              height: "5px", // Hauteur de la barre indicatrice de l'onglet actif
             },
           }}
         >
           <Tab
             label="CDRs Monitoring"
             sx={{
-              backgroundColor: value === 0 ? "black" : undefined,
+              backgroundColor: value === 0 ? "black" : undefined, // Fond noir lorsque l'onglet est sélectionné
               "&.Mui-selected": {
-                color: "white", // Texte en blanc quand l'onglet est sélectionné
+                color: "white", // Texte en blanc lorsque l'onglet est sélectionné
               },
             }}
             {...a11yProps(0)}
@@ -81,9 +85,9 @@ const TabsPanel = () => {
             label="KPIs Monitoring"
             {...a11yProps(1)}
             sx={{
-              backgroundColor: value === 1 ? "black" : undefined,
+              backgroundColor: value === 1 ? "black" : undefined, // Fond noir lorsque l'onglet est sélectionné
               "&.Mui-selected": {
-                color: "white", // Texte en blanc quand l'onglet est sélectionné
+                color: "white", // Texte en blanc lorsque l'onglet est sélectionné
               },
             }}
           />
@@ -91,10 +95,10 @@ const TabsPanel = () => {
       </AppBar>
 
       <TabPanel value={value} index={0}>
-        <IndexCdrs />
+        <IndexCdrs /> {/** Affichage du contenu des CDRs dans le panneau */}
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <IndexKpis />
+        <IndexKpis /> {/** Affichage du contenu des KPIs dans le panneau */}
       </TabPanel>
     </Box>
   );

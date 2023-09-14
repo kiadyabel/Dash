@@ -22,6 +22,7 @@ import numeral from "numeral";
 
 import { useTranslation } from "react-i18next"; // utiliser pour la translation
 
+//style du tableau
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
     backgroundColor: theme.palette.common.black,
@@ -32,7 +33,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
   position: "sticky",
 }));
-
+//style  du ligne de tableau
 const StyledTableRow = styled(TableRow)(({ theme }) => ({
   "&:nth-of-type(odd)": {
     backgroundColor: theme.palette.action.hover,
@@ -74,7 +75,7 @@ const DataGrid = () => {
         // Triez les données en fonction de l'ordre et de l'en-tête(table) de tri
         const comparator = (a, b) => {
           if (orderBy === "var") {
-            // Tri spécifique pour la colonne var_cdrs
+            // Tri spécifique pour la colonne var_cdrs avec le valeur absolue
             const absoluteA = Math.abs(a.var);
             const absoluteB = Math.abs(b.var);
 
@@ -89,9 +90,9 @@ const DataGrid = () => {
           return 0;
         };
 
-        const sortedData = fetchedData.data.slice().sort(comparator);
+        const sortedData = fetchedData.data.slice().sort(comparator); // donnée qui est déja trié
 
-        setData(sortedData);
+        setData(sortedData); // mise à jour du data aprés le traitement de tri
         setIsLoading(false);
       } catch (error) {
         console.error("Erreur lors de la récupération des données :", error);
@@ -161,7 +162,8 @@ const DataGrid = () => {
                 onClick={() => handleRequestSort("source")}
               >
                 <Tooltip arrow title={getTooltipText("Source")} placement="top">
-                  {t("source_ttl")}
+                  {/**affichage du titre de colone Source selon la langue selectionée */}
+                  {t("source_ttl")}{" "}
                 </Tooltip>
               </StyledTableCell>
               <StyledTableCell
@@ -171,6 +173,7 @@ const DataGrid = () => {
                 onClick={() => handleRequestSort("name")}
               >
                 <Tooltip arrow title={getTooltipText("KPI")} placement="top">
+                  {/**affichage du titre de colone KPI selon la langue selectionée */}
                   {t("kpi_ttl")}
                 </Tooltip>
               </StyledTableCell>
@@ -185,6 +188,7 @@ const DataGrid = () => {
                   title={getTooltipText("Fréquence")}
                   placement="top"
                 >
+                  {/**affichage du titre de colone Fréquence selon la langue selectionée */}
                   {t("frequence_ttl")}
                 </Tooltip>
               </StyledTableCell>
@@ -195,6 +199,7 @@ const DataGrid = () => {
                 onClick={() => handleRequestSort("valeur")}
               >
                 <Tooltip arrow title={getTooltipText("Valeur")} placement="top">
+                  {/**affichage du titre de colone valeur selon la langue selectionée */}
                   {t("valeur_ttl")}
                 </Tooltip>
               </StyledTableCell>
@@ -209,6 +214,7 @@ const DataGrid = () => {
                   title={getTooltipText("Variation")}
                   placement="top"
                 >
+                  {/**affichage du titre de colone Variation selon la langue selectionée */}
                   {"variation_ttl"}
                 </Tooltip>
               </StyledTableCell>
@@ -223,6 +229,7 @@ const DataGrid = () => {
                   title={getTooltipText("Last Date")}
                   placement="top"
                 >
+                  {/**affichage du titre de colone dernier date selon la langue selectionée */}
                   {t("date_kpi_ttl")}
                 </Tooltip>
               </StyledTableCell>
@@ -233,6 +240,7 @@ const DataGrid = () => {
                 onClick={() => handleRequestSort("slot")}
               >
                 <Tooltip arrow title={getTooltipText("Slots")} placement="top">
+                  {/**affichage du titre de colone slots selon la langue selectionée */}
                   {t("slot_ttl")}
                 </Tooltip>
               </StyledTableCell>
@@ -248,6 +256,7 @@ const DataGrid = () => {
                   setSelectedRow(index); // Définir la ligne sélectionnée ici
                   setIsModalOpen(true);
                 }}
+                /**definition de seuil , et couleur du ligne */
                 style={{
                   backgroundColor:
                     Math.abs(row.var) >= 0 && Math.abs(row.var) <= sliderValue1
@@ -333,7 +342,8 @@ const DataGrid = () => {
                       title={getTooltipText("Source")}
                       placement="top"
                     >
-                      {t("source_ttl")}
+                      {/**affichage du titre de colone Source selon la langue selectionée */}
+                      {t("source_ttl")}{" "}
                     </Tooltip>
                   </StyledTableCell>
                   <StyledTableCell
@@ -347,6 +357,7 @@ const DataGrid = () => {
                       title={getTooltipText("KPI")}
                       placement="top"
                     >
+                      {/**affichage du titre de colone KPI selon la langue selectionée */}
                       {t("kpi_ttl")}
                     </Tooltip>
                   </StyledTableCell>
@@ -361,6 +372,7 @@ const DataGrid = () => {
                       title={getTooltipText("Fréquence")}
                       placement="top"
                     >
+                      {/**affichage du titre de colone Fréquence selon la langue selectionée */}
                       {t("frequence_ttl")}
                     </Tooltip>
                   </StyledTableCell>
@@ -375,6 +387,7 @@ const DataGrid = () => {
                       title={getTooltipText("Valeur")}
                       placement="top"
                     >
+                      {/**affichage du titre de colone valeur selon la langue selectionée */}
                       {t("valeur_ttl")}
                     </Tooltip>
                   </StyledTableCell>
@@ -389,7 +402,8 @@ const DataGrid = () => {
                       title={getTooltipText("Variation")}
                       placement="top"
                     >
-                      {t("variation_ttl")}
+                      {/**affichage du titre de colone Variation selon la langue selectionée */}
+                      {"variation_ttl"}
                     </Tooltip>
                   </StyledTableCell>
                   <StyledTableCell
@@ -403,6 +417,7 @@ const DataGrid = () => {
                       title={getTooltipText("Last Date")}
                       placement="top"
                     >
+                      {/**affichage du titre de colone dernier date selon la langue selectionée */}
                       {t("date_kpi_ttl")}
                     </Tooltip>
                   </StyledTableCell>
@@ -417,6 +432,7 @@ const DataGrid = () => {
                       title={getTooltipText("Slots")}
                       placement="top"
                     >
+                      {/**affichage du titre de colone slots selon la langue selectionée */}
                       {t("slot_ttl")}
                     </Tooltip>
                   </StyledTableCell>
@@ -431,6 +447,7 @@ const DataGrid = () => {
                       handleRowClick(row.name);
                       setSelectedRow(index); // Définir la ligne sélectionnée ici
                     }}
+                    /**definition de seuil , et couleur du ligne */
                     style={{
                       backgroundColor:
                         Math.abs(row.var) >= 0 &&

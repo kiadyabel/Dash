@@ -5,6 +5,7 @@ import ChartChargeQy from "./ChartSlots"; // Import d'un composant ChartChargeQy
 import { useSelectedName } from "./OnClickValueKpis"; // Import d'un hook custom depuis un chemin relatif
 import { useTranslation } from "react-i18next"; // utiliser pour la translation
 
+// Composant MobileRender pour afficher les Chart Graphiques sur la verion tablette et mobile
 const MobileRender = ({ isModalOpen, closeModal }) => {
   const { t } = useTranslation(); // translation
 
@@ -16,6 +17,7 @@ const MobileRender = ({ isModalOpen, closeModal }) => {
 
   // Condition pour définir la largeur du div en fonction de la taille de l'écran
   const divWidth = isTabletScreen ? "400px" : isPhoneScreen ? "380px" : "auto";
+  // Condition pour définir la hauteur du div en fonction de la taille de l'écran
   const divHeight = isTabletScreen
     ? "maxContent"
     : isPhoneScreen

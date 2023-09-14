@@ -15,6 +15,7 @@ import { useDateContext } from "../../utils/DateContext";
 import logoOrange from "../../utils/image/logoOrange.png";
 import logoKrill from "../../utils/image/logoKrill.png";
 import LanguageSwitcher from "../../utils/SelectLangue";
+
 // Largeur du sidebar
 const drawerWidth = 150;
 
@@ -39,26 +40,31 @@ const AppBar = styled(MuiAppBar, {
 
 // Composant AppBarDash
 const AppBarDash = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState(null); // État pour le menu du profil
 
-  const [showDatePickers, setShowDatePickers] = useState(false);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null); // État pour le menu mobile
 
-  const { selectedDate } = useDateContext();
+  const [showDatePickers, setShowDatePickers] = useState(false); // État pour afficher ou masquer les filtres de date
 
+  const { selectedDate } = useDateContext(); // Utilisation du contexte de date pour obtenir la date sélectionnée
+
+  // Ouvre le menu du profil
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
+  // Ferme le menu mobile
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null);
   };
 
+  // Ferme tous les menus
   const handleMenuClose = () => {
     setAnchorEl(null);
     handleMobileMenuClose();
   };
 
+  // Vérifie si le menu du profil est ouvert
   const isMenuOpen = Boolean(anchorEl);
 
   // Menu déroulant pour le profil
@@ -78,7 +84,7 @@ const AppBarDash = () => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Deconnexion</MenuItem>
+      <MenuItem onClick={handleMenuClose}>Déconnexion</MenuItem>
     </Menu>
   );
 
@@ -149,7 +155,7 @@ const AppBarDash = () => {
             >
               <FilterAltIcon />
             </IconButton>
-            {/* Bouton de session user */}
+            {/* Bouton de session utilisateur */}
             <IconButton
               size="large"
               edge="end"
@@ -161,7 +167,7 @@ const AppBarDash = () => {
             >
               <AccountCircle />
             </IconButton>
-            <LanguageSwitcher/>
+            <LanguageSwitcher />
             {/* DatePickersFilters */}
             {showDatePickers && (
               <div style={{ position: "absolute", right: "50px", top: "63px" }}>

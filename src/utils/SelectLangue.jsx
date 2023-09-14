@@ -6,7 +6,7 @@ import FlagFr from "../utils/image/france.png";
 import FlagEn from "../utils/image/anglais.png";
 
 const LanguageSwitcher = () => {
-  // const {i18n}=useTranslation() //pour changer la langue
+  // fonction qui prendre le type de langue dans select
   const onChangeLanguage = (language) => {
     i18n.changeLanguage(language);
   };

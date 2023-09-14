@@ -1,6 +1,7 @@
+// fonction public pour l'appelle à l'API
 
 export const FetchData = async (type, date, params) => {
- const apiUrl = process.env.REACT_APP_API_URL;
+  const apiUrl = process.env.REACT_APP_API_URL;
   try {
     const url = `${apiUrl}/${type}/${date}/${params}`;
     const response = await fetch(url);

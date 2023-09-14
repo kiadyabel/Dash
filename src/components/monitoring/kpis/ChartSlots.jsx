@@ -63,7 +63,7 @@ const ChartChargeQy = () => {
 
   // Options du graphique echarts
   const option = {
-    // Configuration du tooltip et de la position
+    // Configuration du tooltip et de la position.
     tooltip: {
       trigger: "axis",
       position: function (pt) {

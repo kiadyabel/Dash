@@ -9,7 +9,7 @@ import { useTranslation } from "react-i18next"; // utiliser pour la translation
 
 // Définition du composant BodyKpis
 const BodyKpis = () => {
-  // Utilisation du hook custom useSelectedName pour obtenir la valeur sélectionnée
+  // Utilisation du hook custom useSelectedName pour obtenir la valeur sélectionnée.
   const { selectedName } = useSelectedName();
 
   const { t } = useTranslation(); // translation

@@ -76,7 +76,7 @@ const ChartKpis = () => {
     // Configuration de la boîte à outils
     toolbox: {
       feature: {
-        saveAsImage: {}, // Option pour sauvegarder l'image du graphique
+        saveAsImage: {}, // Option pour sauvegarder l'image du graphique.
       },
     },
     // Configuration de l'axe X

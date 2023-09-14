@@ -14,45 +14,47 @@ import numeral from "numeral";
 import { useTranslation } from "react-i18next";
 
 const Vignette = () => {
-  const { t } = useTranslation(); // translation 
+  const { t } = useTranslation(); // Traduction
 
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const { selectedDate } = useDateContext(); // dateContext
+  const [data, setData] = useState([]); // État pour stocker les données
+  const [isLoading, setIsLoading] = useState(true); // État pour le chargement
+  const { selectedDate } = useDateContext(); // Utilisation du contexte de date pour obtenir la date sélectionnée
 
   useEffect(() => {
     const fetchDataFromApi = async () => {
       try {
         const type = "001";
-        const date = selectedDate; //date
+        const date = selectedDate; // Date sélectionnée
 
         setIsLoading(true); // Mettre isLoading à true avant de démarrer la récupération des données
 
         const fetchedData = await FetchData(type, date, null);
-        //tri par valeur
+        // Tri des données par valeur
         const sortedData = fetchedData.data.sort((a, b) => {
-          // mettre le TOTAL toujour a la fin
+          // Placer "TOTAL" toujours à la fin
           if (a.name === "TOTAL") return 1;
           if (b.name === "TOTAL") return -1;
           return a.var - b.var;
         });
-        setData(sortedData);
-        setIsLoading(false);
+        setData(sortedData); // mise à jour du data trié
+        setIsLoading(false); // Mettre isLoading à false une fois les données chargées
       } catch (error) {
         console.error("Erreur lors de la récupération des données :", error);
       }
     };
 
-    fetchDataFromApi();
-  }, [selectedDate]);
+    fetchDataFromApi(); // Appel de la fonction pour récupérer les données
+  }, [selectedDate]); // Exécuter lorsque la date sélectionnée change
 
-  // forlat number millien
+  // Formatage du nombre en milliers
   const formatNumberMillien = (number) => {
     return numeral(number).format("0,0");
   };
+
   return (
     <>
       <Grid container spacing={2} position="relative">
+        {/*mapping du donnée dans data */}
         {data.map((val) => (
           <Grid item xs={6} sm={6} md={3} lg={1.5} key={val.name}>
             <Card sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -70,7 +72,7 @@ const Vignette = () => {
                     color="#707070"
                     component="div"
                   >
-                    {t('fichier')}
+                    {t("fichier")} {/** afficher le label ficher selon la langue selectionner */}
                   </Typography>
                   <Typography sx={{ fontWeight: "bold", color: "blue" }}>
                     {formatNumberMillien(val.value)}
@@ -106,6 +108,7 @@ const Vignette = () => {
           }}
         >
           <CircularIndeterminate isLoading={isLoading} />
+          {/* Affichage du composant de chargement */}
         </Box>
       </Grid>
     </>

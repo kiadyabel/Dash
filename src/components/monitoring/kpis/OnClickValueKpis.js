@@ -8,7 +8,7 @@ export function useSelectedName() {
   return useContext(SelectedNameContext);
 }
 
-// Créez un fournisseur de contexte pour envelopper les composants.
+// Créez un fournisseur de contexte pour envelopper les composants
 export function SelectedNameProvider({ children }) {
   const [selectedName, setSelectedName] = useState("RECHARGE FEES");
 
@@ -21,6 +21,6 @@ export function SelectedNameProvider({ children }) {
   return (
     <SelectedNameContext.Provider value={value}>
       {children}
-    </SelectedNameContext.Provider>
+    </SelectedNameContext.Provider>      
   );
 }

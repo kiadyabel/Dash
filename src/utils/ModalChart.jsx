@@ -4,7 +4,7 @@ import FullscreenExitIcon from "@mui/icons-material/FullscreenExit";
 
 const ModalChart = ({ children }) => {
 
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(true); // etat pour l'ouverture et fermeture du modal
 
   return (
     <>
@@ -38,7 +38,7 @@ const ModalChart = ({ children }) => {
                 textTransform: "uppercase",
               }}
             >
-              {/*selectedName*/}
+              
             </Typography>
             <IconButton
               sx={{ position: "absolute", top: 0, left: 0 ,cursor:"pointer",zIndex:"125"}}

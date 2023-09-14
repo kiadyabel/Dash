@@ -17,6 +17,7 @@ const MobileRender = ({ isModalOpen, closeModal }) => {
 
   // Condition pour définir la largeur du div en fonction de la taille de l'écran
   const divWidth = isTabletScreen ? "400px" : isPhoneScreen ? "380px" : "auto";
+  // Condition pour définir la hauteru du div en fonction de la taille de l'écran
   const divHeight = isTabletScreen
     ? "maxContent"
     : isPhoneScreen
@@ -49,8 +50,8 @@ const MobileRender = ({ isModalOpen, closeModal }) => {
             padding: 2,
           }}
         >
+          {/*affichage du titre de graphSource selon la langue selectionée et affichage de type la valeur sélectionnée */}
           {t("evaluation_cdr")} : {"  "} {selectedType}
-          {/* Utilisation de la valeur sélectionnée */}
         </Typography>
         {/* Rendu des composants ChartFichier et ChartCdrs */}
         <Box sx={{ display: "flex", flexDirection: "column" }}>

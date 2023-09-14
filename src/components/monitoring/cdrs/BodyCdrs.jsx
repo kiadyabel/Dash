@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next"; // utiliser pour la translation
 
 // Définition du composant BodyCdrs
 const BodyCdrs = () => {
-  // Utilisation du hook custom useSelectedType pour obtenir la valeur sélectionnée
+  // Utilisation du hook custom useSelectedType pour obtenir la valeur sélectionnée.
   const { selectedType } = useSelectedType();
 
   const {t}=useTranslation(); // translation 

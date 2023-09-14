@@ -30,5 +30,5 @@ export function SliderValuesProvider({ children }) {
 }
 
 export function useSliderValues() {
-  return useContext(SliderValuesContext);
+  return useContext(SliderValuesContext); // c
 }

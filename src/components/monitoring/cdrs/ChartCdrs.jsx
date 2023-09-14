@@ -53,7 +53,7 @@ const ChartCdrs = () => {
     fetchDataFromApi(); // Appel de la fonction de récupération des données
   }, [selectedType, selectedDate]); // Dépendances de l'effet, il sera déclenché lorsque selectedType ou selectedDate changent
 
-  const shouldRenderChart = !isLoading && val && val.length > 0; // Variable booléenne pour déterminer si le graphique doit être rendu
+  const shouldRenderChart = !isLoading && val && val.length > 0; // Variable booléenne pour déterminer si le graphique doit être rendu.
 
   // Options du graphique echarts
   const option = {

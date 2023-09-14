@@ -18,7 +18,7 @@ const ChartFichier = () => {
 
   // Hooks d'état
   const [val, setVal] = useState([]); // données
-  const [dataValue, setDataValue] = useState([]); // État pour stocker les valeurs qty_files
+  const [dataValue, setDataValue] = useState([]); // État pour stocker les valeurs qty_files.
   const [dateValue, setDateValue] = useState([]); // État pour stocker les valeurs de date
   const [isLoading, setIsLoading] = useState(true); // État pour gérer le chargement
   const { selectedType } = useSelectedType(); // Utilisation du hook custom useSelectedType pour obtenir la valeur sélectionnée

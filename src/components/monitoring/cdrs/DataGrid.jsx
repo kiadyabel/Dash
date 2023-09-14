@@ -116,9 +116,9 @@ const DataGrid = () => {
   //fonction pour le couleur de la cellule dans laste date s'il n'est pas normale
   const dateComparator = (dateString) => {
     const dateFiltre = selectedDate; //date dans le filtre
-    const dateParts = dateString.split(" ");
+    const dateParts = dateString.split(" "); // enleve les string apres un espace, on obtien juste la date
     const dateWithoutTime = dateParts[0];
-    return dateWithoutTime !== dateFiltre;
+    return dateWithoutTime !== dateFiltre; // comparaison des deux date
   };
 
   // forlat number millien
@@ -172,6 +172,7 @@ const DataGrid = () => {
                 onClick={() => handleRequestSort("source")}
               >
                 <Tooltip arrow title={getTooltipText("source")} placement="top">
+                  {/**affichage du titre de colone Source selon la langue selectionée  */}
                   {t("source_ttl")}
                 </Tooltip>
               </StyledTableCell>
@@ -182,6 +183,7 @@ const DataGrid = () => {
                 onClick={() => handleRequestSort("type")}
               >
                 <Tooltip arrow title={getTooltipText("Type")} placement="top">
+                  {/**affichage du titre de colone type selon la langue selectionée  */}
                   {t("type_ttl")}
                 </Tooltip>
               </StyledTableCell>
@@ -196,6 +198,7 @@ const DataGrid = () => {
                   title={getTooltipText("Fich Med")}
                   placement="top"
                 >
+                  {/**affichage du titre de colone Fichier mediation selon la langue selectionée  */}
                   {t("fich_med_ttl")}
                 </Tooltip>
               </StyledTableCell>
@@ -210,6 +213,7 @@ const DataGrid = () => {
                   title={getTooltipText("Fichier BIG5")}
                   placement="top"
                 >
+                  {/**affichage du titre de colone fichier big5 selon la langue selectionée  */}
                   {t("fich_big5_ttl")}
                 </Tooltip>
               </StyledTableCell>
@@ -224,6 +228,7 @@ const DataGrid = () => {
                   title={getTooltipText("Fichier (traité DWH)")}
                   placement="top"
                 >
+                  {/**affichage du titre de colone fichier traité par dwh selon la langue selectionée  */}
                   {t("fich_traite_dwh_ttl")}
                 </Tooltip>
               </StyledTableCell>
@@ -238,6 +243,7 @@ const DataGrid = () => {
                   title={getTooltipText("Med vs BIG5")}
                   placement="top"
                 >
+                  {/**affichage du titre de colone med v big5 selon la langue selectionée  */}
                   {t("med_vs_big5_ttl")}
                 </Tooltip>
               </StyledTableCell>
@@ -252,6 +258,7 @@ const DataGrid = () => {
                   title={getTooltipText("Var fich")}
                   placement="top"
                 >
+                  {/**affichage du titre de colone variation fichier selon la langue selectionée  */}
                   {t("var_fich_ttl")}
                 </Tooltip>
               </StyledTableCell>
@@ -262,6 +269,7 @@ const DataGrid = () => {
                 onClick={() => handleRequestSort("cdrs")}
               >
                 <Tooltip arrow title={getTooltipText("CDR")} placement="top">
+                  {/**affichage du titre de colone CDR selon la langue selectionée  */}
                   {t("cdr_ttl")}
                 </Tooltip>
               </StyledTableCell>
@@ -276,6 +284,7 @@ const DataGrid = () => {
                   title={getTooltipText("Var CDR")}
                   placement="top"
                 >
+                  {/**affichage du titre de colone variation CDR selon la langue selectionée  */}
                   {t("var_cdr_ttl")}
                 </Tooltip>
               </StyledTableCell>
@@ -290,6 +299,7 @@ const DataGrid = () => {
                   title={getTooltipText("Date dernier CDR")}
                   placement="top"
                 >
+                  {/**affichage du titre de colone dernier date cdr selon la langue selectionée  */}
                   {t("date_cdr_ttl_cdr")}
                 </Tooltip>
               </StyledTableCell>
@@ -297,6 +307,7 @@ const DataGrid = () => {
           </TableHead>
 
           <TableBody>
+            {/**mapping des données */}
             {data.map((row, index) => (
               <StyledTableRow
                 key={index}
@@ -305,6 +316,7 @@ const DataGrid = () => {
                   setSelectedRow(index); // Définir la ligne sélectionnée ici
                   setIsModalOpen(true);
                 }}
+                /**definition de seuil , et couleur du ligne */
                 style={{
                   backgroundColor:
                     Math.abs(row.var_cdrs) >= 0 &&
@@ -412,6 +424,7 @@ const DataGrid = () => {
                       title={getTooltipText("source")}
                       placement="top"
                     >
+                      {/**affichage du titre de colone Source selon la langue selectionée  */}
                       {t("source_ttl")}
                     </Tooltip>
                   </StyledTableCell>
@@ -426,6 +439,7 @@ const DataGrid = () => {
                       title={getTooltipText("Type")}
                       placement="top"
                     >
+                      {/**affichage du titre de colone type selon la langue selectionée  */}
                       {t("type_ttl")}
                     </Tooltip>
                   </StyledTableCell>
@@ -440,6 +454,7 @@ const DataGrid = () => {
                       title={getTooltipText("Fich Med")}
                       placement="top"
                     >
+                      {/**affichage du titre de colone Fichier mediation selon la langue selectionée  */}
                       {t("fich_med_ttl")}
                     </Tooltip>
                   </StyledTableCell>
@@ -454,6 +469,7 @@ const DataGrid = () => {
                       title={getTooltipText("Fichier BIG5")}
                       placement="top"
                     >
+                      {/**affichage du titre de colone fichier big5 selon la langue selectionée  */}
                       {t("fich_big5_ttl")}
                     </Tooltip>
                   </StyledTableCell>
@@ -468,6 +484,7 @@ const DataGrid = () => {
                       title={getTooltipText("Fichier (traité DWH)")}
                       placement="top"
                     >
+                      {/**affichage du titre de colone fichier traité par dwh selon la langue selectionée  */}
                       {t("fich_traite_dwh_ttl")}
                     </Tooltip>
                   </StyledTableCell>
@@ -482,6 +499,7 @@ const DataGrid = () => {
                       title={getTooltipText("Med vs BIG5")}
                       placement="top"
                     >
+                      {/**affichage du titre de colone med v big5 selon la langue selectionée  */}
                       {t("med_vs_big5_ttl")}
                     </Tooltip>
                   </StyledTableCell>
@@ -496,6 +514,7 @@ const DataGrid = () => {
                       title={getTooltipText("Var fich")}
                       placement="top"
                     >
+                      {/**affichage du titre de colone variation fichier selon la langue selectionée  */}
                       {t("var_fich_ttl")}
                     </Tooltip>
                   </StyledTableCell>
@@ -510,6 +529,7 @@ const DataGrid = () => {
                       title={getTooltipText("CDR")}
                       placement="top"
                     >
+                      {/**affichage du titre de colone CDR selon la langue selectionée  */}
                       {t("cdr_ttl")}
                     </Tooltip>
                   </StyledTableCell>
@@ -524,6 +544,7 @@ const DataGrid = () => {
                       title={getTooltipText("Var CDR")}
                       placement="top"
                     >
+                      {/**affichage du titre de colone variation CDR selon la langue selectionée  */}
                       {t("var_cdr_ttl")}
                     </Tooltip>
                   </StyledTableCell>
@@ -538,6 +559,7 @@ const DataGrid = () => {
                       title={getTooltipText("Date dernier CDR")}
                       placement="top"
                     >
+                      {/**affichage du titre de colone dernier date cdr selon la langue selectionée  */}
                       {t("date_cdr_ttl_cdr")}
                     </Tooltip>
                   </StyledTableCell>
@@ -545,6 +567,7 @@ const DataGrid = () => {
               </TableHead>
 
               <TableBody>
+                {/**mapping des données */}
                 {data.map((row, index) => (
                   <StyledTableRow
                     key={index}
@@ -552,6 +575,7 @@ const DataGrid = () => {
                       handleRowClick(row.type);
                       setSelectedRow(index); // Définir la ligne sélectionnée ici
                     }}
+                    /**definition de seuil , et couleur du ligne */
                     style={{
                       backgroundColor:
                         Math.abs(row.var_cdrs) >= 0 &&

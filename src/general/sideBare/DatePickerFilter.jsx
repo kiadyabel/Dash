@@ -67,6 +67,7 @@ export default function DatePickersFilters() {
     updateSelectedDate(dateConvertString); // Mettre à jour la date dans le contexte après avoir cliqué sur "Filtrer"
   };
 
+  // fonction qui fait la réinitialisation du couleur et les valeur du slider
   const handleClikReinitialiseSliderValue = (event) => {
     event.preventDefault();
     setSliderValue1(5);

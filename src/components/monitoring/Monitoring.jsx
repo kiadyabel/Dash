@@ -3,6 +3,7 @@ import TabsPanel from "./TabsPanel"; // rendue du tabspanel
 import Vignette from "./Vignette"; // rendu du vigniette
 import { Box } from "@mui/material";
 
+// Composant Monitoring pour afficher
 const Monitoring = () => {
   return (
     <Box component="main" sx={{ pl: 1, pr: 1, mt: 9}}>

@@ -15,7 +15,7 @@ export const ColorProvider = ({ children }) => {
   const [color4, setColor4] = useState("#f00020"); // pour max 100
 
   return (
-    // Fournir les valeurs des couleurs via le contexte
+    // Fournir les valeurs des couleurs via le contexte.
     <ColorContext.Provider
       value={{
         color1,

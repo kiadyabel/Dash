@@ -17,7 +17,7 @@ export function SelectedTypeProvider({ children }) {
     setSelectedType,
   };
 
-  // Renvoyez les composants enfants enveloppés dans le contexte.
+  // Renvoyez les composants enfants enveloppés dans le contexte
   return (
     <SelectedTypeContext.Provider value={value}>
       {children}

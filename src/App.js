@@ -7,8 +7,11 @@ import Monitoring from "./components/monitoring/Monitoring";
 
 function App() {
   return (
-    <DateProvider >
+    /** Utilisation du composant 'SelectedTypeProvider' pour fournir un contexte de la date */
+    <DateProvider>
+      {/** Utilisation du composant 'SelectedTypeProvider' pour fournir un contexte du couleur */}
       <ColorProvider>
+        {/** Utilisation du composant 'SelectedTypeProvider' pour fournir un contexte du valeur et couleur du slider dans le filtre */}
         <SliderValuesProvider>
           {/* <Authentification/> */}
           <AppBarDash />

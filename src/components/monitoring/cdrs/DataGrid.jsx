@@ -69,6 +69,7 @@ const DataGrid = () => {
 
         const comparator = (a, b) => {
           if (a.source === "All") return -1; // "All" toujours en haut
+          if (b.source === "All") return 1; // "All" toujours en haut
 
           if (orderBy === "var_cdrs") {
             // Tri spécifique pour la colonne var_cdrs
